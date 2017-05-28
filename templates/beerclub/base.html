@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>The OK Beer Taster - {% block title %}Welcome!{% endblock title %}</title>
+        <meta charset="uft-8">
+        <meta name="description" content="beerclub come soon..">
+        <meta name="author" content="Scott Plumbtree">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+		<link rel="stylesheet" href="/lib/w3-colors-food.css">
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+        {% load static %}
+        <link rel="stylesheet" href={% static "beerclub/style.css" %}>
+    </head>
+	
+    <body>
+        <div class="w3-center w3-container">
+            <div id="content" class="w3-display-container w3-hover-grayscale">
+                {% block topbar %}
+                 <img src={% static "beerclub/beer_colors.jpg" %} class="w3-image" style="width:100% max-width:600px" alt="beerclub">
+                {% endblock topbar %}
+            </div>
+		</div>
+		<div id="content">
+		{% block content %}
+		{% endblock content %}
+		</div>
+    </body>
+
+</html>
