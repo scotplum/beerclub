@@ -1,0 +1,28 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="w3-mobile w3-center">
+	<div class="w3-beer">
+		<h1 class="">{% trans "Sign In" %}</h1>
+	</div>
+<p class="w3-center w3-margin">{% blocktrans %}If you don't have an account,
+<a href="{{ signup_url }}"> please apply</a> to become an OK Beer Taster{% endblocktrans %}</p>
+
+<div class="">
+<form class="login w3-center" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="primaryAction" type="submit">{% trans "Submit" %}</button><br><br>
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+</form><br>
+</div>
+{% endblock %}
+</div>

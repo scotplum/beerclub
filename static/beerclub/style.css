@@ -3,7 +3,10 @@ body {
     font-family: "Arial"; 
 }
 
-
 .w3-beer
-{color:#000;background-color:#FF9933}
-
+{
+	color:#000;
+	background-color:#FF9933;
+	padding: 0;
+	margin: 1px 1% 1px 1%;
+	}

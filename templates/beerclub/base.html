@@ -18,9 +18,15 @@
         <div class="w3-center w3-container">
             <div id="content" class="w3-display-container w3-hover-grayscale">
                 {% block topbar %}
-                 <img src={% static "beerclub/beer_colors.jpg" %} class="w3-image" style="width:100% max-width:600px" alt="beerclub">
+                 <img src={% static "beerclub/beer_colors.jpg" %} class="w3-image w3-padding" style="width:100% max-width:600px" alt="beerclub">
                 {% endblock topbar %}
             </div>
+		</div>
+		<div class="w3-margin-left w3-margin-right">
+			{% if request.user.is_authenticated %}
+			<a href="/home/" class="w3-left">home</a>
+			<a href="/accounts/logout/" class="w3-right">logout</a>
+			{% endif %}
 		</div>
 		<div id="content">
 		{% block content %}
