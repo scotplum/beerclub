@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
 	'127.0.0.1',
 	'localhost',
 	'0.0.0.0',
+	'cc696d67.ngrok.io',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 	'welcome',
 	'home',
+	'crispy_forms',
 ]
 
 MIDDLEWARE = [

@@ -3,18 +3,21 @@
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
+{% load crispy_forms_tags %}
+
 <div class="w3-mobile w3-center">
-	<header class="w3-beer">
-		<h3 class="w3-animate-left">Mr. {{ request.user.last_name }}'s Beer Info</h3>
-	</header>
-	<div class="w3-container w3-padding">
-		<div class="w3-cell w3-half w3-left">
+	<div class="w3-beer w3-container w3-border">
+		<h3 class="w3-animate-left w3-half w3-cell">Mr. {{ request.user.last_name }}'s Beer Info</h3>
+		<div class="w3-right w3-half w3-cell">{% crispy form %}</div>
+	</div>
+	<div class="w3-container w3-padding w3-margin w3-border-bottom">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h4>Upcoming Events</h4>
 			<div>
 			Fake Event (7/3/2017 at 8:00 PM)
 			</div>
 		</div>
-		<div class="w3-cell w3-half w3-right">
+		<div class="w3-cell w3-half w3-right w3-padding-bottom">
 			<h4>These are your favorite beers</h4>
 			<div class="w3-center">
 			{% for beer in favorite %}

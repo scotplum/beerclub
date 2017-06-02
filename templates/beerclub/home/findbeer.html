@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-beer w3-container w3-border">
+		<h3 class="w3-animate-left">Select The Right One</h3>
+	</div>
+	<div class="w3-container w3-padding">
+		<div class="w3-center w3-container">
+		{% for beer in beersearch %}
+			{% if beer.nameDisplay %}
+				{% for brewitems in beer.breweries %}
+					{% for k, v in brewitems.items %}
+						{% if k == "nameShortDisplay" %}
+						<div><a href="/home/findbeer/{{ beer.id }}" class="w3-padding-4">{{ beer.nameDisplay }} by {{ v }}</a></div>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+		</div>
+	</div>	
+</div>
+{% endblock content %}

@@ -15,18 +15,21 @@
     </head>
 	
     <body>
-        <div class="w3-center w3-container">
+        <div class="w3-center w3-container w3-mobile">
             <div id="content" class="w3-display-container w3-hover-grayscale">
                 {% block topbar %}
-                 <img src={% static "beerclub/beer_colors.jpg" %} class="w3-image w3-padding" style="width:100% max-width:600px" alt="beerclub">
+                <div class="w3-border-bottom">
+				 <img src={% static "beerclub/beer_colors.jpg" %} class="w3-image w3-padding-bottom" style="width:100% max-width:600px" alt="beerclub">
+				</div>
+				 {% if request.user.is_authenticated %}
+				<div class="w3-center w3-padding-4 w3-border-bottom">
+				<a href="/home/" class="w3-padding">events</a>
+				<a href="/home/" class="w3-padding">home</a>
+				<a href="/accounts/logout/" class="w3-padding">logout</a>
+				</div>
+				{% endif %}
                 {% endblock topbar %}
             </div>
-		</div>
-		<div class="w3-margin-left w3-margin-right">
-			{% if request.user.is_authenticated %}
-			<a href="/home/" class="w3-left">home</a>
-			<a href="/accounts/logout/" class="w3-right">logout</a>
-			{% endif %}
 		</div>
 		<div id="content">
 		{% block content %}
