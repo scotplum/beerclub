@@ -7,18 +7,18 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left w3-half w3-cell">Mr. {{ request.user.last_name }}'s Beer Info</h3>
+		<h3 class="w3-animate-left w3-half w3-cell" style="text-shadow:1px 1px 0 #444">Mr. {{ request.user.last_name }}'s Beer Info</h3>
 		<div class="w3-right w3-half w3-cell">{% crispy form %}</div>
 	</div>
-	<div class="w3-container w3-padding w3-margin w3-border-bottom">
+	<div class="w3-container w3-padding w3-margin">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h4>Upcoming Events</h4>
+			<h4 style="text-shadow:1px 1px 0 #444">Upcoming Events</h4>
 			<div>
 			Fake Event (7/3/2017 at 8:00 PM)
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right w3-padding-bottom">
-			<h4>These are your favorite beers</h4>
+			<h4 style="text-shadow:1px 0 0 #444">Favorite Beers</h4>
 			<div class="w3-center">
 			{% for beer in favorite %}
 			{{ beer.beer_name }} ({{ beer.beer_company }})
@@ -28,19 +28,22 @@
 	</div>
 	<div class="w3-container w3-padding">
 		<div class="w3-cell w3-half w3-left">
-			<h4>Events You Attended</h4>
+			<h4 style="text-shadow:1px 0 0 #444">Past Events</h4>
 			<div>
 			Fake Event (5/3/2017 at 8:00 PM)
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h4>Beers for trade</h4>
+			<h4 style="text-shadow:1px 0 0 #444">Beers Wanted</h4>
 			<div class="w3-center">
 			{% for beer in favorite %}
 			{{ beer.beer_name }}
 			{% endfor %}
 			</div>
 		</div>
-	</div>	
+	</div>
+	<br>
+	<div class="w3-margin w3-border-top"><br>
+	</div><br><br>
 </div>
 {% endblock content %}

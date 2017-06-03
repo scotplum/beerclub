@@ -1,3 +1,44 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>The OK Beer Taster - {% block title %}Welcome!{% endblock title %}</title>
+        <meta charset="uft-8">
+        <meta name="description" content="beerclub come soon..">
+        <meta name="author" content="Scott Plumbtree">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+		<link rel="stylesheet" href="/lib/w3-colors-food.css">
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+        {% load static %}
+        <link rel="stylesheet" href={% static "beerclub/style.css" %}>
+    </head>
+	
+    <body>
+        <div class="w3-center w3-container w3-mobile">
+            <div id="content" class="w3-display-container w3-hover-grayscale">
+                {% block topbar %}
+                <div class="w3-border-bottom">
+				{% if brewery.images.medium  %}
+				<a href="{{ brewery.website }}" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ brewery.images.medium }}"></a>
+				{% else %}
+				<img src={% static "beerclub/beer_colors.jpg" %} class="w3-image w3-margin-bottom" style="width:100% max-width:600px" alt="beerclub">
+				{% endif %}
+				</div>
+				 {% if request.user.is_authenticated %}
+				<div class="w3-center w3-padding-0">
+				<a href="/home/" class="w3-padding w3-wide" style="text-shadow:1px 0 0">events</a>
+				<a href="/home/" class="w3-padding w3-wide" style="text-shadow:1px 0 0">home</a>
+				<a href="/accounts/logout/" class="w3-padding w3-wide" style="text-shadow:1px 0 0">logout</a>
+				</div>
+				{% endif %}
+                {% endblock topbar %}
+            </div>
+		</div>
+		<div id="content">
+		{% block content %}
+		{% endblock content %}
+		</div>
+    </body>
 
-
+</html>

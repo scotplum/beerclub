@@ -8,6 +8,7 @@ import requests
 # Create your views here.
 
 context = {}
+secret = '4896533a04534eff709518ee74c57d94' 
 
 @login_required 
 def index(request): 
@@ -26,7 +27,6 @@ def findbeer(request):
          
             #Search BreweryDB api for results from user's findbeerForm submission 
             formdata = form.cleaned_data
-            secret = '4896533a04534eff709518ee74c57d94' 
             search = formdata['beer'] #? Need to figure out how to get the value from the search 
             beersearch_url = 'http://api.brewerydb.com/v2/search/?withBreweries=Y&key=' + secret + '&q=' + search 
              
@@ -39,3 +39,22 @@ def findbeer(request):
         form = findbeerForm() 
      
     return render(request, 'home/findbeer.html',{'form':form}) 
+
+@login_required
+def beer(request, bdb_id):
+	user_object = request.user
+	urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
+	
+	#Retrieve Beer Using ID From BreweryDB
+	beer = requests.get(urlbeer).json()
+	data = beer['data']
+	style = data['style']
+	brewery = data['breweries']
+	for brew in brewery:
+		context['brewery'] = brew
+	context['data'] = data
+	context['style'] = style
+	context['category'] = style['category']
+	return render(request, 'home/beer.html', context)
+	
+	

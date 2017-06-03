@@ -17,5 +17,5 @@ class findbeerForm(forms.Form):
         self.helper.form_method = 'post' 
         self.helper.form_action = 'findbeer/' 
          
-        self.helper.add_input(Submit('submit', 'Add Beer')) 
+        self.helper.add_input(Submit('submit', 'Beer')) 
         super(findbeerForm, self).__init__(*args, **kwargs)

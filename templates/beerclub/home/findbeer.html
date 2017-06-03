@@ -7,7 +7,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left">Select The Right One</h3>
+		<h3 class="w3-animate-left" style="text-shadow:1px 1px 0 #444">Select The Right One</h3>
 	</div>
 	<div class="w3-container w3-padding">
 		<div class="w3-center w3-container">
@@ -16,7 +16,7 @@
 				{% for brewitems in beer.breweries %}
 					{% for k, v in brewitems.items %}
 						{% if k == "nameShortDisplay" %}
-						<div><a href="/home/findbeer/{{ beer.id }}" class="w3-padding-4">{{ beer.nameDisplay }} by {{ v }}</a></div>
+						<div><a href="/home/findbeer/{{ beer.id }}/" class="w3-padding-4">{{ beer.nameDisplay }} by {{ v }}</a></div>
 						{% endif %}
 					{% endfor %}
 				{% endfor %}
