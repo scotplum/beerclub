@@ -18,10 +18,12 @@
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right w3-padding-bottom">
-			<h4 style="text-shadow:1px 0 0 #444">Favorite Beers</h4>
+			<h4 style="text-shadow:1px 0 0 #444">My Favorite Beers</h4>
 			<div class="w3-center">
-			{% for beer in favorite %}
-			<div><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></div>
+			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% if beer.is_active == True %}
+			<div><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></li></div>
+			{% endif %}
 			{% endfor %}
 			</div>
 		</div>
@@ -34,10 +36,12 @@
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h4 style="text-shadow:1px 0 0 #444">Beers Wanted</h4>
+			<h4 style="text-shadow:1px 0 0 #444">Beers I Want</h4>
 			<div class="w3-center">
-			{% for beer in wanted %}
-			<div><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></div>
+			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% if beer.is_active == True %}
+			<div><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></li></div>
+			{% endif %}
 			{% endfor %}
 			</div>
 		</div>

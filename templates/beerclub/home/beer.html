@@ -14,8 +14,24 @@
 		<h4 class="">{{ style.name }} ({{ data.abv }}% abv)</h4>
 		<h5>{{ category.name }}</h5>
 		<form name="beerForm" class="w3-center" method="Post">
+		{% if fav_beer_check %}
+			{% if fav_beer.is_active %}
+		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="removefav" value="y" type="submit">not my favorite</button>
+			{% else %}
+		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="activatefav" value="y" type="submit">favorite</button>			
+			{% endif %}
+		{% else %}
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="fav" value="y" type="submit">favorite</button>
+		{% endif %}
+		{% if want_beer_check %}
+			{% if want_beer.is_active %}
+		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="removewant" value="y" type="submit">don't want</button>			
+			{% else %}
+		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="activatewant" value="y" type="submit">want</button>						
+			{% endif %}
+		{% else %}
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="want" value="y" type="submit">want</button>
+		{% endif %}
 		{% csrf_token %}
 		</form>
 		<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">The Beer</h3>
