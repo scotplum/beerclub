@@ -7,7 +7,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left w3-half w3-cell" style="text-shadow:1px 1px 0 #444">Mr. {{ request.user.last_name }}'s Beer Info</h3>
+		<h3 class="w3-animate-left w3-half w3-cell" style="text-shadow:1px 1px 0 #444">{{ request.user.username }}'s beer profile</h3>
 		<div class="w3-right w3-half w3-cell">{% crispy form %}</div>
 	</div>
 	<div class="w3-container w3-padding w3-margin">
@@ -21,7 +21,7 @@
 			<h4 style="text-shadow:1px 0 0 #444">Favorite Beers</h4>
 			<div class="w3-center">
 			{% for beer in favorite %}
-			{{ beer.beer_name }} ({{ beer.beer_company }})
+			<div><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></div>
 			{% endfor %}
 			</div>
 		</div>
@@ -36,8 +36,8 @@
 		<div class="w3-cell w3-half w3-right">
 			<h4 style="text-shadow:1px 0 0 #444">Beers Wanted</h4>
 			<div class="w3-center">
-			{% for beer in favorite %}
-			{{ beer.beer_name }}
+			{% for beer in wanted %}
+			<div><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></div>
 			{% endfor %}
 			</div>
 		</div>
