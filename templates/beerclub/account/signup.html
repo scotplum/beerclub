@@ -7,7 +7,7 @@
 {% block content %}
 <div class="w3-center w3-mobile">
 <div class="w3-beer">
-	<h1>{% trans "Application" %}</h1>
+	<h1>{% trans "Registration" %}</h1>
 </div>
 <p class="w3-center w3-margin">{% blocktrans %}If you already have an OK Beer Taster account, please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
@@ -17,7 +17,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "Apply" %} &raquo;</button>
+  <button type="submit">{% trans "Register" %} &raquo;</button>
   <br><br>
 </form>
 </div>

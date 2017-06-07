@@ -8,39 +8,51 @@
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border">
 		<h3 class="w3-animate-left w3-half w3-cell" style="text-shadow:1px 1px 0 #444">{{ request.user.username }}'s beer profile</h3>
-		<div class="w3-right w3-half w3-cell">{% crispy form %}</div>
+		<div class="w3-right w3-half w3-cell w3-padding">{% crispy form %}</div>
 	</div>
-	<div class="w3-container w3-padding w3-margin">
+	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h4 style="text-shadow:1px 1px 0 #444">Upcoming Events</h4>
-			<div>
-			Fake Event (7/3/2017 at 8:00 PM)
-			</div>
-		</div>
-		<div class="w3-cell w3-half w3-right w3-padding-bottom">
-			<h4 style="text-shadow:1px 0 0 #444">My Favorite Beers</h4>
-			<div class="w3-center">
+			<h3 style="text-shadow:1px 1px 0 #444">My Favorite Beers</h3>
+			<div class="w3-center homebeer">
 			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
 			{% if beer.is_active == True %}
-			<div><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></li></div>
+			<ul class="w3-ul"><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></li></ul>
+			<p class="homecompany"><i>{{ beer.beer_company }}</i></p>
+			{% endif %}
+			{% endfor %}
+			</div>
+		</div>
+		<div class="w3-cell w3-half w3-right">
+			<h3 style="text-shadow:1px 1px 0 #444">Beers I Want</h3>
+			<div class="w3-center homebeer">
+			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% if beer.is_active == True %}
+			<ul class="w3-ul"><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></li></ul>
+			<p class="homecompany"><i>{{ beer.beer_company }}</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
-		<div class="w3-cell w3-half w3-left">
-			<h4 style="text-shadow:1px 0 0 #444">Past Events</h4>
-			<div>
-			Fake Event (5/3/2017 at 8:00 PM)
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 style="text-shadow:1px 1px 0 #444">Upcoming Events</h3>
+			<div class="homebeer">
+			{% for event in events %}
+			{% if event.is_active == True %}
+			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
+			<p class="homecompany"><i>{{ event.event_date }}</i></p>
+			{% endif %}
+			{% endfor %}
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h4 style="text-shadow:1px 0 0 #444">Beers I Want</h4>
-			<div class="w3-center">
-			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
-			{% if beer.is_active == True %}
-			<div><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} by {{ beer.beer_company }}</a></li></div>
+			<h3 style="text-shadow:1px 1px 0 #444">Past Events</h3>
+			<div class="homebeer">
+			{% for event in past_events %}
+			{% if event.is_active == True %}
+			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
+			<p class="homecompany"><i>{{ event.event_date }}</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>

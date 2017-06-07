@@ -10,3 +10,16 @@ body {
 	padding: 0;
 	margin: 1px 1% 1px 1%;
 	}
+
+.homebeer{
+	font-size: 115%;
+}
+
+.homecompany{
+	font-size: 75%;
+	color: black;
+}
+
+.homeheading{
+	font-size: 150%;
+}

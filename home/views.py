@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Favorite_Beers, Wanted_Beers
+from event.models import Event
 from forms import findbeerForm
 from django.utils import timezone
 import requests
@@ -18,6 +19,11 @@ def index(request):
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
     context['form'] = findbeerForm() 
+    now = timezone.now()
+    events = Event.objects.filter(event_date__gte=timezone.now())
+    pastevents = Event.objects.filter(event_date__lt=timezone.now())
+    context['events'] = events
+    context['past_events'] = pastevents
     return render(request, 'home/index.html', context)  
 	
 @login_required 
