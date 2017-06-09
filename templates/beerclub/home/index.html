@@ -41,7 +41,7 @@
 			{% for event in events %}
 			{% if event.is_active == True %}
 			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.event_date }}</i></p>
+			<p class="homecompany"><i>{{ event.event_date|date:'m-d-Y g:iA'|lower }}</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>
@@ -52,7 +52,7 @@
 			{% for event in past_events %}
 			{% if event.is_active == True %}
 			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.event_date }}</i></p>
+			<p class="homecompany"><i>{{ event.event_date|date:'m-d-Y g:iA'|lower }}</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>

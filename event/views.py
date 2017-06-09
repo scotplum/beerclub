@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Event, Event_Address
+from home.models import Wanted_Beers
 from django.utils import timezone
 from django.utils.timezone import datetime
 
@@ -19,3 +20,17 @@ def event(request):
     context['events'] = events
     context['past_events'] = pastevents
     return render(request, 'event/index.html', context)  
+	
+
+@login_required
+def one_event(request, event_id):
+    user_object = request.user 
+    context['user_object'] = user_object
+    event = Event.objects.get(id=event_id)
+    context['event'] = event
+    suggestions = Wanted_Beers.objects.all()
+    desired = []
+    for beer in suggestions:
+	    desired.append(beer.beer_name)
+    context['suggestions'] = suggestions
+    return render(request, 'event/event.html', context)  

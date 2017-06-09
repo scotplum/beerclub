@@ -15,6 +15,7 @@ class Event_Address(models.Model):
     city 			= models.CharField(_("city"), max_length=64, default="Oklahoma City")
     state 			= models.CharField(_("state"), max_length=2,default="OK")
     zip_code 		= models.CharField(_("zip code"), max_length=5, default="73142")
+    google_maps		= models.URLField(_("goolge maps"), max_length=200)
 	
     def __str__(self):
 		return self.description
