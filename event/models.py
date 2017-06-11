@@ -30,3 +30,31 @@ class Event(models.Model):
 	def __str__(self):
 		return self.event_name + " | Is Active: " + str(self.is_active)
 	
+class Event_Beer(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	event			= models.ForeignKey(Event, on_delete=models.CASCADE)
+	beer_company 	= models.CharField(max_length=100)
+	beer_name		= models.CharField(max_length=500)
+	beer_category	= models.CharField(max_length=100)
+	date_added	 	= models.DateTimeField(auto_now_add=True)
+	is_active 		= models.BooleanField(default=True)
+	bdb_id          = models.CharField(max_length=20)
+	
+	def __str__(self):
+		return self.beer_name + ' | ' + str(self.user) + ' | ' + str(self.event)
+
+class Event_Attend(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	event			= models.ForeignKey(Event, on_delete=models.CASCADE)
+	will_attend		= models.BooleanField(default=True)
+	date_added	 	= models.DateTimeField(auto_now_add=True)
+	
+class Event_Note(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	event			= models.ForeignKey(Event, on_delete=models.CASCADE)
+	is_active		= models.BooleanField(default=True)
+	date_added		= models.DateTimeField(auto_now_add=True)
+	note			= models.CharField(max_length=500)
+	
+	def __str__self(self):
+		return self.user + ' | ' + self.event + ' | ' + note

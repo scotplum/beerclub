@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Event, Event_Address
+from .models import Event, Event_Address, Event_Beer, Event_Attend
 from home.models import Wanted_Beers
 from django.utils import timezone
 from django.utils.timezone import datetime
@@ -29,8 +29,44 @@ def one_event(request, event_id):
     event = Event.objects.get(id=event_id)
     context['event'] = event
     suggestions = Wanted_Beers.objects.all()
+    committed = Event_Beer.objects.filter(event=event) 
+    context['committed'] = committed
     desired = []
     for beer in suggestions:
 	    desired.append(beer.beer_name)
     context['suggestions'] = suggestions
+    event_beer_check = Event_Beer.objects.filter(event=event).exists()
+    event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()
+    taster_response_check = Event_Attend.objects.filter(event=event).exists()
+    context['declined_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=False).exists()
+    context['confirmed_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=True).exists()
+    if taster_response_check:
+		taster_response = Event_Attend.objects.filter(event=event)
+		context['taster_response'] = taster_response
+    if event_attendance_check:
+		event_attendance = Event_Attend.objects.get(user=user_object, event=event)
+		context['event_attendance'] = event_attendance
+    context['event_attendance_check'] = event_attendance_check
+    context['event_beer_check'] = event_beer_check
+    redirect_url = '/event/' + event_id + '/'
+    if request.method == "POST": 
+		rp = request.POST
+		if 'remove' in rp:
+			event_attend = Event_Attend.objects.get(user=user_object, event=event)
+			event_attend.will_attend = False
+			event_attend.save()
+			return redirect(redirect_url)
+		elif 'activate' in rp:
+			event_attend = Event_Attend.objects.get(user=user_object, event=event)
+			event_attend.will_attend = True
+			event_attend.save()
+			return redirect(redirect_url)
+		elif 'attend' in rp:
+			event_attend = Event_Attend(user=user_object, event=event, date_added=timezone.now(), will_attend=True,)
+			event_attend.save()
+			return redirect(redirect_url)
+		elif 'decline' in rp:
+			event_attend = Event_Attend(user=user_object, event=event, date_added=timezone.now(), will_attend=False,)
+			event_attend.save()
+			return redirect(redirect_url)
     return render(request, 'event/event.html', context)  

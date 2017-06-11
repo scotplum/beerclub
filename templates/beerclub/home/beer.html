@@ -32,6 +32,7 @@
 		{% else %}
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="want" value="y" type="submit">want</button>
 		{% endif %}
+		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="event" value="y" type="submit">add to event</button>
 		{% csrf_token %}
 		</form>
 		<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">The Beer</h3>
@@ -41,9 +42,12 @@
 	<div class="w3-container w3-padding">
 		<div class="w3-center w3-container">
 			<img class="w3-card-2 w3-border" src="{{ data.labels.medium }}" style="width:50% max-width:200px">
-			<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">The Brewery</h3>
-			<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" >{{ brewery.description }}</div>
+			<h3 class="w3-opacity w3-left-align w3-padding-left" style="text-shadow:1px 1px 0 #444">The Brewery</h3>
+			<div class="w3-left-align w3-padding-left w3-padding-right" >{{ brewery.description }}</div>
 		</div>
 	</div>	
+	<div class="w3-margin w3-border-bottom">
+	</div>
+	<br><br><br>
 </div>
 {% endblock content %}

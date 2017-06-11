@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Favorite_Beers, Wanted_Beers
-from event.models import Event
+from event.models import Event, Event_Beer
 from forms import findbeerForm
 from django.utils import timezone
 import requests
@@ -105,6 +105,64 @@ def beer(request, bdb_id):
 			want_beer.is_active = True
 			want_beer.save()
 			return redirect('/home/')
+		elif 'event' in rp:
+			return redirect('/home/findbeer/' + bdb_id + '/event/')
 		else:
 			return render(request, 'home/beer.html', context)
 	return render(request, 'home/beer.html', context)
+	
+def beerevent(request, bdb_id):
+    user_object = request.user 
+    context['user_object'] = user_object 
+    urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
+    now = timezone.now()
+    events = Event.objects.filter(event_date__gte=timezone.now())
+    context['events'] = events
+	
+	#Retrieve Beer Using ID From BreweryDB
+    
+    beer = requests.get(urlbeer).json()
+    data = beer['data']
+    style = data['style']
+    brewery = data['breweries']
+    for brew in brewery:
+		context['brewery'] = brew
+		beer_company = brew['name']
+    context['data'] = data
+    context['style'] = style
+    context['category'] = style['category']
+    beer_name = data['name']
+    beer_category = style['name']
+    if request.method == "POST": 
+		rp = request.POST
+		for event in events:
+			eid = str(event.id)
+			if eid in rp:
+				event_beer = Event_Beer(user=user_object, event = event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
+				event_beer.save()
+				return redirect('/home/')
+			else:
+				return render(request, 'fun.html', context)
+    return render(request, 'home/beerevent.html', context)
+	
+def tasters(request):
+    user_object = request.user 
+    context['user_object'] = user_object 
+    tasters = User.objects.filter(is_active=True)
+    context['tasters'] = tasters
+    return render(request, 'home/tasters.html', context)
+	
+def taster(request, id):
+    user_object = User.objects.get(id=id)
+    context['user_object'] = user_object
+    fav_beer_check = Favorite_Beers.objects.filter(user=id).exists()
+    want_beer_check = Wanted_Beers.objects.filter(user=id).exists()
+    context['fav_beer_check'] = fav_beer_check
+    context['want_beer_check'] = want_beer_check
+    if fav_beer_check is True:
+		fav_beer = Favorite_Beers.objects.filter(user=id)
+		context['fav_beer'] = fav_beer
+    if want_beer_check is True:
+		want_beer = Wanted_Beers.objects.filter(user=id)
+		context['want_beer'] = want_beer
+    return render(request, 'home/taster.html', context)
