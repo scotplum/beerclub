@@ -8,14 +8,14 @@
 	<div class="w3-beer w3-container w3-border">
 		<h3 class="w3-animate-left" style="text-shadow:1px 1px 0 #444">OK Beer Taster Events</h3>
 	</div>
-	<div class="w3-container">
+	<div class="w3-container w3-border-bottom w3-padding-bottom w3-margin-left w3-margin-right">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h3 style="text-shadow:1px 1px 0 #444">Upcoming Events</h3>
 			<div class="w3-center homebeer">
 			{% for event in events %}
 			{% if event.is_active == True %}
 			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'m-d-Y g:iA'|lower }})</i></p>
+			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'n/j/y g:iA'|lower }})</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>
@@ -26,7 +26,7 @@
 			{% for event in past_events %}
 			{% if event.is_active == True %}
 			<ul class="w3-ul"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'m-d-Y g:iA'|lower }})</i></p>
+			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'n/j/y g:iA'|lower }})</i></p>
 			{% endif %}
 			{% endfor %}
 			</div>

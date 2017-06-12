@@ -19,6 +19,10 @@ def index(request):
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
     context['form'] = findbeerForm() 
+    fav_beer_check = Favorite_Beers.objects.filter(user=user_object).exists()
+    want_beer_check = Wanted_Beers.objects.filter(user=user_object).exists()
+    context['fav_beer_check'] = fav_beer_check
+    context['want_beer_check'] = want_beer_check	
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
     pastevents = Event.objects.filter(event_date__lt=timezone.now())
