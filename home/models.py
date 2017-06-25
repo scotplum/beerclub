@@ -36,3 +36,10 @@ class Wanted_Beers(models.Model):
      
     def __str__(self): 
 		return "beer_name: " + self.beer_name + " | beer_company: " + self.beer_company + " | user: " + str(self.user)
+		
+class Beer_Rating(models.Model):
+    bdb_id          = models.CharField(max_length=20) 
+    date_added   	= models.DateTimeField(auto_now_add=True) 
+    beer_company  	= models.CharField(max_length=100) 
+    beer_name  		= models.CharField(max_length=500) 
+    beer_category 	= models.CharField(max_length=100)

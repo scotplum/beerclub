@@ -19,9 +19,10 @@ Including another URLconf
 
 
 urlpatterns = [
+    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     url(r'^admin/', admin.site.urls),
-	url(r'^accounts/', include('allauth.urls')),
-	url(r'^home/', include('home.urls')),
-	url(r'^event/', include('event.urls')),
-	url(r'^', include('welcome.urls')),
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^home/', include('home.urls')),
+    url(r'^event/', include('event.urls')),
+    url(r'^', include('welcome.urls')),
 ]

@@ -31,3 +31,10 @@ body {
 .eventaddress{
 	font-size: 85%;
 }
+
+.beerrating{
+	color: #FF9933;
+	font-weight: bold;
+	padding-bottom: 0;
+	text-decoration: none;
+}

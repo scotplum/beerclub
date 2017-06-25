@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <title>The OK Beer Taster - {% block title %}Welcome!{% endblock title %}</title>
+        <title>The Beer Crowd - {% block title %}Welcome!{% endblock title %}</title>
         <meta charset="uft-8">
         <meta name="description" content="beerclub come soon..">
         <meta name="author" content="Scott Plumbtree">
@@ -12,6 +12,8 @@
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
         {% load static %}
         <link rel="stylesheet" href={% static "beerclub/style.css" %}>
+		<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     </head>
 	
     <body>

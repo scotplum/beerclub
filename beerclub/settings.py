@@ -69,6 +69,7 @@ INSTALLED_APPS = [
 	'event',
 	'crispy_forms',
 	'localflavor',
+	'star_ratings',
 ]
 
 MIDDLEWARE = [
@@ -158,6 +159,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+
+STAR_RATINGS_RANGE = 10
 
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True

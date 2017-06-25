@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Wanted_Beers
+from .models import Favorite_Beers, Wanted_Beers, Beer_Rating
 from event.models import Event, Event_Beer
 from forms import findbeerForm
 from django.utils import timezone
@@ -81,10 +81,19 @@ def beer(request, bdb_id):
 							context['region'] = location['region']
 	context['data'] = data
 	context['style'] = style
+	beer_rating_check = Beer_Rating.objects.filter(bdb_id=bdb_id).exists()
 	fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
 	want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
 	context['fav_beer_check'] = fav_beer_check
 	context['want_beer_check'] = want_beer_check
+	context['beer_rating_check'] = beer_rating_check
+	if beer_rating_check:
+		pass
+	else:
+		beer_rating = Beer_Rating(beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), bdb_id = bdb_id)
+		beer_rating.save()
+	score_beer = Beer_Rating.objects.get(bdb_id=bdb_id)
+	context['score_beer'] = score_beer
 	if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
 		context['fav_beer'] = fav_beer
@@ -181,3 +190,17 @@ def taster(request, id):
 		want_beer = Wanted_Beers.objects.filter(user=id)
 		context['want_beer'] = want_beer
     return render(request, 'home/taster.html', context)
+	
+def beerscore(request, bdb_id):
+	user_object = request.user
+	context['user_object'] = user_object
+	beer_rating_check = Beer_Rating.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
+	context['beer_rating_check'] = beer_rating_check
+	if beer_rating_check:
+		pass
+	else:
+		beer_rating = Beer_Rating(user=user_object, date_added=timezone.now(), bdb_id = bdb_id)
+		beer_rating.save()
+	score_beer = Beer_Rating.objects.get(user=user_object, bdb_id=bdb_id)
+	context['score_beer'] = score_beer
+	return render(request, 'home/beerscore.html', context)
