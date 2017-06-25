@@ -7,7 +7,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left" style="text-shadow:1px 1px 0 #444">{{ data.name }} by {{ brewery.name }}</h3>
+		<h3 class="w3-animate-left" style="text-shadow:1px 1px 0 #444">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</h3>
 	</div>
 	<div class="w3-container w3-center">
 		<div class="w3-display-container w3-padding-4">
@@ -35,15 +35,37 @@
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="event" value="y" type="submit">add to event</button>
 		{% csrf_token %}
 		</form>
-		<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">The Beer</h3>
-		<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" >{{ data.description }}</div>
+		<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">{{ data.name }}</h3>
+		{% if data.glass.name %}
+		<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>The Glass:</b> {{ data.glass.name }}</div>
+		{% endif %}
+		{% if data.description %}
+		<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>The Beer:</b> {{ data.description }}</div>
+		{% endif %}
+		{% if data.foodPairings %}
+		<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>Ideal Food Pairings:</b> {{ data.foodPairings }}</div>
+		{% endif %}
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
-		<div class="w3-center w3-container">
-			<img class="w3-card-2 w3-border" src="{{ data.labels.medium }}" style="width:50% max-width:200px">
-			<h3 class="w3-opacity w3-left-align w3-padding-left" style="text-shadow:1px 1px 0 #444">The Brewery</h3>
-			<div class="w3-left-align w3-padding-left w3-padding-right" >{{ brewery.description }}</div>
+		<div class="w3-center">
+			<div class="">
+			<img class="" src="{{ data.labels.medium }}" style="width:50% max-width:200px">
+			</div>
+			{% if brewery.nameShortDisplay %}
+			<h3 class="w3-opacity w3-left-align w3-padding-left w3-padding-right w3-margin" style="text-shadow:1px 1px 0 #444">{{ brewery.nameShortDisplay }}</h3>
+			{% else %}
+			<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin w3-padding-right" style="text-shadow:1px 1px 0 #444">{{ brewery.name }}</h3>
+			{% endif %}
+			{% if brewery.established %}
+			<div class="w3-left-align w3-margin w3-padding-left w3-padding-right"><b>Established:</b> {{ brewery.established }}</div>
+			{% endif %}
+			{% if region %}
+			<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>Region:</b> {{ region }}</div>
+			{% endif %}
+			{% if brewery.description %}
+			<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>The Brewery:</b> {{ brewery.description }}</div>
+			{% endif %}
 		</div>
 	</div>	
 	<div class="w3-margin w3-border-bottom">

@@ -59,17 +59,28 @@ def beer(request, bdb_id):
 	
 	#Retrieve Beer Using ID From BreweryDB
 	beer = requests.get(urlbeer).json()
-	data = beer['data']
-	style = data['style']
-	brewery = data['breweries']
-	for brew in brewery:
-		context['brewery'] = brew
-		beer_company = brew['name']
+	data = ''
+	style = ''
+	if 'data' in beer:
+		data = beer['data']
+		if 'style' in data: 
+			style = data['style']
+			if 'category' in style:
+				beer_category = style['name']
+				context['category'] = style['category']
+		if 'name' in data:
+			beer_name = data['name']
+		if 'breweries' in data:
+			brewery = data['breweries']
+			for brew in brewery:
+				context['brewery'] = brew
+				beer_company = brew['name']
+				if 'locations' in brew:
+					for location in brew['locations']:
+						if 'region' in location:
+							context['region'] = location['region']
 	context['data'] = data
 	context['style'] = style
-	context['category'] = style['category']
-	beer_name = data['name']
-	beer_category = style['name']
 	fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
 	want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
 	context['fav_beer_check'] = fav_beer_check
