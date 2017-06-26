@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
 	'localhost',
 	'0.0.0.0',
 	'cc696d67.ngrok.io',
+	'e4f7cc96.ngrok.io',
 ]
 
 AUTHENTICATION_BACKENDS = (

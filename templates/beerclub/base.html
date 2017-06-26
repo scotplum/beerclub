@@ -21,8 +21,8 @@
             <div id="content" class="w3-display-container">
                 {% block topbar %}
                 <div class="w3-hover-grayscale">
-				{% if brewery.images.medium  %}
-				<a href="{{ brewery.website }}" target="_blank" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ brewery.images.medium }}"></a>
+				{% if banner.image_url %}
+				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
 				{% endif %}
@@ -42,6 +42,7 @@
 		{% block content %}
 		{% endblock content %}
 		</div>
+		<div class="w3-border-top w3-margin-left w3-margin-right w3-center w3-padding w3-small"><br><i>Beer data by BreweryDB</i></div>
     </body>
 
 </html>
