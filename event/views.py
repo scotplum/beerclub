@@ -13,8 +13,10 @@ context = {}
 @login_required
 def event(request):
     user_object = request.user
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     context['user_object'] = user_object
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
@@ -28,8 +30,10 @@ def event(request):
 def one_event(request, event_id):
     user_object = request.user 
     context['user_object'] = user_object
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     event = Event.objects.get(id=event_id)
     context['event'] = event
     suggestions = Wanted_Beers.objects.all()

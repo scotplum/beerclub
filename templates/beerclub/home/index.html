@@ -6,8 +6,8 @@
 {% load crispy_forms_tags %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left w3-half w3-cell" style="text-shadow:1px 1px 0 #444">{{ request.user.username }}'s beer profile</h3>
+	<div class="w3-beer w3-container w3-border w3-padding-bottom">
+		<h3 class="w3-animate-left w3-half w3-cell w3-text-white" style="text-shadow:1px 2px 0 #444">{{ request.user.username }}'s beer profile</h3>
 		<div class="w3-right w3-half w3-cell w3-padding">{% crispy form %}</div>
 	</div>
 	<div class="w3-container">
@@ -19,7 +19,7 @@
 			<div class="w3-center homebeer">
 			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
 			{% if beer.is_active == True %}
-			<ul class="w3-ul"><li><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></li></ul>
+			<ul class="w3-ul"><li class=""><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></li></ul>
 			<p class="homecompany"><i>{{ beer.beer_company }}</i></p>
 			{% endif %}
 			{% endfor %}

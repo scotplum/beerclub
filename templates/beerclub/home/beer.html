@@ -6,8 +6,8 @@
 {% load crispy_forms_tags %}
 {% load ratings %}
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border">
-		<h3 class="w3-animate-left" style="text-shadow:1px 1px 0 #444">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</h3>
+	<div class="w3-beer w3-container w3-border w3-padding-bottom">
+		<h3 class="w3-animate-left w3-text-white" style="text-shadow:1px 2px 0 #444">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</h3>
 	</div>
 	<div class="w3-container w3-center">
 		<div class="w3-display-container w3-padding-4">
@@ -35,7 +35,7 @@
 		</form>
 		<div class="w3-center w3-padding-top w3-padding-bottom">{% ratings score_beer %}</div>
 		{% if data.name %}
-		<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin" style="text-shadow:1px 1px 0 #444">{{ data.name }}</h3>
+		<h3 class="w3-opacity-min w3-left-align w3-padding-left w3-margin w3-text-indigo" style="text-shadow:1px 1px 0 #444">{{ data.name }}</h3>
 		{% endif %}
 		{% if category.name %}
 		<div class="w3-left-align w3-margin w3-padding-left w3-padding-right" ><b>The Category:</b> {{ category.name }}</div>
@@ -60,12 +60,12 @@
 	<div class="w3-container w3-padding">
 		<div class="w3-center">
 			<div class="">
-			<img class="" src="{{ data.labels.medium }}" style="width:50% max-width:200px">
+			<img class="w3-round" src="{{ data.labels.medium }}" style="width:50% max-width:200px">
 			</div>
 			{% if brewery.nameShortDisplay %}
-			<h3 class="w3-opacity w3-left-align w3-padding-left w3-padding-right w3-margin" style="text-shadow:1px 1px 0 #444">{{ brewery.nameShortDisplay }}</h3>
+			<h3 class="w3-opacity-min w3-left-align w3-padding-left w3-padding-right w3-margin w3-text-indigo" style="text-shadow:1px 1px 0 #444">{{ brewery.nameShortDisplay }}</h3>
 			{% else %}
-			<h3 class="w3-opacity w3-left-align w3-padding-left w3-margin w3-padding-right" style="text-shadow:1px 1px 0 #444">{{ brewery.name }}</h3>
+			<h3 class="w3-opacity-min w3-left-align w3-padding-left w3-margin w3-padding-right w3-text-indigo" style="text-shadow:1px 1px 0 #444">{{ brewery.name }}</h3>
 			{% endif %}
 			{% if brewery.established %}
 			<div class="w3-left-align w3-margin w3-padding-left w3-padding-right"><b>Established:</b> {{ brewery.established }}</div>

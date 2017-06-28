@@ -15,8 +15,10 @@ secret = '4896533a04534eff709518ee74c57d94'
 @login_required 
 def index(request): 
     user_object = request.user 
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     context['user_object'] = user_object 
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
@@ -35,8 +37,10 @@ def index(request):
 @login_required 
 def findbeer(request): 
     user_object = request.user 
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     if request.method == "POST": 
         form = findbeerForm(request.POST) 
         if form.is_valid(): 
@@ -161,8 +165,10 @@ def beer(request, bdb_id):
 def beerevent(request, bdb_id):
     user_object = request.user 
     context['user_object'] = user_object 
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
@@ -197,8 +203,10 @@ def beerevent(request, bdb_id):
 def tasters(request):
     user_object = request.user 
     context['user_object'] = user_object 
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     tasters = User.objects.filter(is_active=True)
     context['tasters'] = tasters
     return render(request, 'home/tasters.html', context)
@@ -207,8 +215,10 @@ def taster(request, id):
     user_object = User.objects.get(id=id)
     current_user = request.user
     context['user_object'] = user_object
-    beer_banner = Beer_Banner.objects.get(user=current_user)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=current_user).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=current_user)	
+		context['banner'] = beer_banner
     fav_beer_check = Favorite_Beers.objects.filter(user=id).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=id).exists()
     context['fav_beer_check'] = fav_beer_check
@@ -224,8 +234,10 @@ def taster(request, id):
 def beerscore(request, bdb_id):
     user_object = request.user
     context['user_object'] = user_object
-    beer_banner = Beer_Banner.objects.get(user=user_object)	
-    context['banner'] = beer_banner
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
     beer_rating_check = Beer_Rating.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
