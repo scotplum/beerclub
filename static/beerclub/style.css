@@ -40,9 +40,16 @@ body {
 }
 
 .beerpadding{
-	padding-top: 2px;
+	padding-top: 4px;
 }
 
 .beerpaddingthin{
 	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.beerheading{
+	font-variant:small-caps;
+	letter-spacing: 2px;
+	text-shadow:0px 1px 0 #444;
 }
