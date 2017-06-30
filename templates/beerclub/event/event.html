@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border w3-padding-bottom">
+	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
 		<h3 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">{{ event.event_name }}</h3>
 	</div>
 	<div class="beerpaddingthin">
@@ -39,10 +39,10 @@
 	</div>
 	<div class="w3-container w3-margin-left w3-margin-right">
 		<div class="w3-cell w3-half w3-left">
-			<h3 class="beerheading">attendee</h3>
+			<h3 class="beerheading">attending</h3>
 			<div class="homebeer">
 			{% if confirmed_check == False %}
-			<ul class="w3-ul w3-margin-right"><li>No tasters have confirmed yet</li></ul>
+			<ul class="w3-ul w3-margin-right"><li>No members have confirmed</li></ul>
 			{% else %}
 			{% for taster in taster_response %}
 			{% if taster.will_attend == True %}
@@ -53,10 +53,10 @@
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">attendont</h3>
+			<h3 class="beerheading">not attending</h3>
 			<div class="homebeer">
 			{% if declined_check == False %}
-			<ul class="w3-ul w3-margin-right">No tasters have declined yet</ul>
+			<ul class="w3-ul w3-margin-right">No members have declined</ul>
 			{% else %}
 			{% for taster in taster_response %}
 			{% if taster.will_attend == False %}
@@ -72,7 +72,7 @@
 			<h3 class="beerheading">confirmed beers</h3>
 			<div class="homebeer">
 			{% if event_beer_check == False %}
-			<ul class="w3-ul w3-margin-right">No beers have been committed yet.</ul>
+			<ul class="w3-ul w3-margin-right">No beers committed</ul>
 			{% else %}
 			{% for beer in committed %}
 			{% if beer.is_active == True %}
@@ -95,14 +95,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="w3-center w3-margin-bottom w3-padding-bottom w3-padding-top w3-margin-top">
+	<div class="w3-center w3-padding-bottom w3-padding-top w3-mobile w3-padding-right w3-padding-left">
 		{% for note in event_notes %}
 		{% if note.is_active == True %}
-		<h4 class="{% cycle 'w3-beer' 'w3-white' %} {% cycle 'w3-text-white' 'w3-text-black' %} w3-margin-left w3-margin-right"><ul class="w3-ul w3-padding-4 w3-margin-left w3-margin-right"><b class="w3-left">{{ note.user.username }} </b><i class="w3-medium">"{{ note.note }}"</i></ul></h4>
+		<div class="w3-row w3-padding w3-border-top w3-border-indigo {% cycle 'beernote' 'whitenote' %} {% cycle 'w3-text-white' 'w3-text-black' %}">
+		<div class="w3-col" style="width: 30%; text-align: center;">{{ note.user.username }}</div>
+		<div class="w3-rest" style="text-align:left;"><i class="w3-medium">"{{ note.note }}"</i></div>
+		</div>
 		{% endif %}
 		{% endfor %}
-		<br>
-		<form name="eventnoteForm" class="w3-center w3-margin-right w3-padding-right" method="Post">
+		<div class="w3-border-top w3-border-indigo beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
+		<form name="eventnoteForm" class="w3-center w3-padding-right" method="Post">
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="eventnote" value="y" type="submit">Add Note</button>
 		<input type="text" class="w3-center w3-round w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="notevalue">
 		{% csrf_token %}

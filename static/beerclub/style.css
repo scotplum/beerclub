@@ -10,7 +10,23 @@ body {
 	padding: 0;
 	margin: 1px 1% 1px 1%;
 	}
+	
+.beernote{
+	color:#000;
+	background-color:#FF9933;
+	padding: 0;
+	text-align: left;
+	font-weight: bold;
+}
 
+.whitenote{
+	color:#000;
+	background-color:white;
+	padding: 0;
+	text-align: left;
+	font-weight: bold;
+}
+	
 .homebeer{
 	font-size: 115%;
 }
