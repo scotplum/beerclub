@@ -57,4 +57,4 @@ class Event_Note(models.Model):
 	note			= models.CharField(max_length=500)
 	
 	def __str__self(self):
-		return self.user + ' | ' + self.event + ' | ' + note
+		return self.user + ' | ' + self.event + ' | ' + self.note

@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^home/', include('home.urls')),
     url(r'^event/', include('event.urls')),
+    url(r'^club/', include('club.urls')),
     url(r'^', include('welcome.urls')),
 ]

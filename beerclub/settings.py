@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 	'crispy_forms',
 	'localflavor',
 	'star_ratings',
+	'club',
 ]
 
 MIDDLEWARE = [

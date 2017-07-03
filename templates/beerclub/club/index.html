@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
+		<h3 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">My Beer Crowds</h3>
+	</div>
+	<div class="w3-container w3-margin w3-padding-bottom">
+		<div class="w3-center w3-padding">
+			<div class="w3-center homebeer">
+			{% for club in clubs %}
+			<ul class="w3-ul"><li><a href="/club/{{ club.club.id }}/">{{ club.club.name }}</a></li></ul>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
