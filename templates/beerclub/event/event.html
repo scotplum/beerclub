@@ -6,10 +6,10 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
-		<h3 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">{{ event.event_name }}</h3>
+		<h3 class="w3-animate-left w3-center w3-text-white"><b>{{ event.event_name }}</b><br><div class="w3-large beerpaddingthin"><b>{{ event.event_date|date:'F d, Y' }}</b></div><div class="w3-medium beerpaddingthin"><b>{{ event.event_date|time:'g:iA'|lower }}</b></div></h3>
 	</div>
-	<div class="beerpaddingthin">
-	<form name="eventattendForm" class="w3-center" method="Post">
+	<div class="w3-padding-top">
+	<form name="eventattendForm" class="w3-center beerpadding" method="Post">
 	{% if event_attendance_check %}
 		{% if event_attendance.will_attend == True %}
 	<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="remove" value="y" type="submit">Can't Make It After All</button>
@@ -23,22 +23,22 @@
 	{% csrf_token %}
 	</form>
 	</div>
-	<div class="w3-container">
+	<div class="w3-center">
 		<div class="w3-center">
-			<h3 class="beerheading">{{ event.event_date|date:'F d, Y' }}</h3>
-			<h4 class="">{{ event.event_date|time:'g:iA'|lower }}</h4>
-			<div class="w3-indigo beerpaddingthin w3-margin-bottom"></div>
-				<div class="w3-container w3-center"><h3 class="w3-center w3-margin-0" style="">{{ event.address.description }}</h3></div>
-				<div class="w3-center">
-				<p class="eventaddress w3-padding-0 w3-margin-0"><i>{{ event.address.address_1 }}</i></p>
-				<p class="eventaddress w3-margin-0"><i>{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</i></p>
-				<a class="googlemaps w3-margin-0" href="{{ event.address.google_maps }}" target="_new">google maps</a><br>
-				</div>
-			<div class="w3-indigo beerpaddingthin w3-margin-top"></div>
+			<h3 class="beerheading">event location</h3>
+			<div class="homebeer">
+			<div class="w3-center"><h3 class="w3-center w3-padding-top w3-margin-0" style="">{{ event.address.description }}</h3></div>
+			<div class="w3-center">
+			<p class="eventaddress w3-padding-0 w3-margin-0"><i>{{ event.address.address_1 }}</i></p>
+			<p class="eventaddress w3-margin-0"><i>{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</i></p>
+			<a class="googlemaps w3-margin-0" href="{{ event.address.google_maps }}" target="_new">google maps</a><br>
+			</div>
+			</div>
+			<div class="beerpaddingthin"></div>
 		</div>
 	</div>
-	<div class="w3-container w3-margin-left w3-margin-right">
-		<div class="w3-cell w3-half w3-left">
+	<div class="w3-padding-top">
+		<div class="w3-center">
 			<h3 class="beerheading">attending</h3>
 			<div class="homebeer">
 			{% if confirmed_check == False %}
@@ -52,7 +52,7 @@
 			{% endif %}
 			</div>
 		</div>
-		<div class="w3-cell w3-half w3-right">
+		<div class="">
 			<h3 class="beerheading">not attending</h3>
 			<div class="homebeer">
 			{% if declined_check == False %}
@@ -67,8 +67,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="w3-container w3-margin-left w3-margin-right">
-		<div class="w3-cell w3-half w3-left">
+	<div class="w3-mobile w3-padding-bottom w3-margin-bottom">
+		<div class="">
 			<h3 class="beerheading">confirmed beers</h3>
 			<div class="homebeer">
 			{% if event_beer_check == False %}
@@ -77,34 +77,39 @@
 			{% for beer in committed %}
 			{% if beer.is_active == True %}
 			<ul class="w3-ul w3-margin-right"><li class=""><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} ({{ beer.user }})</a></li></ul>
+			<p class="homecompany"><i>{{ beer.beer_company }}</i></p>
 			{% endif %}
 			{% endfor %}
 			{% endif %}
 			</div>
 		</div>
-		<div class="w3-cell w3-half w3-right w3-padding-bottom">
+		<div class="w3-padding-bottom">
 			<h3 class="beerheading">wanted beers</h3>
 			<div class="homebeer">			
 			{% for item in suggest %}
 			{% for beer in item %}
 			{% if beer.is_active == True %}
 			<ul class="w3-ul w3-margin-right"><li class=""><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }} ({{ beer.user }})</a></li></ul>
+			<p class="homecompany"><i>{{ beer.beer_company }}</i></p>
 			{% endif %}
 			{% endfor %}
 			{% endfor %}
 			</div>
 		</div>
 	</div>
-	<div class="w3-center w3-padding-bottom w3-padding-top w3-mobile w3-padding-right w3-padding-left">
+	<div class="w3-center w3-mobile">
+		<h3 class="beerheading">event notes</h3>
 		{% for note in event_notes %}
 		{% if note.is_active == True %}
-		<div class="w3-row w3-padding w3-border-top w3-border-indigo {% cycle 'beernote' 'whitenote' %} {% cycle 'w3-text-white' 'w3-text-black' %}">
-		<div class="w3-col" style="width: 30%; text-align: center;">{{ note.user.username }}</div>
-		<div class="w3-rest" style="text-align:left;"><i class="w3-medium">"{{ note.note }}"</i></div>
+		<div class="homebeer">
+		<div class="w3-row w3-padding w3-border-bottom w3-border-indigo {% cycle 'whitenote' 'beernote' %} {% cycle 'notecolor' 'w3-text-white' %}">
+		<div class="w3-small" style="text-align: center;"><i>"{{ note.note }}"</i></div>
+		<div class="w3-large" style="text-align:center; text-shadow:0px 0px 1px #fbfcfc;"><b>{{ note.user.username }}</b></div>
+		</div>
 		</div>
 		{% endif %}
 		{% endfor %}
-		<div class="w3-border-top w3-border-indigo beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
+		<div class="beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
 		<form name="eventnoteForm" class="w3-center w3-padding-right" method="Post">
 		<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="eventnote" value="y" type="submit">Add Note</button>
 		<input type="text" class="w3-center w3-round w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="notevalue">

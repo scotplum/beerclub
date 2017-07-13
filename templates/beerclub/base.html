@@ -28,12 +28,12 @@
 				{% endif %}
 				</div>
 				 {% if request.user.is_authenticated %}
-				<div class="w3-padding-bottom w3-wide w3-large" style="font-variant:small-caps">The Beer Crowd</div>
-				<div class="w3-center beerpaddingthin">
-				<a href="/club/" class="w3-btn w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0">crowds</a>
-				<a href="/event/" class="w3-btn w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0">events</a>
-				<a href="/home/" class="w3-btn w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0">home</a>
-				<a href="/accounts/logout/" class="w3-btn w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0">logout</a>
+				<div class="w3-padding-bottom w3-wide beercrowd">The Beer Crowd</div>
+				<div class="w3-center">
+				<a href="/club/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">crowds</a>
+				<a href="/event/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">events</a>
+				<a href="/home/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">home</a>
+				<a href="/accounts/logout/" class="w3-btn w3-round w3-small loginlink topmenu w3-hover-indigo">logout</a>
 				</div>
 				{% endif %}
                 {% endblock topbar %}
@@ -43,8 +43,8 @@
 		{% block content %}
 		{% endblock content %}
 		</div>
-		<div class="w3-beer beerpadding w3-border-bottom w3-border-indigo"></div>
-		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right;"><i class="googlemaps w3-text-indigo"><b>Beer data by BreweryDB</b></i></div><br>
+		<div class="w3-beer beerpadding w3-border-top w3-border-bottom w3-border-indigo"></div>
+		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right;"><b class="googlemaps ratings">Beer data by BreweryDB</b></div><br>
     </body>
 
 </html>

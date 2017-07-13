@@ -7,21 +7,21 @@
 
 {% block content %}
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
-		<h1 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">{% trans "sign in" %}</h1>
+	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-top">
+		<div class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;"></div>
 	</div>
 <p class="w3-center w3-margin">{% blocktrans %}
-<a href="{{ signup_url }}">Create an Account</a> {% endblocktrans %}</p>
+<a href="{{ signup_url }}" class="loginlink"><b>Create an Account</b></a> {% endblocktrans %}</p>
 
 <div class="">
-<form class="login w3-center" method="POST" action="{% url 'account_login' %}">
+<form class="login w3-center w3-margin w3-border-indigo" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  <div class="loginlink w3-margin-top w3-padding-top w3-center w3-white">{{ form.as_p }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button class="primaryAction w3-margin-bottom" type="submit">{% trans "Submit" %}</button><br>
-  <a class="button secondaryAction w3-margin-top" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <button class="primaryAction w3-margin-bottom" type="submit">{% trans "Submit" %}</button></div><br>
+  <a class="button secondaryAction w3-margin-top loginlink" href="{% url 'account_reset_password' %}"><b>{% trans "Forgot Password?" %}</b></a>
 </form><br>
 </div>
 {% endblock %}
