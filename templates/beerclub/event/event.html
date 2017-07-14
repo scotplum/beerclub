@@ -12,13 +12,13 @@
 	<form name="eventattendForm" class="w3-center beerpadding" method="Post">
 	{% if event_attendance_check %}
 		{% if event_attendance.will_attend == True %}
-	<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="remove" value="y" type="submit">Can't Make It After All</button>
+	<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="remove" value="y" type="submit">Can't Make It After All</button>
 		{% else %}
-	<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="activate" value="y" type="submit">Actually, I'm Coming Now</button>			
+	<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="activate" value="y" type="submit">Actually, I'm Coming Now</button>			
 		{% endif %}
 	{% else %}
-	<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="attend" value="y" type="submit">I'll Be There</button>
-	<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="decline" value="y" type="submit">Can't Make It</button>
+	<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="attend" value="y" type="submit">I'll Be There</button>
+	<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="decline" value="y" type="submit">Can't Make It</button>
 	{% endif %}
 	{% csrf_token %}
 	</form>
@@ -102,9 +102,9 @@
 		{% for note in event_notes %}
 		{% if note.is_active == True %}
 		<div class="homebeer">
-		<div class="w3-row w3-padding w3-border-bottom w3-border-indigo {% cycle 'whitenote' 'beernote' %} {% cycle 'notecolor' 'w3-text-white' %}">
+		<div class="w3-row w3-padding w3-border-bottom w3-border-indigo {% cycle 'beernote' 'whitenote' %} ">
 		<div class="w3-small" style="text-align: center;"><i>"{{ note.note }}"</i></div>
-		<div class="w3-large" style="text-align:center; text-shadow:0px 0px 1px #fbfcfc;"><b>{{ note.user.username }}</b></div>
+		<div class="w3-large" style="text-align:center; text-shadow:0px 0px 1px #fbfcfc;"><b>- {{ note.user.username }} -</b></div>
 		</div>
 		</div>
 		{% endif %}

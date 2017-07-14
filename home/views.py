@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner
+from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note
 from event.models import Event, Event_Beer
 from forms import findbeerForm
 from django.utils import timezone
@@ -95,6 +95,10 @@ def beer(request, bdb_id):
 							context['region'] = location['region']
     context['data'] = data
     context['style'] = style
+    beer_note_check = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+    context['beer_notes'] = {}
+    if beer_note_check:
+		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
     beer_rating_check = Beer_Rating.objects.filter(bdb_id=bdb_id).exists()
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
@@ -156,6 +160,11 @@ def beer(request, bdb_id):
 			want_beer.is_active = True
 			want_beer.save()
 			return redirect('/home/')
+		elif 'beernote' in rp:
+			note = rp['beernotevalue']
+			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note,)
+			beer_note.save()
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'event' in rp:
 			return redirect('/home/findbeer/' + bdb_id + '/event/')
 		else:

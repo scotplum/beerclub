@@ -6,4 +6,4 @@ def index(request):
 	if request.user.is_authenticated():
 		return redirect('/home/')
 	context = {}
-	return render(request, 'welcome/index.html', context)	
+	return redirect('/accounts/login/?next=/home/')	

@@ -6,7 +6,7 @@
 {% load crispy_forms_tags %}
 {% load ratings %}
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
+	<div class="w3-beer w3-container w3-padding-bottom">
 		<h3 class="w3-animate-left w3-center w3-text-white"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
 	</div>
 	<div class="w3-container w3-center beerpadding">
@@ -14,32 +14,35 @@
 			<form name="beerForm" class="w3-center" method="Post">
 			{% if fav_beer_check %}
 				{% if fav_beer.is_active %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="removefav" value="y" type="submit">not my favorite</button>
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="removefav" value="y" type="submit">not my favorite</button>
 				{% else %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="activatefav" value="y" type="submit">favorite</button>			
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="activatefav" value="y" type="submit">favorite</button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="fav" value="y" type="submit">favorite</button>
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="fav" value="y" type="submit">favorite</button>
 			{% endif %}
 			{% if want_beer_check %}
 				{% if want_beer.is_active %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="removewant" value="y" type="submit">don't want</button>			
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="removewant" value="y" type="submit">don't want</button>			
 				{% else %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="activatewant" value="y" type="submit">want</button>						
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="activatewant" value="y" type="submit">want</button>						
 				{% endif %}
 			{% else %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="want" value="y" type="submit">want</button>
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="want" value="y" type="submit">want</button>
 			{% endif %}
-			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="event" value="y" type="submit">add to event</button>
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="event" value="y" type="submit">add to event</button>
 			{% csrf_token %}
 			</form>
-			<div class="w3-center w3-padding-top w3-padding-bottom">{% ratings score_beer %}</div>
+			<div class="w3-center w3-padding-top w3-margin-bottom">{% ratings score_beer %}</div>
+			{% if data.labels.medium %}
+			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
+			{% endif %}
 			{% if data.name %}
-			<h3 class="beerheading w3-padding-top">{{ data.name }}</h3>
+			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
 			<div class="w3-center">
 				{% if data.description %}
-				<div class="homebeer w3-padding-top" style="text-align:left; padding-left: 3%; padding-right: 3%;">{{ data.description }}</div>
+				<div class="homebeer" style="text-align:left; padding-left: 3%; padding-right: 3%;">{{ data.description }}</div>
 				{% endif %}
 				{% if category.name %}
 				<div class="homebeer w3-padding-top"><b>Category:</b> {{ category.name }}</div>
@@ -59,14 +62,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="" style="margin-right: 5%; margin-left: 5%;">
-		<div class="w3-center">
-			<div class="w3-margin-left w3-margin-right">
-			<img class="w3-padding-bottom w3-padding-0" src="{{ data.labels.medium }}">
-			</div>
-		</div>
-	</div>
-		<div class="w3-margin-left w3-margin-right">
+		<div class="w3-margin-left w3-margin-right w3-padding-bottom w3-margin-bottom">
 		{% if brewery.nameShortDisplay %}
 		<h3 class="beerheading w3-padding-top">{{ brewery.nameShortDisplay }}</h3>
 		{% else %}
@@ -76,11 +72,31 @@
 		<div class="homebeer w3-padding-top" style="text-align:left; padding-left: 3%; padding-right: 3%;">{{ brewery.description }}</div>
 		{% endif %}
 		{% if brewery.established %}
-		<div class="homebeer w3-padding-top w3-card"><b>Established:</b> {{ brewery.established }}</div>
+		<div class="homebeer w3-padding-top"><b>Established:</b> {{ brewery.established }}</div>
 		{% endif %}
 		{% if region %}
-		<div class="homebeer w3-padding-top w3-padding-bottom w3-card" ><b>Region:</b> {{ region }}</div>
+		<div class="homebeer w3-padding-top w3-padding-bottom" ><b>Region:</b> {{ region }}</div>
 		{% endif %}
+		</div>
+		<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
+		<h3 class="beerheading">notes</h3>
+		{% for note in beer_notes %}
+		{% if note.is_active == True %}
+		<div class="homebeer">
+		<div class="w3-row w3-padding w3-border-bottom w3-border-indigo {% cycle 'beernote' 'whitenote' %}">
+		<div class="" style="text-align: center;"><i>{{ note.note }}</i></div>
+		<div class="w3-center w3-small"> - {{ note.date_added }} - </div>
+		</div>
+		</div>
+		{% endif %}
+		{% endfor %}
+		</div>
+		<div class="w3-padding-top w3-margin-top">
+			<form name="beernoteForm" class="w3-center w3-padding-right" method="Post">
+			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="beernote" value="y" type="submit">Add Note</button>
+			<input type="text" class="w3-center w3-round w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="beernotevalue">
+			{% csrf_token %}
+			</form>
 		</div>
 </div>
 {% endblock content %}

@@ -5,31 +5,31 @@ body {
 
 .topmenu {
 	border: solid 1px #003366;
-	background-color: #000066;
+	background-color: navy;
 	opacity: .90;
 }
 
 .w3-beer{
 	color:#000;
-	background-color: #FF9933;
+	background-color: tomato;
 	padding: 0;
 	margin: 1% 1% 1px 1%;
-	border-top: 1px solid #003366;
-	border-bottom: 1px solid #003366; 
-	text-shadow:0px 0px 1px #000066;
+	border-bottom: 2px solid navy; 
+	text-shadow:0px 0px 1px navy;
+	opacity: .98;
 	}
 	
 .beernote{
-	color:#000;
-	background-color:#FF9933;
+	color:tomato;
+	background-color:snow;
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
 }
 
 .whitenote{
-	color:#000;
-	background-color:white;
+	color:navy;
+	background-color:snow;
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
@@ -38,10 +38,10 @@ body {
 .homebeer{
 	font-size: 115%;
 	padding: 0 0 0 0;
-	background-color:  #fbfcfc;
+	background-color: snow;
 	margin-left: 5%;
 	margin-right: 5%;
-	color: #000066;
+	color: navy;
 }
 
 .homecompany{
@@ -56,7 +56,7 @@ body {
 .googlemaps{
 	font-size: 75%;
 	text-decoration: none;
-	color: #FF9933;
+	color: tomato;
 }
 
 .eventaddress{
@@ -64,7 +64,7 @@ body {
 }
 
 .beerrating{
-	color: #FF9933;
+	color: tomato;
 	font-weight: bold;
 	padding-bottom: 0;
 	text-decoration: none;
@@ -80,42 +80,49 @@ body {
 }
 
 .beerheading{
-	color: #fbfcfc;
-	background-color: #000066;
+	color: white;
+	background-color: navy;
 	letter-spacing: 2px;
 	font-variant:small-caps;
     font-family: "Arial"; 
 	margin-bottom: 0;
-	border-bottom: 2px solid #FF9933;
+	border-bottom: 2px solid tomato;
 	margin-left: 5%;
 	margin-right: 5%;
 	padding-bottom: 1%;
 	padding-top: 1%;
 	font-size: 140%;
-	opacity: .85;
-	font-weight: 500;
+	font-weight: 600;
 	}
 
 .loginlink{
 	letter-spacing: 1px;
 	text-decoration: none;
+	border-bottom: 2px solid tomato; 
 	font-weight: bold;
 	text-shadow: 0px 0px 1px #fbfcfc;
 }
 
 .beercrowd{
-	font-size: 180%;
+	font-size: 200%;
 	font-variant:small-caps;
-	color: #000066;
-	text-shadow: 0px 0px 5px #FF9933;
+	color: navy;
+	text-shadow: 0px 0px 5px tomato;
 	font-weight: bold;
 }
 
 .notecolor{
-	color: #000066;
+	color: navy;
 }
 
 .ratings{
-	color: #000066;
+	color: navy;
 	letter-spacing: 2px;
+}
+
+#beerimg{
+	padding: 75px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 200px 200px;
 }

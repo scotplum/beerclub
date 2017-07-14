@@ -57,3 +57,13 @@ class Beer_Banner(models.Model):
     
     def __str__(self):
 		return str(self.user) + ' | ' + self.image_url
+		
+class Beer_Note(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	bdb_id          = models.CharField(max_length=20) 
+	is_active		= models.BooleanField(default=True)
+	date_added		= models.DateTimeField(auto_now_add=True)
+	note			= models.CharField(max_length=500)
+	
+	def __str__self(self):
+		return self.user + ' | ' + self.bdb_id + ' | ' + self.note
