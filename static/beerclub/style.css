@@ -4,9 +4,8 @@ body {
 }
 
 .topmenu {
-	border: solid 1px #003366;
 	background-color: navy;
-	opacity: .90;
+	border-bottom: 2px solid tomato; 
 }
 
 .w3-beer{
@@ -25,6 +24,7 @@ body {
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
+	border-bottom: .5px solid navy;
 }
 
 .whitenote{
@@ -33,6 +33,7 @@ body {
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
+	border-bottom: .5px solid navy;
 }
 	
 .homebeer{
@@ -98,7 +99,6 @@ body {
 .loginlink{
 	letter-spacing: 1px;
 	text-decoration: none;
-	border-bottom: 2px solid tomato; 
 	font-weight: bold;
 	text-shadow: 0px 0px 1px #fbfcfc;
 }

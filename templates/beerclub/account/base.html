@@ -21,10 +21,21 @@
             <div id="content" class="w3-display-container">
                 {% block topbar %}
                 <div class="w3-hover-grayscale">
+				{% if banner.image_url %}
+				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
+				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
+				{% endif %}
 				</div>
-				<div class="w3-padding-bottom w3-wide w3-large" style="font-variant:small-caps">The Beer Crowd</div>
-				<div class="w3-center beerpaddingthin">
+				<div class="w3-padding-bottom w3-wide beercrowd">The Beer Crowd</div>
+				{% if request.user.is_authenticated %}
+				<div class="w3-center">
+				<a href="/club/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">crowds</a>
+				<a href="/event/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">events</a>
+				<a href="/home/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">home</a>
+				<a href="/accounts/logout/" class="w3-btn w3-round w3-small loginlink topmenu w3-hover-indigo">logout</a>
+				</div>
+				{% endif %}
                 {% endblock topbar %}
             </div>
 		</div>
@@ -32,8 +43,8 @@
 		{% block content %}
 		{% endblock content %}
 		</div>
-		<div class="w3-beer beerpadding w3-border-bottom w3-border-indigo"></div>
-		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right;"><i class="googlemaps w3-text-indigo"><b>Beer data by BreweryDB</b></i></div><br>
+		<div class="w3-beer beerpadding w3-border-bottom"></div>
+		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right;"><b class="googlemaps ratings">Beer data by BreweryDB</b></div><br>
     </body>
 
 </html>

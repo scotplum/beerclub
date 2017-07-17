@@ -5,15 +5,74 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
-		<h3 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">Club Membership</h3>
+	<div class="w3-beer w3-container w3-padding-bottom w3-card">
+		<h3 class="w3-animate-left w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">{{ crowd.name }}</h3>
 	</div>
-	<div class="w3-container w3-margin w3-padding-bottom">
+	<div class="w3-padding-bottom">
 		<div class="w3-center w3-padding">
-			<div class="w3-center homebeer">
-			{% for taster in tasters %}
-			<ul class="w3-ul"><li><a href="/home/tasters/{{ taster.id }}/">{{ taster.username }}</a></li></ul>
-			{% endfor %}
+			<div class="w3-center">
+				<h3 class="beerheading">Announcements</h3>
+				{% if crowd_announcement_check %}
+				{% for announcement in crowd_announcement %}
+				<div class="homebeer w3-padding-top w3-padding-bottom" style="text-align: left; padding-left: 3%; padding-right: 3%;">{{ announcement.announcement }}</div>
+				{% endfor %}
+				{% else %}
+				<div>No announcement yet...</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>	
+	<div class="w3-padding-bottom">
+		<div class="w3-center w3-padding">
+			<div class="w3-center">
+				<h3 class="beerheading">Crowd Info</h3>
+				<div class="w3-center homebeer w3-padding-top w3-padding-bottom">
+					<p><b>Location: </b>{{ crowd.city }}, {{ crowd.state }}</p>
+					{% if crowd.is_public %}
+					<p><b>Status: </b>Applications open to public</p>
+					{% else %}
+					<p><b>Status: </b>Must receive an invite to apply</p>
+					{% endif %}
+					Items to add: Membership link</div>
+			</div>
+		</div>
+	</div>
+	<div class="w3-padding-bottom">
+		<div class="w3-center w3-padding">
+			<div class="w3-center">
+				<h3 class="beerheading">Membership</h3>
+				<div class="w3-center homebeer w3-padding-top w3-padding-bottom">
+					{% if club_user_check %}
+					{% for member in club_user %}
+					<p>{{ member.user.username }}</p>
+					{% endfor %}
+					{% else %}
+					<p>No current members</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="w3-padding-bottom">
+		<div class="w3-center w3-padding">
+			<div class="w3-center">
+				<h3 class="beerheading">Events</h3>
+				{% if club_event_check %}
+				{% for event in club_event %}
+				<div class="w3-center homebeer w3-padding-top w3-padding-bottom"><a href="/event/{{ event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="w3-center homebeer w3-small"><i>{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</i></div>
+				{% endfor %}
+				{% else %}
+				<div class="w3-center homebeer w3-padding-top w3-padding-bottom">This crowd has no upcoming or previous events</div>				
+				{% endif %}				
+			</div>
+		</div>
+	</div>
+	<div class="w3-padding-bottom">
+		<div class="w3-center w3-padding">
+			<div class="w3-center">
+				<h3 class="beerheading">Top Beers</h3>
+				<div class="w3-center homebeer w3-padding-top w3-padding-bottom">Top 10 beers?</div>
 			</div>
 		</div>
 	</div>
