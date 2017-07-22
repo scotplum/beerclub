@@ -9,6 +9,7 @@ from django.utils.timezone import datetime
 # Create your views here.
 context = {}
 
+@login_required
 def index(request):
     user_object = request.user
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
@@ -22,7 +23,8 @@ def index(request):
 		clubs = Club_User.objects.filter(user=user_object)
 		context['clubs'] = clubs
     return render(request, 'club/index.html', context)  
-	
+
+@login_required	
 def club(request, id):
     user_object = request.user
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()

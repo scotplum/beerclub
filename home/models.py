@@ -45,7 +45,7 @@ class Beer_Rating(models.Model):
     beer_company  	= models.CharField(max_length=100) 
     beer_name  		= models.CharField(max_length=500) 
     beer_category 	= models.CharField(max_length=100)
-    ratings = GenericRelation(Rating, related_query_name='Beer_Rating')
+    ratings 		= GenericRelation(Rating, related_query_name='Beer_Rating')
 	
     def __str__(self):
 		return self.beer_name + ' | ' + self.beer_company
@@ -64,6 +64,9 @@ class Beer_Note(models.Model):
 	is_active		= models.BooleanField(default=True)
 	date_added		= models.DateTimeField(auto_now_add=True)
 	note			= models.CharField(max_length=500)
+	beer_name		= models.CharField(max_length=500)
+	beer_company	= models.CharField(max_length=500)
+	beer_category	= models.CharField(max_length=100)
 	
-	def __str__self(self):
-		return self.user + ' | ' + self.bdb_id + ' | ' + self.note
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.bdb_id) + ' | ' + str(self.note)

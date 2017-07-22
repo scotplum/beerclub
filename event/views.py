@@ -52,6 +52,7 @@ def one_event(request, event_id):
 		context['event_notes'] = Event_Note.objects.filter(event=event)
     context['declined_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=False).exists()
     context['confirmed_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=True).exists()
+    suggest = []
     if taster_response_check:
 		taster_response = Event_Attend.objects.filter(event=event)
 		context['taster_response'] = taster_response

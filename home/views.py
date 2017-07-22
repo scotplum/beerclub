@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note
 from event.models import Event, Event_Beer
 from forms import findbeerForm
+from star_ratings.models import UserRating
 from django.utils import timezone
 import requests
 
@@ -19,6 +20,17 @@ def index(request):
     if beer_banner_check:
 		beer_banner = Beer_Banner.objects.get(user=user_object)	
 		context['banner'] = beer_banner
+    beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
+    context['beer_notes_check'] = beer_notes_check
+    if beer_notes_check:
+		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')[:8]
+		context['beer_notes'] = beer_notes    
+    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    context['beer_rating_check'] = beer_rating_check
+    if beer_rating_check:
+		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:10]
+    test = Beer_Rating.objects.filter(ratings__isnull=False)
+    context['beer_rating'] = beer_rating
     context['user_object'] = user_object 
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
@@ -162,7 +174,7 @@ def beer(request, bdb_id):
 			return redirect('/home/')
 		elif 'beernote' in rp:
 			note = rp['beernotevalue']
-			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note,)
+			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note, beer_name = beer_name, beer_company = beer_company, beer_category = beer_category,)
 			beer_note.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'event' in rp:
