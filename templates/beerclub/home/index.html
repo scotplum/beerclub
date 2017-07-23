@@ -17,15 +17,17 @@
 			{% if fav_beer_check == False %}
 			<div class="w3-center homebeer w3-padding-top w3-padding-bottom">No favorites yet...how sad</div>
 			{% endif %}
-			<div class="w3-center w3-row w3-padding">
-				{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
-				{% if beer.is_active == True %}
-				<div class="whitenote w3-small w3-center w3-padding">
+			<div class="w3-center homebeer w3-padding-top">			
+			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% if beer.is_active == True %}
+			<div class="w3-center w3-row w3-padding whitenote">
+				<div class="w3-margin-right w3-small">
 				<div class="homebeer w3-padding-0"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div>
 				<div class="beerrating w3-small" style="font-weight: 500;"><i>{{ beer.beer_company }}</i></div>
 				</div>
-				{% endif %}
-				{% endfor %}
+			</div>
+			{% endif %}
+			{% endfor %}
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right w3-padding-bottom">
@@ -33,15 +35,17 @@
 			{% if want_beer_check == False %}
 			<div class="w3-center homebeer w3-padding-top w3-padding-bottom">Come on now..I know you want beer</div>
 			{% endif %}
-			<div class="w3-center w3-row w3-padding">
-				{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
-				{% if beer.is_active == True %}
-				<div class="whitenote w3-small w3-margin-right w3-margin-left w3-center w3-padding-bottom">
-				<div class="homebeer w3-padding-0"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div>
-				<div class="beerrating w3-small" style="font-weight: 500;"><i>{{ beer.beer_company }}</i></div>
+			<div class="w3-center homebeer w3-padding-top">
+			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% if beer.is_active == True %}
+			<div class="w3-center w3-row w3-padding whitenote">
+				<div class="w3-margin-right w3-small">
+					<div class="homebeer w3-padding-0"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div>
+					<div class="beerrating w3-small" style="font-weight: 500;"><i>{{ beer.beer_company }}</i></div>
 				</div>
-				{% endif %}
-				{% endfor %}
+			</div>
+			{% endif %}
+			{% endfor %}
 			</div>
 		</div>
 	</div>
@@ -61,7 +65,7 @@
 			{% endif %}
 			{% endfor %}
 			</div>
-		<div class="w3-padding-top homecompany">See All Upcoming Events</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top">See All Upcoming Events</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">past events</h3>
@@ -78,7 +82,7 @@
 			{% endif %}
 			{% endfor %}
 			</div>
-		<div class="w3-padding-top homecompany">See All Past Events</div>
+		<div class="w3-padding-top w3-margin-top homecompany w3-margin-right">See All Past Events</div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
@@ -99,7 +103,7 @@
 			<div class="w3-center homebeer w3-padding-top w3-padding-bottom">No beer notes have been added yet</div>
 			{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany">See All Notes</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top">See All Notes</div>
 		</div>
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h3 class="beerheading">recent beer ratings</h3>
@@ -118,7 +122,7 @@
 			<div class="w3-center homebeer w3-padding-top w3-padding-bottom">No beer ratings have been added yet</div>
 			{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany">See All Ratings</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top">See All Ratings</div>
 		</div>
 	</div>
 	<br>
