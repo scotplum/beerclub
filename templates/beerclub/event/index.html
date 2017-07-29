@@ -4,33 +4,36 @@
 
 {% block content %}
 
-<div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-padding-bottom w3-card">
-		<h3 class="w3-animate-left w3-center w3-text-white"><b>OK Beer Taster Events</b></h3>
+<div class="w3-container w3-padding w3-mobile w3-center">
+	<div class="w3-cell w3-half w3-left w3-padding-bottom">
+		<h3 class="beerheading">upcoming events</h3>
+		<div class="w3-center homebeer w3-padding-top">
+		{% for event in events %}
+		{% if event.is_active == True %}
+		<div class="content-base">
+			<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
+			<div class="content-3">{{ event.address }}</div>
+			<div class="content-2">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
+		</div>
+		{% endif %}
+		{% endfor %}
+		</div>
+	<div class="w3-padding-top homecompany w3-margin-right w3-margin-top">See All Upcoming Events</div>
 	</div>
-	<div class="w3-container w3-padding-bottom w3-margin-left w3-margin-right">
-		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">upcoming events</h3>
-			<div class="w3-center homebeer">
-			{% for event in events %}
-			{% if event.is_active == True %}
-			<ul class="w3-ul w3-margin-right"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'n/j/y g:i A'|lower }})</i></p>
-			{% endif %}
-			{% endfor %}
-			</div>
+	<div class="w3-cell w3-half w3-right">
+		<h3 class="beerheading">past events</h3>
+		<div class="w3-center homebeer w3-padding-top">
+		{% for event in past_events %}
+		{% if event.is_active == True %}
+		<div class="content-base">
+			<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
+			<div class="content-3">{{ event.address }}</div>
+			<div class="content-2">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
 		</div>
-		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">previous events</h3>
-			<div class="w3-center homebeer">
-			{% for event in past_events %}
-			{% if event.is_active == True %}
-			<ul class="w3-ul w3-margin-right"><li><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></li></ul>
-			<p class="homecompany"><i>{{ event.address.description }} ({{ event.event_date|date:'n/j/y g:i A'|lower }})</i></p>
-			{% endif %}
-			{% endfor %}
-			</div>
+		{% endif %}
+		{% endfor %}
 		</div>
+	<div class="w3-padding-top w3-margin-top homecompany w3-margin-right">See All Past Events</div>
 	</div>
 </div>
 {% endblock content %}

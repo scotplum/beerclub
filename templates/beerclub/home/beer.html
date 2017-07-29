@@ -40,52 +40,50 @@
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
-			<div class="w3-center">
+			<div class="homebeer">
 				{% if data.description %}
-				<div class="homebeer w3-padding" style="text-align:left; padding-left: 3%; padding-right: 3%;">{{ data.description }}</div>
-				<div class="homebeer" style="border-bottom: 1px dotted navy; margin-left: 8%; margin-right: 8%;"></div>
+				<div class="content-base content-description">{{ data.description }}</div>
 				{% endif %}
 				{% if category.name %}
-				<div class="homebeer w3-padding-top"><b>Category:</b> {{ category.name }}</div>
+				<div class="content-base content-beer"><b>Category:</b> {{ category.name }}</div>
 				{% endif %}
 				{% if style.name %}
-				<div class="homebeer w3-padding-top"><b>Style:</b> {{ style.name }}</div>
+				<div class="content-base content-beer"><b>Style:</b> {{ style.name }}</div>
 				{% endif %}
 				{% if data.abv %}
-				<div class="homebeer w3-padding-top"><b>Alcohol Content: </b>{{ data.abv }}% abv</div>
+				<div class="content-base content-beer"><b>Alcohol Content: </b>{{ data.abv }}% abv</div>
 				{% endif %}
 				{% if data.glass.name %}
-				<div class="homebeer w3-padding-top"><b>Glass:</b> {{ data.glass.name }}</div>
+				<div class="content-base content-beer"><b>Glass:</b> {{ data.glass.name }}</div>
 				{% endif %}
 				{% if data.foodPairings %}
-				<div class="homebeer w3-padding-top w3-padding-bottom"><b>Food Pairings:</b> {{ data.foodPairings }}</div>
+				<div class="content-base content-beer"><b>Food Pairings:</b> {{ data.foodPairings }}</div>
+				{% endif %}
+			</div>
+			{% if brewery.nameShortDisplay %}
+			<h3 class="beerheading w3-padding-top">{{ brewery.nameShortDisplay }}</h3>
+			{% else %}
+			<h3 class="beerheading w3-padding-top">{{ brewery.name }}</h3>
+			{% endif %}
+			<div class="homebeer">
+				{% if brewery.description %}
+				<div class="content-base content-description">{{ brewery.description }}</div>
+				{% endif %}
+				{% if brewery.established %}
+				<div class="content-base content-beer"><b>Established:</b> {{ brewery.established }}</div>
+				{% endif %}
+				{% if region %}
+				<div class="content-base content-beer" ><b>Region:</b> {{ region }}</div>
 				{% endif %}
 			</div>
 		</div>
 	</div>
-		<div class="w3-margin-left w3-margin-right w3-padding-bottom w3-margin-bottom">
-		{% if brewery.nameShortDisplay %}
-		<h3 class="beerheading w3-padding-top">{{ brewery.nameShortDisplay }}</h3>
-		{% else %}
-		<h3 class="beerheading w3-padding-top">{{ brewery.name }}</h3>
-		{% endif %}
-		{% if brewery.description %}
-		<div class="homebeer w3-padding" style="text-align:left; padding-left: 3%; padding-right: 3%;">{{ brewery.description }}</div>
-		<div class="homebeer" style="border-bottom: 1px dotted navy; margin-left: 8%; margin-right: 8%;"></div>
-		{% endif %}
-		{% if brewery.established %}
-		<div class="homebeer w3-padding-top"><b>Established:</b> {{ brewery.established }}</div>
-		{% endif %}
-		{% if region %}
-		<div class="homebeer w3-padding-top w3-padding-bottom" ><b>Region:</b> {{ region }}</div>
-		{% endif %}
-		</div>
 		<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
 		<h3 class="beerheading">notes</h3>
 		{% for note in beer_notes %}
 		{% if note.is_active == True %}
 		<div class="homebeer">
-		<div class="w3-row w3-padding {% cycle 'beernote' 'whitenote' %}">
+		<div class="w3-row w3-padding whitenote">
 		<div class="" style="text-align: center;"><i>{{ note.note }}</i></div>
 		<div class="w3-center w3-small w3-padding-bottom"> - {{ note.date_added }} - </div>
 		</div>

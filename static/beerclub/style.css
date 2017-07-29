@@ -9,22 +9,22 @@ body {
 }
 
 .w3-beer{
-	color:#000;
+	color: snow;
 	background-color: tomato;
 	padding: 0;
 	margin: 1% 1% 1px 1%;
 	border-bottom: 2px solid navy; 
-	text-shadow:0px 0px 1px navy;
-	opacity: .98;
+	text-shadow: 0px 0px 2px navy;
+	font-weight: bold;
 	}
 	
 .beernote{
-	color:tomato;
+	color:#00008b;
 	background-color:snow;
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
-	border-bottom: .5px solid navy;
+	border-bottom: .5px solid tomato;
 }
 
 .whitenote{
@@ -33,7 +33,7 @@ body {
 	padding: 0;
 	text-align: left;
 	font-weight: bold;
-	border-bottom: .5px solid navy;
+	border-bottom: .5px solid tomato;
 }
 	
 .homebeer{
@@ -57,7 +57,13 @@ body {
 .googlemaps{
 	font-size: 75%;
 	text-decoration: none;
-	color: tomato;
+	color: #00008b;
+}
+
+.removelink{
+	font-size: 75%;
+	text-decoration: none;
+	color: #00008b;
 }
 
 .eventaddress{
@@ -65,7 +71,7 @@ body {
 }
 
 .beerrating{
-	color: tomato;
+	color: black;
 	font-weight: bold;
 	padding-bottom: 0;
 	text-decoration: none;
@@ -87,13 +93,13 @@ body {
 	font-variant:small-caps;
     font-family: "Arial"; 
 	margin-bottom: 0;
-	border-bottom: 2px solid tomato;
 	margin-left: 5%;
 	margin-right: 5%;
 	padding-bottom: 1%;
 	padding-top: 1%;
 	font-size: 140%;
 	font-weight: 600;
+	border-bottom: 1px solid tomato;
 	}
 
 .loginlink{
@@ -104,7 +110,7 @@ body {
 }
 
 .beercrowd{
-	font-size: 200%;
+	font-size: 240%;
 	font-variant:small-caps;
 	color: navy;
 	text-shadow: 0px 0px 5px tomato;
@@ -126,3 +132,61 @@ body {
 	background-repeat: no-repeat;
 	background-size: 200px 200px;
 }
+
+.content-base{
+	color:navy;
+	background-color:snow;
+	padding: 1%;
+	text-align: left;
+	font-weight: bold;
+	border-bottom: .5px solid tomato;
+	text-align: center;
+	padding-right: 1.5%;
+}
+
+.content-1{
+	font-size: 90%;
+	padding: 0 0 0 0;
+	margin-left: 5%;
+	margin-right: 5%;
+	color: navy;
+	text-decoration: none;
+}
+
+.content-2{
+	color: black;
+	padding-bottom: 0;
+	text-decoration: none;
+	font-weight: 500;
+	font-style: italic;
+	font-size: 70%;
+}
+
+.content-3{
+	font-size: 75%;
+	color: navy;
+	font-weight: 700;
+	padding-bottom: .5%;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
+.content-description{
+	font-weight: 500;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.content-beer{
+	font-weight: 500;
+}
+
+.content-blankstate{
+	font-size: 100%;
+	padding-top: 8px;
+	background-color: snow;
+	margin-left: 5%;
+	margin-right: 5%;
+	color: navy;
+}
+
