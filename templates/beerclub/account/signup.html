@@ -13,11 +13,14 @@
 
 <form class="signup w3-center" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  <div class="w3-padding-bottom">{{ form.username }}</div>
+  <div class="w3-padding-bottom">{{ form.email }}</div>
+  <div class="w3-padding-bottom">{{ form.password1 }}</div>
+  <div class="w3-padding-bottom">{{ form.password2 }}</div>
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "Register" %} &raquo;</button>
+  <div class="w3-padding-top"><button type="submit">{% trans "Register" %} &raquo;</button></div>
   <br><br>
 </form>
 </div>

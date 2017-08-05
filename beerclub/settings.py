@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
 	'127.0.0.1',
 	'localhost',
 	'0.0.0.0',
-	'8906cc66.ngrok.io',
+	'7fcb1012.ngrok.io',
 	'10.100.1.185',
 ]
 
@@ -163,6 +163,7 @@ STATICFILES_DIRS = [
 ]
 
 STAR_RATINGS_RANGE = 10
+STAR_RATINGS_STAR_HEIGHT = 28
 
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True

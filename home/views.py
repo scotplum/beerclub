@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note
 from event.models import Event, Event_Beer
 from forms import findbeerForm
-from star_ratings.models import UserRating
+from star_ratings.models import UserRating, Rating
 from django.utils import timezone
 import requests
 
@@ -30,7 +30,6 @@ def index(request):
     if beer_rating_check:
 		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:10]
 		context['beer_rating'] = beer_rating
-    test = Beer_Rating.objects.filter(ratings__isnull=False)
     context['user_object'] = user_object 
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
@@ -76,7 +75,6 @@ def findbeer(request):
 def beer(request, bdb_id):
     user_object = request.user
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
-    
 	#Retrieve Beer Using ID From BreweryDB
     beer = requests.get(urlbeer).json()
     image_url = {}
@@ -287,9 +285,15 @@ def ratings(request):
 		context['banner'] = beer_banner
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
+    test_rating = Beer_Rating.objects.filter(ratings__isnull=False).order_by('ratings__average')
     if beer_rating_check:
 		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')
 		context['beer_rating'] = beer_rating
+		user_beer_rating = []
+		for beer in beer_rating:
+			rated_beer = Beer_Rating.objects.get(bdb_id = beer.rating.content_object.bdb_id)
+			user_beer_rating.append(rated_beer)
+		context['user_beer_ratings'] = user_beer_rating
     return render(request, 'home/ratings.html', context)
 	
 def notes(request):

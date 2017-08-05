@@ -3,26 +3,22 @@
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
-
+{% load ratings %}
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-padding-bottom">
 		<h3 class="w3-animate-left w3-center"><b>{{ request.user.username }}'s beer ratings</b></h3>
 	</div>
 	<div class="w3-center w3-padding-bottom">
-		{% if beer_rating_check %}
 		<div class="homebeer w3-padding-top">
-		{% for rating in beer_rating %}
-		<div class="content-base">
-			<div class="removelink"><a class="w3-right" href="/">x</a></div>
-			<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }} <span class="content-2">{{ rating.rating.content_object.beer_company }}</a></div>
-			<div class="content-3">{{ rating.score }} out of 10</div>					
+			{% for rating in user_beer_ratings %}
+			<div class="content-base">
+				<div class="removelink"><a class="w3-right" href="/">x</a></div>
+				<div class="content-1 w3-padding-bottom"><a href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-2">{{ rating.beer_company }}</span></div>
+				<div class="content-3">{% ratings rating %}</div>
+			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
-		</div>
-		{% else %}
-		<div class="content-blankstate content-1">Ratings added at the top of a selected beer page</div>
-		{% endif %}
 	</div><br><br>
 </div>
 

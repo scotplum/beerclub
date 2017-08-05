@@ -21,7 +21,13 @@ def index(request):
     context['club_check'] = club_check
     if club_check:
 		clubs = Club_User.objects.filter(user=user_object)
+		club_count = len(Club_User.objects.filter(user=user_object))
+		context['club_count'] = club_count
 		context['clubs'] = clubs
+		if club_count == 1:
+			club = Club_User.objects.get(user=user_object) 
+			club_id = club.id
+			return redirect('/club/' + str(club_id) + '/')
     return render(request, 'club/index.html', context)  
 
 @login_required	

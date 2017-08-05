@@ -21,8 +21,7 @@
 			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
 			{% if beer.is_active == True %}
 			<div class="content-base">
-				<div class="content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div>
-				<div class="content-2">{{ beer.beer_company }}</div>
+				<div class="content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-2"> {{ beer.beer_company }}</span></div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -37,8 +36,7 @@
 			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
 			{% if beer.is_active == True %}
 			<div class="content-base">
-				<div class="content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div>
-				<div class="content-2">{{ beer.beer_company }}</div>
+				<div class="content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-2"> {{ beer.beer_company }}</span></div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -53,8 +51,8 @@
 			{% if event.is_active == True %}
 			<div class="content-base">
 				<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
-				<div class="content-3">{{ event.address }}</div>
-				<div class="content-2">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
+				<div class="content-2">{{ event.address }}</div>
+				<div class="content-3">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -68,8 +66,8 @@
 			{% if event.is_active == True %}
 			<div class="content-base">
 				<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
-				<div class="content-3">{{ event.address }}</div>
-				<div class="content-2">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
+				<div class="content-2">{{ event.address }}</div>
+				<div class="content-3">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -79,14 +77,13 @@
 	</div>
 	<div class="w3-container w3-padding">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">recent beer notes</h3>
+			<h3 class="beerheading">recent notes</h3>
 			{% if beer_notes_check %}
 			<div class="w3-center homebeer w3-padding-top">
 			{% for note in beer_notes %}
 			<div class="content-base">				
-				<div class="content-1"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a></div>	
-				<div class="content-3">{{ note.note }}</div>				
-				<div class="content-2">{{ note.beer_company }}</div>
+				<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-2">{{ note.beer_company }}</span></div>
+				<div class="content-wrapper w3-margin-0"><div class="content-3">{{ note.note }}</div></div>			
 			</div>
 			{% endfor %}
 			</div>
@@ -97,14 +94,13 @@
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Notes</a></div>
 		</div>
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">recent beer ratings</h3>
+			<h3 class="beerheading">recent ratings</h3>
 			{% if beer_rating_check %}
 			<div class="homebeer w3-padding-top">
 			{% for rating in beer_rating %}
 			<div class="content-base">			
-				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a></div>
-				<div class="content-3">{{ rating.score }} out of 10</div>					
-				<div class="content-2">{{ rating.rating.content_object.beer_company }}</div>
+				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a>  <span class="content-2">{{ rating.rating.content_object.beer_company }}</span></div>			
+				<div class="content-3">{{ rating.score }} out of 10</div>		
 			</div>
 			{% endfor %}
 			</div>

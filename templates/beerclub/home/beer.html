@@ -7,7 +7,7 @@
 {% load ratings %}
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-padding-bottom">
-		<h3 class="w3-animate-left w3-center w3-text-white"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
+		<h3 class="w3-animate-left w3-center top-beer"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
 	</div>
 	<div class="w3-container w3-center beerpadding">
 		<div class="w3-display-container beerpadding">
@@ -42,7 +42,7 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if data.description %}
-				<div class="content-base content-description">{{ data.description }}</div>
+				<div class="content-base content-description" style="text-align: left;">{{ data.description }}</div>
 				{% endif %}
 				{% if category.name %}
 				<div class="content-base content-beer"><b>Category:</b> {{ category.name }}</div>
@@ -67,7 +67,7 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if brewery.description %}
-				<div class="content-base content-description">{{ brewery.description }}</div>
+				<div class="content-base content-description" style="text-align: left;">{{ brewery.description }}</div>
 				{% endif %}
 				{% if brewery.established %}
 				<div class="content-base content-beer"><b>Established:</b> {{ brewery.established }}</div>

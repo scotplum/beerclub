@@ -18,6 +18,11 @@ body {
 	font-weight: bold;
 	}
 	
+.top-beer{
+	padding-left: 1%;
+	padding-right: 1%;
+}
+	
 .beernote{
 	color:#00008b;
 	background-color:snow;
@@ -147,8 +152,8 @@ body {
 .content-1{
 	font-size: 90%;
 	padding: 0 0 0 0;
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 3%;
+	margin-right: 3%;
 	color: navy;
 	text-decoration: none;
 }
@@ -159,22 +164,21 @@ body {
 	text-decoration: none;
 	font-weight: 500;
 	font-style: italic;
-	font-size: 70%;
+	font-size: 80%;
 }
 
 .content-3{
 	font-size: 75%;
 	color: navy;
 	font-weight: 700;
-	padding-bottom: .5%;
 	padding-left: 1%;
 	padding-right: 1%;
 }
 
 .content-description{
 	font-weight: 500;
-	padding-left: 2%;
-	padding-right: 2%;
+	padding-left: 3%;
+	padding-right: 3%;
 }
 
 .content-beer{
@@ -190,3 +194,8 @@ body {
 	color: navy;
 }
 
+.content-wrapper{
+	padding-left: 2%;
+	padding-right: 2%;
+	text-align: justify;
+}
