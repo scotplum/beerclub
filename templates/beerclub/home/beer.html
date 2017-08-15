@@ -6,12 +6,13 @@
 {% load crispy_forms_tags %}
 {% load ratings %}
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-padding-bottom">
+	<div class="w3-beer w3-container">
 		<h3 class="w3-animate-left w3-center top-beer"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
 	</div>
 	<div class="w3-container w3-center beerpadding">
 		<div class="w3-display-container beerpadding">
-			<form name="beerForm" class="w3-center" method="Post">
+			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
+			<form name="beerForm" class="w3-center w3-padding-bottom w3-padding-top w3-margin-bottom" method="Post">
 			{% if fav_beer_check %}
 				{% if fav_beer.is_active %}
 			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" name="removefav" value="y" type="submit">not my favorite</button>
@@ -33,7 +34,6 @@
 			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="event" value="y" type="submit">add to event</button>
 			{% csrf_token %}
 			</form>
-			<div class="w3-center w3-padding-top w3-margin-bottom">{% ratings score_beer %}</div>
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
@@ -45,36 +45,40 @@
 				<div class="content-base content-description" style="text-align: left;">{{ data.description }}</div>
 				{% endif %}
 				{% if category.name %}
-				<div class="content-base content-beer"><b>Category:</b> {{ category.name }}</div>
-				{% endif %}
-				{% if style.name %}
-				<div class="content-base content-beer"><b>Style:</b> {{ style.name }}</div>
-				{% endif %}
-				{% if data.abv %}
-				<div class="content-base content-beer"><b>Alcohol Content: </b>{{ data.abv }}% abv</div>
-				{% endif %}
-				{% if data.glass.name %}
-				<div class="content-base content-beer"><b>Glass:</b> {{ data.glass.name }}</div>
-				{% endif %}
-				{% if data.foodPairings %}
-				<div class="content-base content-beer"><b>Food Pairings:</b> {{ data.foodPairings }}</div>
-				{% endif %}
+				<div class="w3-container w3-padding-top content-base">
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-beer-black">{{ category.name }}</span></div>
+					{% endif %}
+					{% if style.name %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Style: </b><span class="content-beer-black">{{ style.name }}</span></div>
+					{% endif %}
+					{% if data.abv %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Alcohol Content: </b><span class="content-beer-black">{{ data.abv }}% abv</span></div>
+					{% endif %}
+					{% if data.glass.name %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Glass: </b><span class="content-beer-black">{{ data.glass.name }}</span></div>
+					{% endif %}
+					{% if data.foodPairings %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-beer-black">{{ data.foodPairings }}</span></div>
+					{% endif %}
+				</div>
 			</div>
 			{% if brewery.nameShortDisplay %}
-			<h3 class="beerheading w3-padding-top">{{ brewery.nameShortDisplay }}</h3>
+			<h3 class="beerheading">{{ brewery.nameShortDisplay }}</h3>
 			{% else %}
-			<h3 class="beerheading w3-padding-top">{{ brewery.name }}</h3>
+			<h3 class="beerheading">{{ brewery.name }}</h3>
 			{% endif %}
 			<div class="homebeer">
 				{% if brewery.description %}
 				<div class="content-base content-description" style="text-align: left;">{{ brewery.description }}</div>
 				{% endif %}
-				{% if brewery.established %}
-				<div class="content-base content-beer"><b>Established:</b> {{ brewery.established }}</div>
-				{% endif %}
-				{% if region %}
-				<div class="content-base content-beer" ><b>Region:</b> {{ region }}</div>
-				{% endif %}
+				<div class="w3-container w3-padding-top content-base">
+					{% if brewery.established %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Established: </b><span class="content-beer-black">{{ brewery.established }}</span></div>
+					{% endif %}
+					{% if region %}
+					<div class="w3-cell-row content-1 w3-padding-top content-correction" ><b>Region: </b><span class="content-beer-black">{{ region }}</span></div>
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>
