@@ -248,6 +248,16 @@ def taster(request, id):
     want_beer_check = Wanted_Beers.objects.filter(user=id).exists()
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check
+    beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
+    context['beer_notes_check'] = beer_notes_check
+    if beer_notes_check:
+		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')[:8]
+		context['beer_notes'] = beer_notes    
+    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    context['beer_rating_check'] = beer_rating_check
+    if beer_rating_check:
+		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:10]
+		context['beer_rating'] = beer_rating
     if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.filter(user=id)
 		context['fav_beer'] = fav_beer

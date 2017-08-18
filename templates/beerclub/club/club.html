@@ -6,7 +6,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container">
-		<h3 class="w3-animate-left w3-center"><b>{{ crowd.name }}</b></h3>
+		<h3 class="w3-center"><b>{{ crowd.name }}</b></h3>
 	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
@@ -15,7 +15,8 @@
 				{% for announcement in crowd_announcement %}
 				<div class="homebeer w3-padding-top">
 					<div class="content-base">
-						<div class="content-wrapper"><b class="club-content-b">{{ announcement.date_added|date:'n/j/y'|lower }}: </b><span class="club-content-span">{{ announcement.announcement }}</span></div>
+						<div class="content-wrapper content-1 club-content-span">{{ announcement.announcement }}</div>
+						<div class="w3-small w3-center club-content-b w3-padding-top">{{ announcement.date_added|date:'n/j/y'|lower }}</div>
 					</div>
 				</div>
 				{% endfor %}
@@ -26,13 +27,16 @@
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">about</h3>
 			<div class="homebeer w3-padding-top">
-				<div class="content-base">			
-					<div class="content-1"><b class="club-content-b">Location: </b><span class="club-content-span">{{ crowd.city }}, {{ crowd.state }}</span></div>
+				<div class="">
+					<div class="club-content-span content-base content-1-nm">Established in 2017</div>				
+					<div class="club-content-span content-base content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
 					{% if crowd.is_public %}
-					<div class="content-1"><b class="club-content-b">Status: </b><span class="club-content-span">Applications open to public</span></div>
+					<div class="club-content-span content-base content-1-nm">Applications open to the public</div>
 					{% else %}
-					<div class="content-1"><b class="club-content-b">Status: </b><span class="club-content-span">Must receive an invite to apply</span></div>
+					<div class="club-content-span content-base content-1-nm">Invitations by email only</div>
 					{% endif %}
+					<div class="club-content-span content-base content-1-nm">Annual Membership Fee: $0</div>
+					<div class="club-content-span content-base content-1-nm">Aministered by scotplum</div>					
 				</div>
 			</div>
 		</div>
@@ -42,10 +46,10 @@
 				<h3 class="beerheading">membership</h3>
 					<div class="homebeer w3-padding-top">
 						<div class="">
-							<div>					
+							<div class="">					
 							{% if club_user_check %}
 							{% for member in club_user %}
-							<div class="w3-padding-top content-base club-content-span"><a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a> ({{ member.user.first_name }} {{ member.user.last_name }})</div>
+							<div class="w3-padding-top content-base club-content-span" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}<br>{% endif %}<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
 							{% endfor %}
 							{% else %}
 							<p>No current members</p>
