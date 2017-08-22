@@ -8,6 +8,11 @@ body {
 	border-bottom: 2px solid tomato; 
 }
 
+.topmenu-positive {
+	background-color: tomato;
+	border-bottom: 2px solid navy; 
+}
+
 .w3-beer{
 	color: snow;
 	background-color: tomato;
@@ -227,4 +232,11 @@ body {
 .club-content-span{
 	color: black;
 	font-weight: 500;
+}
+
+.dropdown{
+	font-size: 75%;
+	color: navy;
+	font-weight: 600;
+	background-color: snow;
 }

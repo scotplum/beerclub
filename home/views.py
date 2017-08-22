@@ -151,28 +151,28 @@ def beer(request, bdb_id):
 		if 'fav' in rp:
 			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
 			favorite_beer.save()
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'want' in rp:
 			want_beer = Wanted_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
 			want_beer.save()
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'removefav' in rp:
 			fav_beer.is_active = False
 			fav_beer.save()
 			#remove_fav = 
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'removewant' in rp:
 			want_beer.is_active = False
 			want_beer.save()
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'activatefav' in rp:
 			fav_beer.is_active = True
 			fav_beer.save()
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'activatewant' in rp:
 			want_beer.is_active = True
 			want_beer.save()
-			return redirect('/home/')
+			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'beernote' in rp:
 			note = rp['beernotevalue']
 			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note, beer_name = beer_name, beer_company = beer_company, beer_category = beer_category,)
@@ -237,6 +237,7 @@ def tasters(request):
     return render(request, 'home/tasters.html', context)
 	
 def taster(request, id):
+    context = {}
     user_object = User.objects.get(id=id)
     current_user = request.user
     context['user_object'] = user_object

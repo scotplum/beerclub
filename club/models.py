@@ -30,6 +30,7 @@ class Club_Admin(models.Model):
 class Club_User(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
 	club			= models.ForeignKey(Club, on_delete=models.CASCADE)
+	is_active 		= models.BooleanField(default=True)
 
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.club)

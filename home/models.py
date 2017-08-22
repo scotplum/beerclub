@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
+from django.forms import ModelForm
 
 # Create your models here.
 class Beer_Category(models.Model):
@@ -70,3 +71,8 @@ class Beer_Note(models.Model):
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id) + ' | ' + str(self.note)
+		
+class BeerNoteForm(ModelForm):
+    class Meta:
+        model = Beer_Note
+        fields = ['note']
