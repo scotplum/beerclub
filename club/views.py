@@ -42,10 +42,12 @@ def club(request, id):
 		context['banner'] = beer_banner
     context['user_object'] = user_object
     crowd = Club.objects.get(id=id)
+    club_admin = Club_Admin.objects.filter(club=crowd)
     crowd_announcement_check = Club_Announcement.objects.filter(club=crowd).exists()
     club_event_check = Club_Event.objects.filter(club=crowd).exists()
     club_user_check = Club_User.objects.filter(club=crowd).exists()
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    context['club_admin'] = club_admin
     context['beer_rating_check'] = beer_rating_check
     context['crowd_announcement_check'] = crowd_announcement_check
     context['club_event_check'] = club_event_check

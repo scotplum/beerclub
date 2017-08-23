@@ -28,7 +28,7 @@ def index(request):
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:10]
+		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:12]
 		context['beer_rating'] = beer_rating
     context['user_object'] = user_object 
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
@@ -43,6 +43,20 @@ def index(request):
     pastevents = Event.objects.filter(event_date__lt=timezone.now())
     context['events'] = events
     context['past_events'] = pastevents
+    if request.method == "POST": 
+		rp = request.POST
+		if 'removefav' in rp:
+			bdb_id = request.POST.get("removefav")
+			fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
+			fav_beer.is_active = False
+			fav_beer.save()
+			#remove_fav = 
+			return redirect('/home/')
+		elif 'removewant' in rp:
+			want_beer = Wanted_Beers.objects.get(user=user_object, bdb_id=bdb_id)
+			want_beer.is_active = False
+			want_beer.save()
+			return redirect('/home/')
     return render(request, 'home/index.html', context)  
 	
 @login_required 

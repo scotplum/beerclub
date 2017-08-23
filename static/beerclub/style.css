@@ -240,3 +240,9 @@ body {
 	font-weight: 600;
 	background-color: snow;
 }
+
+.removesubmit{
+	background: none;
+	border: none;
+	padding: 0;
+}

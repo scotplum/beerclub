@@ -15,12 +15,13 @@
 			<form name="beerForm" class="w3-center w3-padding-bottom w3-padding-top w3-margin-bottom" method="Post">
 			{% if fav_beer_check %}
 				{% if fav_beer.is_active %}
-			<button class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit">remove favorite</button>
+			<button class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>
+</button>
 				{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit">favorite</button>			
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="fav" value="y" type="submit">favorite</button>
+			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="fav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>
 			{% endif %}
 			{% if want_beer_check %}
 				{% if want_beer.is_active %}

@@ -25,7 +25,7 @@
 				{% endif %}
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">about</h3>
+			<h3 class="w3-padding-left beerheading">about<span><a class="w3-right"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span></h3>
 			<div class="homebeer w3-padding-top">
 				<div class="">
 					<div class="club-content-span content-base content-1-nm">Established in 2017</div>				
@@ -36,7 +36,11 @@
 					<div class="club-content-span content-base content-1-nm">Invitations by email only</div>
 					{% endif %}
 					<div class="club-content-span content-base content-1-nm">Annual Membership Fee: $0</div>
-					<div class="club-content-span content-base content-1-nm">Aministered by scotplum</div>					
+					<div class="club-content-span content-base content-1-nm">Aministered by 
+					{% for admin in club_admin %}
+					<span><a href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
+					{% endfor %}					
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -87,6 +91,7 @@
 						<span class="content-2">{{ rating.name.beer_company }}</span> 
 					</div>
 						<div class="content-3">{{ rating.avg }} / 10</div>
+					<span class="w3-tiny">Rated By: </span>
 					{% for user in rating.username %}
 					<span class="w3-small"><a href="/home/tasters/{{ user.id }}/">{{ user.username }}</a></span>
 					{% endfor %}
