@@ -64,7 +64,7 @@ class Beer_Note(models.Model):
 	bdb_id          = models.CharField(max_length=20) 
 	is_active		= models.BooleanField(default=True)
 	date_added		= models.DateTimeField(auto_now_add=True)
-	note			= models.CharField(max_length=500)
+	note			= models.TextField(max_length=1000)
 	beer_name		= models.CharField(max_length=500)
 	beer_company	= models.CharField(max_length=500)
 	beer_category	= models.CharField(max_length=100)

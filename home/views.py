@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note
+from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm
 from event.models import Event, Event_Beer
 from forms import findbeerForm
 from star_ratings.models import UserRating, Rating
@@ -50,9 +50,9 @@ def index(request):
 			fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
 			fav_beer.is_active = False
 			fav_beer.save()
-			#remove_fav = 
 			return redirect('/home/')
 		elif 'removewant' in rp:
+			bdb_id = request.POST.get("removewant")
 			want_beer = Wanted_Beers.objects.get(user=user_object, bdb_id=bdb_id)
 			want_beer.is_active = False
 			want_beer.save()
@@ -334,3 +334,25 @@ def notes(request):
 		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')
 		context['beer_notes'] = beer_notes    
     return render(request, 'home/notes.html', context)
+	
+def noteedit(request, id):
+    user_object = request.user
+    context['user_object'] = user_object
+    beer_note = Beer_Note.objects.get(id=id)
+    context['form'] = BeerNoteForm(instance=beer_note)
+    context['beer_note'] = beer_note
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    if request.method == 'POST':
+        form = BeerNoteForm(request.POST)
+        update_note = request.POST.get("note")
+        if form.is_valid():
+            updated_beer_note = beer_note
+            updated_beer_note.note = update_note
+            updated_beer_note.save() # Now you can send it to DB
+            return redirect('home/noteedit.html')
+    else:
+        form = BeerNoteForm()
+    return render(request, 'home/noteedit.html',context)

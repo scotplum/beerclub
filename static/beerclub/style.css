@@ -246,3 +246,8 @@ body {
 	border: none;
 	padding: 0;
 }
+
+#id_note {
+    width: 80%;
+	height: 100px;
+}
