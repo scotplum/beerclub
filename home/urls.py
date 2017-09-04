@@ -9,6 +9,8 @@ urlpatterns = [
 	url(r'^findbeer/$', views.findbeer, name='findbeer'),
 	#ex: /findbeer/ID9EJ3/
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/$', views.beer, name='beer'),
+	#ex: /findbeer/ID9EJ3/profilesheet/
+	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/profilesheet/$', views.profilesheet, name='profilesheet'),
 	#ex: /findbeer/ID9EJ3/event/
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/event/$', views.beerevent, name='beerevent'),
 	#ex: /ratings/

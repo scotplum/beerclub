@@ -1,6 +1,10 @@
 from django import forms 
 from django.forms import ModelForm 
-from models import Favorite_Beers, Wanted_Beers
+from models import Favorite_Beers, Wanted_Beers, Profile_Sheet, Beer_Attribute
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.models import ModelMultipleChoiceField
 
 from crispy_forms.helper import FormHelper 
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field, Fieldset 
@@ -19,4 +23,15 @@ class findbeerForm(forms.Form):
          
         self.helper.add_input(Submit('submit', 'Beer Me')) 
         super(findbeerForm, self).__init__(*args, **kwargs)
-		
+
+class CustomSelectMultiple(ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return "%s" %(obj.attribute)
+
+class ProfileSheetForm(forms.ModelForm):
+    beer_attribute = CustomSelectMultiple(widget=forms.CheckboxSelectMultiple, queryset=Beer_Attribute.objects.all())
+    class Meta:
+        model = Profile_Sheet
+        widgets = {"beer_attribute":CheckboxSelectMultiple(),}
+        exclude = ('user','bdb_id',)
+	

@@ -76,3 +76,60 @@ class BeerNoteForm(ModelForm):
     class Meta:
         model = Beer_Note
         fields = ['note']
+		
+class Beer_Color(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
+	bdb_id			= models.CharField(max_length=20)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.bdb_id)
+		
+class Beer_Head(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
+	bdb_id			= models.CharField(max_length=20)
+	persistent 		= models.BooleanField(default=False)
+	rocky 			= models.BooleanField(default=False)
+	large 			= models.BooleanField(default=False)
+	fluffy 			= models.BooleanField(default=False)
+	dissipating 	= models.BooleanField(default=False)
+	lingering 		= models.BooleanField(default=False)
+	white 			= models.BooleanField(default=False)
+	offwhite 		= models.BooleanField(default=False)
+	tan 			= models.BooleanField(default=False)
+	frothy 			= models.BooleanField(default=False)
+	delicate 		= models.BooleanField(default=False)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.bdb_id)
+
+		
+class Beer_Attribute_Category(models.Model):
+	category		= models.CharField(max_length=50)
+	
+	def __str__(self):
+		return str(self.category)
+
+		
+class Beer_Attribute_Section(models.Model):
+	section			= models.CharField(max_length=50)
+	category		= models.ForeignKey(Beer_Attribute_Category, on_delete=models.CASCADE)
+	
+	def __str__(self):
+		return str(self.section) + ' | ' + str(self.category)
+
+		
+class Beer_Attribute(models.Model):
+	attribute 		= models.CharField(max_length=50)
+	section			= models.ForeignKey(Beer_Attribute_Section, on_delete=models.CASCADE)		
+	
+	def __str__(self):
+		return str(self.attribute) + ' | ' + str(self.section)
+	
+		
+class Profile_Sheet(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
+	bdb_id			= models.CharField(max_length=20)
+	beer_attribute 	= models.ManyToManyField(Beer_Attribute, blank=True)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.bdb_id)

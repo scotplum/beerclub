@@ -9,32 +9,37 @@
 	<div class="w3-beer w3-container">
 		<h3 class="w3-center top-beer"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
 	</div>
-	<div class="w3-container w3-center beerpadding">
-		<div class="w3-display-container beerpadding">
-			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
-			<form name="beerForm" class="w3-center w3-padding-bottom w3-padding-top w3-margin-bottom" method="Post">
+			<form name="beerForm" class="w3-center w3-padding-top w3-margin-bottom" method="Post">
 			{% if fav_beer_check %}
 				{% if fav_beer.is_active %}
-			<button class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>
+			<button title="Remove from Favorites" class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-star fafaspace" aria-hidden="true"></i>
 </button>
 				{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>			
+			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="fav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>
+			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="fav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>
 			{% endif %}
 			{% if want_beer_check %}
 				{% if want_beer.is_active %}
-			<button class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink"  name="removewant" value="y" type="submit">don't want</button>			
+			<button title="Remove from Wanted" class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink"  name="removewant" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-shopping-basket fafaspace" aria-hidden="true"></i>
+</button>			
 				{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatewant" value="y" type="submit">want</button>						
+			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatewant" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+</button>						
 				{% endif %}
 			{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="want" value="y" type="submit">want</button>
+			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="want" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+</button>
 			{% endif %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="event" value="y" type="submit">add to event</button>
+			<button title="Add to Event" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+</button>
 			{% csrf_token %}
 			</form>
+	<a class="w3-padding-bottom w3-large" href="{{ urlprofilesheet }}">Profile Sheet</a>
+	<div class="w3-container w3-center w3-padding-top">
+		<div class="w3-display-container">
+			<div class="w3-center w3-padding-bottom">{% ratings score_beer %}</div>
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
@@ -43,7 +48,11 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if data.description %}
+				{% if data.description|length < 100 %}
+				<div class="content-base content-description" style="text-align: center;">{{ data.description }}</div>
+				{% else %}
 				<div class="content-base content-description" style="text-align: left;">{{ data.description }}</div>
+				{% endif %}
 				{% endif %}
 				{% if category.name %}
 				<div class="w3-container w3-padding-top content-base">
@@ -70,7 +79,11 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if brewery.description %}
+				{% if brewery.description|length < 100 %}
+				<div class="content-base content-description" style="text-align: center;">{{ brewery.description }}</div>
+				{% else %}
 				<div class="content-base content-description" style="text-align: left;">{{ brewery.description }}</div>
+				{% endif %}
 				{% endif %}
 				<div class="w3-container w3-padding-top content-base">
 					{% if brewery.established %}
@@ -89,7 +102,8 @@
 		{% if note.is_active == True %}
 		<div class="homebeer">
 		<div class="w3-row w3-padding whitenote">
-		<div class="" style="text-align: center;"><i>{{ note.note }}</i></div>
+		<a href="/home/notes/{{ note.id }}/" class="w3-right"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+		<div class="w3-padding-right w3-padding-bottom" style="text-align: left;"><i>{{ note.note }}</i></div>
 		<div class="w3-center w3-small w3-padding-bottom"> - {{ note.date_added }} - </div>
 		</div>
 		</div>

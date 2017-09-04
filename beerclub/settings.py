@@ -34,6 +34,11 @@ ALLOWED_HOSTS = [
 	'10.100.1.185',
 ]
 
+INTERNAL_IPS = [
+	'127.0.0.1',
+	'192.168.0.119',
+]
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -72,6 +77,7 @@ INSTALLED_APPS = [
 	'localflavor',
 	'star_ratings',
 	'club',
+	'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'beerclub.urls'
@@ -159,7 +166,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+#    '/var/www/static/',
 ]
 
 STAR_RATINGS_RANGE = 10

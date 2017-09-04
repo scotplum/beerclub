@@ -15,7 +15,7 @@
 		{% for note in beer_notes %}
 		{% if note.is_active %}
 		<div class="content-base">				
-			<div class="removelink"><a class="w3-right" href="/">x</a></div>
+			<a href="/home/notes/{{ note.id }}/" class="w3-right w3-tiny"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 			<div class="content-1"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }} <span class="content-2">{{ note.beer_company }}</span></a></div>
 			<div class="content-1 w3-small">{{ note.note }}</div>				
 			<div class="content-2 w3-tiny"><b>{{ note.date_added }}</b></div>

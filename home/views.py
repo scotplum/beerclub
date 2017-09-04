@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm
+from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm, Beer_Color, Beer_Head, Profile_Sheet
 from event.models import Event, Event_Beer
-from forms import findbeerForm
+from forms import findbeerForm, ProfileSheetForm
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
 import requests
@@ -89,6 +89,8 @@ def findbeer(request):
 def beer(request, bdb_id):
     user_object = request.user
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
+    urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'
+    context['urlprofilesheet'] = urlprofilesheet
 	#Retrieve Beer Using ID From BreweryDB
     beer = requests.get(urlbeer).json()
     image_url = {}
@@ -197,7 +199,8 @@ def beer(request, bdb_id):
 		else:
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
-	
+
+@login_required	
 def beerevent(request, bdb_id):
     user_object = request.user 
     context['user_object'] = user_object 
@@ -238,7 +241,8 @@ def beerevent(request, bdb_id):
 			else:
 				return render(request, 'fun.html', context)
     return render(request, 'home/beerevent.html', context)
-	
+
+@login_required	
 def tasters(request):
     user_object = request.user 
     context['user_object'] = user_object 
@@ -249,7 +253,8 @@ def tasters(request):
     tasters = User.objects.filter(is_active=True)
     context['tasters'] = tasters
     return render(request, 'home/tasters.html', context)
-	
+
+@login_required	
 def taster(request, id):
     context = {}
     user_object = User.objects.get(id=id)
@@ -300,7 +305,8 @@ def beerscore(request, bdb_id):
     context['score_beer'] = score_beer
     return render(request, 'home/beerscore.html', context)
 """
-	
+
+@login_required	
 def ratings(request):
     user_object = request.user
     context['user_object'] = user_object
@@ -320,7 +326,8 @@ def ratings(request):
 			user_beer_rating.append(rated_beer)
 		context['user_beer_ratings'] = user_beer_rating
     return render(request, 'home/ratings.html', context)
-	
+
+@login_required	
 def notes(request):
     user_object = request.user
     context['user_object'] = user_object
@@ -334,8 +341,10 @@ def notes(request):
 		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')
 		context['beer_notes'] = beer_notes    
     return render(request, 'home/notes.html', context)
-	
+
+@login_required	
 def noteedit(request, id):
+    context['update'] = False
     user_object = request.user
     context['user_object'] = user_object
     beer_note = Beer_Note.objects.get(id=id)
@@ -351,8 +360,69 @@ def noteedit(request, id):
         if form.is_valid():
             updated_beer_note = beer_note
             updated_beer_note.note = update_note
-            updated_beer_note.save() # Now you can send it to DB
-            return redirect('home/noteedit.html')
+            updated_beer_note.save()
+            context['update'] = True
+            beer_note = Beer_Note.objects.get(id=id)
+            context['beer_note'] = beer_note
+            context['form'] = BeerNoteForm(instance=beer_note)
+            return render(request, 'home/noteedit.html', context)
     else:
         form = BeerNoteForm()
     return render(request, 'home/noteedit.html',context)
+
+@login_required	
+def profilesheet(request, bdb_id):
+	user_object = request.user
+	context['user_object'] = user_object
+	beer_info = Beer_Rating.objects.get(bdb_id=bdb_id)
+	context['beer_info'] = beer_info
+	beer_head_check = Beer_Head.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+	if not beer_head_check:
+		beer_head_db = Beer_Head(bdb_id=bdb_id, user=user_object)
+		beer_head_db.save()
+	beer_head = Beer_Head.objects.filter(bdb_id=bdb_id, user=user_object).values()
+	beer_head_save = Beer_Head.objects.get(bdb_id=bdb_id, user=user_object)
+	for list in beer_head:
+		beer_head_iter = list.iteritems()
+		beer_head_false = {}
+		beer_head_true = {}
+		for k, v in beer_head_iter:
+			if v is False:
+				beer_head_false[k] = v
+			elif v is True:
+				beer_head_true[k] = v
+	test = beer_head_true
+	context['beer_head_true'] = beer_head_true
+	context['beer_head_false'] = beer_head_false
+	beer_head_fields = Beer_Head._meta.get_fields()
+	context['beer_head_fields'] = beer_head_fields
+	profile_sheet_check = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).exists()
+	if profile_sheet_check:
+		form = ProfileSheetForm(instance=Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object))
+	context['form'] = form
+	if request.method == "POST": 
+		rp = request.POST
+		context['rp'] = rp
+		if 'remove_head' in rp:
+			rp_head = request.POST.get('remove_head')
+			head_update = {rp_head : False}
+			for upd in head_update:
+				setattr(beer_head_save, upd, head_update[upd])
+			beer_head_save.save()
+			return redirect('/home/findbeer/' + bdb_id + '/profilesheet/')
+		elif 'add_head' in rp:
+			rp_head = request.POST.get('add_head')
+			head_update = {rp_head : True}
+			for upd in head_update:
+				setattr(beer_head_save, upd, head_update[upd])
+			beer_head_save.save()
+			return redirect('/home/findbeer/' + bdb_id + '/profilesheet/')
+		if 'Feel' in rp:
+			rp_feel = request.POST.get('Feel')
+			context['rp_feel'] = rp_feel
+			return redirect('/home/findbeer/' + bdb_id + '/profilesheet/')
+		if 'Carbonation' in rp:
+			rp_carbonation = request.POST.get('Carbonation')
+			context['rp_carbonation'] = rp_carbonation
+			return redirect('/home/findbeer/' + bdb_id + '/profilesheet/')
+	return render(request, 'home/profilesheet.html', context)
