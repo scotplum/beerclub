@@ -163,6 +163,17 @@ body {
 	text-decoration: none;
 }
 
+.ps-section{
+	font-size: 150%;
+	padding: 0 0 0 0;
+	margin-left: 3%;
+	margin-right: 3%;
+	color: navy;
+	text-decoration: none;
+	font-weight: 900;
+	text-shadow: 0px 0px 1px tomato;
+}
+
 .content-1-nm{
 	font-size: 90%;
 	color: navy;

@@ -1,5 +1,5 @@
 from django import forms 
-from django.forms import ModelForm 
+from django.forms import ModelForm, inlineformset_factory
 from models import Favorite_Beers, Wanted_Beers, Profile_Sheet, Beer_Attribute
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
