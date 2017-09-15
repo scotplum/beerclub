@@ -4,6 +4,7 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
+{% load cache %}
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container">
@@ -31,7 +32,7 @@
 						</div>
 					</div>
 					{% endif %}
-				{% endfor %}<div class="w3-padding-top"><button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" type="submit">Save Profile Sheet</button></div>
+				{% endfor %}<div class="w3-padding-top"><button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" type="submit">Save Profile</button></div>
 			</div>
 			{% endfor %}
 			<br>

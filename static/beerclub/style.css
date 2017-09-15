@@ -13,6 +13,18 @@ body {
 	border-bottom: 2px solid navy; 
 }
 
+.topmenu-announcement {
+	background-color: tomato;
+	color: snow;
+	font-weight: bold;
+	margin: 0;
+	padding-top: .5%;
+	padding-bottom: .5%;
+	padding-left: 0;
+	padding-right: 0;
+	font-size: 100%;
+}
+
 .w3-beer{
 	color: snow;
 	background-color: tomato;

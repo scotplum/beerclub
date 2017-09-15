@@ -13,10 +13,10 @@
 			<h3 class="beerheading">announcements</h3>
 				{% if crowd_announcement_check %}
 				{% for announcement in crowd_announcement %}
-				<div class="homebeer w3-padding-top">
+				<div class="homebeer">
+					<h3 class="w3-center topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}</h3>
 					<div class="content-base">
-						<div class="content-wrapper content-1 club-content-span">{{ announcement.announcement }}</div>
-						<div class="w3-small w3-center club-content-b w3-padding-top">{{ announcement.date_added|date:'n/j/y'|lower }}</div>
+						<div class="content-wrapper content-1 club-content-span w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
 					</div>
 				</div>
 				{% endfor %}

@@ -18,7 +18,7 @@
 			<div class="content-blankstate content-1">Try finding a favorite in the search box above</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">			
-			{% for beer in favorite|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% for beer in favorite %}
 			{% if beer.is_active == True %}
 			<div class="content-base">
 				<form name="homebeerForm" class="w3-right" method="Post">
@@ -37,7 +37,7 @@
 			<div class="content-blankstate content-1">Hint: "Beer Me"</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">
-			{% for beer in wanted|dictsort:"beer_name"|dictsort:"beer_company" %}
+			{% for beer in wanted %}
 			{% if beer.is_active == True %}
 			<div class="content-base">
 				<form name="homebeerForm" class="w3-right" method="Post">
