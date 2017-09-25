@@ -8,6 +8,7 @@ from star_ratings.models import UserRating, Rating
 from django.utils import timezone
 from django.utils.timezone import datetime
 from operator import itemgetter
+from beerclub.decorators import user_is_admin
 
 # Create your views here.
 context = {}
@@ -29,7 +30,7 @@ def index(request):
 		context['clubs'] = clubs
 		if club_count == 1:
 			club = Club_User.objects.get(user=user_object) 
-			club_id = club.id
+			club_id = club.club.id
 			return redirect('/club/' + str(club_id) + '/')
     return render(request, 'club/index.html', context)  
 
@@ -46,8 +47,10 @@ def club(request, id):
     crowd_announcement_check = Club_Announcement.objects.filter(club=crowd).exists()
     club_event_check = Club_Event.objects.filter(club=crowd).exists()
     club_user_check = Club_User.objects.filter(club=crowd).exists()
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['club_admin'] = club_admin
+    context['club_admin_check'] = club_admin_check
     context['beer_rating_check'] = beer_rating_check
     context['crowd_announcement_check'] = crowd_announcement_check
     context['club_event_check'] = club_event_check
@@ -100,3 +103,88 @@ def club(request, id):
     club_beer_sorted = sorted(club_beer, key=itemgetter('avg'), reverse=True)[:10]
     context['club_beer_sorted'] = club_beer_sorted
     return render(request, 'club/club.html', context) 
+	
+@login_required
+@user_is_admin
+def manage(request, id):
+    user_object = request.user
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    context['user_object'] = user_object
+    club_check = Club_User.objects.filter(user=user_object).exists()
+    context['club_check'] = club_check
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/manage.html', context)  
+
+@login_required
+@user_is_admin	
+def announcement(request, id):
+    user_object = request.user
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    context['user_object'] = user_object
+    club_check = Club_User.objects.filter(user=user_object).exists()
+    context['club_check'] = club_check
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/announcement.html', context)  
+
+@login_required
+@user_is_admin	
+def about(request, id):
+    user_object = request.user
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    context['user_object'] = user_object
+    club_check = Club_User.objects.filter(user=user_object).exists()
+    context['club_check'] = club_check
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/about.html', context)  
+
+@login_required
+@user_is_admin	
+def membership(request, id):
+    user_object = request.user
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    context['user_object'] = user_object
+    club_check = Club_User.objects.filter(user=user_object).exists()
+    context['club_check'] = club_check
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/membership.html', context)  
+
+@login_required
+@user_is_admin	
+def event(request, id):
+    user_object = request.user
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    context['user_object'] = user_object
+    club_check = Club_User.objects.filter(user=user_object).exists()
+    context['club_check'] = club_check
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/event.html', context)  

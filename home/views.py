@@ -24,7 +24,7 @@ def index(request):
     beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
     context['beer_notes_check'] = beer_notes_check
     if beer_notes_check:
-		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')[:8]
+		beer_notes = Beer_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8]
 		context['beer_notes'] = beer_notes    
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
@@ -78,8 +78,11 @@ def findbeer(request):
              
             #Retrieve Search Result From BreweryDB 
              
-            beersearch = requests.get(beersearch_url).json() 
-            context['beersearch'] = beersearch['data']			
+            beersearch = requests.get(beersearch_url).json()
+            if 'data' in beersearch:
+				context['beersearch'] = beersearch['data']
+            else:
+				context['beersearch'] = 'No Beer'
             return render(request, 'home/findbeer.html', context) 
     else: 
         form = findbeerForm() 
@@ -226,11 +229,14 @@ def beerevent(request, bdb_id):
 			beer_company = brew['nameShortDisplay']
 		else: 
 			beer_company = brew['name']
-    context['data'] = data
-    context['style'] = style
-    context['category'] = style['category']
-    beer_name = data['name']
-    beer_category = style['name']
+    if data:
+		context['data'] = data
+		context['style'] = style
+		context['category'] = style['category']
+		beer_name = data['name']
+		beer_category = style['name']
+    else:
+		context['data'] = 'We could not locate your beer'
     if request.method == "POST": 
 		rp = request.POST
 		for event in events:
@@ -345,6 +351,7 @@ def notes(request):
 
 @login_required	
 def noteedit(request, id):
+    context = {}
     context['update'] = False
     user_object = request.user
     context['user_object'] = user_object
@@ -358,6 +365,12 @@ def noteedit(request, id):
     if request.method == 'POST':
         form = BeerNoteForm(request.POST)
         update_note = request.POST.get("note")
+        post_info = request.POST
+        if 'removenote' in post_info:
+			updated_beer_note = beer_note
+			updated_beer_note.is_active = False
+			updated_beer_note.save()
+			return redirect('/home/')
         if form.is_valid():
             updated_beer_note = beer_note
             updated_beer_note.note = update_note

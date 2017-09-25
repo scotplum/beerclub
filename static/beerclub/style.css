@@ -18,11 +18,12 @@ body {
 	color: snow;
 	font-weight: bold;
 	margin: 0;
-	padding-top: .5%;
-	padding-bottom: .5%;
+	padding-top: .25%;
+	padding-bottom: .25%;
 	padding-left: 0;
 	padding-right: 0;
-	font-size: 100%;
+	font-size: 85%;
+	text-decoration: none;
 }
 
 .w3-beer{
@@ -273,6 +274,11 @@ body {
 #id_note {
     width: 80%;
 	height: 100px;
+}
+
+#beernoteinput {
+	width: 78%;
+	height: 30px;
 }
 
 .fafaspace{

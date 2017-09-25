@@ -5,6 +5,7 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load ratings %}
+{% load cache %}
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container">
 		<h3 class="w3-center top-beer"><b>{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</b></h3>
@@ -40,6 +41,7 @@
 	<div class="w3-container w3-center w3-padding-top">
 		<div class="w3-display-container">
 			<div class="w3-center w3-padding-bottom">{% ratings score_beer %}</div>
+			{% cache 2500 beerdata %}
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
@@ -94,6 +96,7 @@
 					{% endif %}
 				</div>
 			</div>
+			{% endcache %}
 		</div>
 	</div>
 		<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
@@ -112,8 +115,8 @@
 		</div>
 		<div class="w3-padding-top w3-margin-top">
 			<form name="beernoteForm" class="w3-center w3-padding-right" method="Post">
+			<input type="text" id="beernoteinput" class="w3-round w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="beernotevalue">
 			<button class="w3-button w3-indigo w3-round w3-small w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="beernote" value="y" type="submit">Add Note</button>
-			<input type="text" class="w3-center w3-round w3-border w3-border-black w3-hover-white" style="text-shadow:1px 0 0" name="beernotevalue">
 			{% csrf_token %}
 			</form>
 		</div>

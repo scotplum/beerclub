@@ -7,22 +7,22 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-padding-bottom">
-		{% if update == True %}
-		<h3 class="w3-center navytext"><b>UPDATED: Edit Note</b></h3>
-		{% else %}
 		<h3 class="w3-center"><b>Edit Note</b></h3>
-		{% endif %}
 	</div>
 	<div class="w3-large w3-padding">				
 		<div class="content-1 w3-large"><a href="/home/findbeer/{{ beer_note.bdb_id }}/">{{ beer_note.beer_name }} <span class="content-2">{{ beer_note.beer_company }}</span></a></div>			
 		<div class="content-2 w3-small"><b>{{ beer_note.date_added }}</b></div>
+		{% if update == True %}
+		<div class="content-3 w3-small"><b>NOTE UPDATED</b></div>
+		{% endif %}
 	</div>
 	<form method="post" action="" class="w3-padding">
 	<div class="formdescription">{{ form }}</div>
 	{% csrf_token %}<br>
 	<input type="submit" value="Update Note"/>
-	<input type="submit" value="Remove Note"/>
+	<input type="submit" name="removenote" value="Remove Note"/>
 	</form>
 </div>
+<div>{{ post_info }}</div>
 
 {% endblock content %}

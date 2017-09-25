@@ -6,15 +6,23 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container">
-		<h3 class="w3-center"><b>{{ crowd.name }}</b></h3>
+		<h3 class="w3-center"><b>{{ crowd.name }}</b>
+		{% if club_admin_check %}
+			<span class="w3-tiny"><a class="topmenu-announcement" href="manage/">manage</a></span>
+		{% endif %}
+		</h3>
 	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
-			<h3 class="beerheading">announcements</h3>
+			<h3 class="beerheading">announcements
+			{% if club_admin_check %}
+				<span><a class="w3-right" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			{% endif %}
+			</h3>
 				{% if crowd_announcement_check %}
 				{% for announcement in crowd_announcement %}
 				<div class="homebeer">
-					<h3 class="w3-center topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}</h3>
+					<h3 class="w3-center topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}					</h3>
 					<div class="content-base">
 						<div class="content-wrapper content-1 club-content-span w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
 					</div>
@@ -25,7 +33,11 @@
 				{% endif %}
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="w3-padding-left beerheading">about<span><a class="w3-right"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span></h3>
+			<h3 class="w3-padding-left beerheading">about
+				{% if club_admin_check %}
+				<span><a class="w3-right" href='manage/about/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}			
+			</h3>
 			<div class="homebeer w3-padding-top">
 				<div class="">
 					<div class="club-content-span content-base content-1-nm">Established in 2017</div>				
@@ -47,7 +59,11 @@
 	</div>	
 	<div class="w3-container w3-padding">
 			<div class="w3-cell w3-half w3-left w3-padding-bottom">
-				<h3 class="beerheading">membership</h3>
+				<h3 class="beerheading">membership
+				{% if club_admin_check %}
+					<span><a class="w3-right" href='manage/membership/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}				
+				</h3>
 					<div class="homebeer w3-padding-top">
 						<div class="">
 							<div class="">					
@@ -63,7 +79,11 @@
 					</div>
 			</div>
 			<div class="w3-cell w3-half w3-right w3-padding-bottom">
-				<h3 class="beerheading">events</h3>
+				<h3 class="beerheading">events
+				{% if club_admin_check %}
+					<span><a class="w3-right" href='manage/event/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}			
+				</h3>
 				<div class="homebeer w3-padding-top">
 						{% if club_event_check %}
 						{% for event in club_event %}

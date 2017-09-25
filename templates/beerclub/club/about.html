@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-beer w3-container w3-padding-bottom w3-card">
+		<h3 class="w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">Manage {{ crowd }} <span class="w3-tiny"><a class="topmenu-announcement" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
+	</div>
+	<h3 class="w3-center beerheading">About</h3>
+	<div class="w3-container w3-padding-bottom homebeer">
+		<div class="w3-center w3-huge content-1 w3-padding">
+		TEST
+		</div>
+	</div><br>
+	<div><a class="topmenu-announcement w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+</div>
+{% endblock content %}
