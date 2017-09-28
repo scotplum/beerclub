@@ -9,11 +9,21 @@
 		<h3 class="w3-center" style="font-weight: bold;">Manage {{ crowd }} <span class="w3-tiny"><a class="topmenu-announcement" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
 	</div>
 	<h3 class="w3-center beerheading">Announcements</h3>
-	<div class="w3-container w3-padding-bottom homebeer">
-		<div class="w3-center w3-huge content-1 w3-padding">
-		TEST
+		{% if crowd_announcement_check %}
+		{% for announcement in crowd_announcement %}
+		<div class="homebeer">
+			<h3 class="w3-center w3-padding-left topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
+			<span><a class="w3-right w3-padding-right" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			</h3>
+			<div class="content-base">
+				<div class="content-wrapper content-1 club-content-span w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
+				<div>Edit</div>
+			</div>
 		</div>
-	</div>
-	<div><a class="topmenu-announcement w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+		{% endfor %}
+		{% else %}
+		<div>No announcement yet...</div>
+		{% endif %}
+	<div class="w3-padding-top w3-margin-top"><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
 </div>
 {% endblock content %}

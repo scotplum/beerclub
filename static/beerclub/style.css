@@ -167,6 +167,17 @@ body {
 	padding-right: 1.5%;
 }
 
+.content-base-navyborder{
+	color:navy;
+	background-color:snow;
+	padding: 1%;
+	text-align: left;
+	font-weight: bold;
+	border-bottom: 1px solid navy;
+	text-align: center;
+	padding-right: 1.5%;
+}
+
 .content-1{
 	font-size: 90%;
 	padding: 0 0 0 0;
@@ -276,6 +287,15 @@ body {
 	height: 100px;
 }
 
+#id_bio {
+	width: 100%;
+	height: 30px;
+}
+
+#id_name {
+	width: 70%;
+}
+
 #beernoteinput {
 	width: 78%;
 	height: 30px;
@@ -308,4 +328,9 @@ ul
 li
 {
 	display: inline-block;
+}
+
+input
+{
+	text-align: center;
 }

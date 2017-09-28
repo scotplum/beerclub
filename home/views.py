@@ -91,6 +91,7 @@ def findbeer(request):
 
 @login_required
 def beer(request, bdb_id):
+    context = {}
     user_object = request.user
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
     urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'

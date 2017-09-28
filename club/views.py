@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Club, Club_Admin, Club_User, Club_Announcement, Club_Event
+from forms import ClubForm
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
@@ -134,6 +135,11 @@ def announcement(request, id):
     context['club_check'] = club_check
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
+    crowd_announcement_check = Club_Announcement.objects.filter(club=crowd).exists()
+    context['crowd_announcement_check'] = crowd_announcement_check
+    if crowd_announcement_check:
+		crowd_announcement = Club_Announcement.objects.filter(club=crowd)
+		context['crowd_announcement'] = crowd_announcement
     club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
     context['club_admin_check'] = club_admin_check
     return render(request, 'club/announcement.html', context)  
@@ -153,12 +159,31 @@ def about(request, id):
     context['crowd'] = crowd
     club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
     context['club_admin_check'] = club_admin_check
+    context['form'] = ClubForm(instance=crowd)
+    if request.method == 'POST':
+        form = ClubForm(request.POST)
+        post_info = request.POST
+        if form.is_valid():
+            updated_crowd = crowd
+            updated_crowd.bio = post_info['bio']
+            updated_crowd.name = post_info['name']
+            updated_crowd.city = post_info['city']
+            updated_crowd.state = post_info['state']
+            updated_crowd.annual_fee = post_info['annual_fee']
+            if 'is_public' in post_info:
+				updated_crowd.is_public = True
+            else:
+				updated_crowd.is_public = False
+            updated_crowd.save()
+            context['form'] = ClubForm(instance=crowd)
+            return redirect('/club/' + id + '/')
     return render(request, 'club/about.html', context)  
 
 @login_required
 @user_is_admin	
 def membership(request, id):
     user_object = request.user
+    crowd = Club.objects.get(id=id)
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
     if beer_banner_check:
 		beer_banner = Beer_Banner.objects.get(user=user_object)	
@@ -166,7 +191,10 @@ def membership(request, id):
     context['user_object'] = user_object
     club_check = Club_User.objects.filter(user=user_object).exists()
     context['club_check'] = club_check
-    crowd = Club.objects.get(id=id)
+    club_user_check = Club_User.objects.filter(club=crowd).exists()
+    if club_user_check:
+		club_user = Club_User.objects.filter(club=crowd)
+		context['club_user'] = club_user
     context['crowd'] = crowd
     club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
     context['club_admin_check'] = club_admin_check

@@ -12,6 +12,11 @@
 		{% endif %}
 		</h3>
 	</div>
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
+		</div>
+	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
 			<h3 class="beerheading">announcements
@@ -40,17 +45,17 @@
 			</h3>
 			<div class="homebeer w3-padding-top">
 				<div class="">
-					<div class="club-content-span content-base content-1-nm">Established in 2017</div>				
+					<div class="club-content-span content-base content-1-nm">Established: {{ crowd.established }}</div>				
 					<div class="club-content-span content-base content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
 					{% if crowd.is_public %}
 					<div class="club-content-span content-base content-1-nm">Applications open to the public</div>
 					{% else %}
 					<div class="club-content-span content-base content-1-nm">Invitations by email only</div>
 					{% endif %}
-					<div class="club-content-span content-base content-1-nm">Annual Membership Fee: $0</div>
+					<div class="club-content-span content-base content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
 					<div class="club-content-span content-base content-1-nm">Aministered by 
 					{% for admin in club_admin %}
-					<span><a href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
+					<br><span><a href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
 					{% endfor %}					
 					</div>					
 				</div>
