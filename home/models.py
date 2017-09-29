@@ -111,6 +111,10 @@ class Beer_Head(models.Model):
 		
 class Beer_Attribute_Category(models.Model):
 	category		= models.CharField(max_length=50)
+	page_order		= models.IntegerField(default=0)
+	
+	class Meta:
+		ordering = ['page_order']
 	
 	def __str__(self):
 		return str(self.category)

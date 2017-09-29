@@ -1,6 +1,6 @@
 from django import forms 
 from django.forms import ModelForm, inlineformset_factory
-from models import Club
+from models import Club, Club_Announcement
 from django.forms.widgets import CheckboxSelectMultiple
 from django.forms.models import ModelMultipleChoiceField
 
@@ -14,3 +14,7 @@ class ClubForm(forms.ModelForm):
         model = Club
         exclude = ('date_added',)
 	
+class ClubAnnouncementForm(forms.ModelForm):
+	class Meta:
+		model = Club_Announcement
+		exclude = ('expiration_date',)

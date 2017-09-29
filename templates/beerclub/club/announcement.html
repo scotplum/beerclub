@@ -10,20 +10,22 @@
 	</div>
 	<h3 class="w3-center beerheading">Announcements</h3>
 		{% if crowd_announcement_check %}
-		{% for announcement in crowd_announcement %}
-		<div class="homebeer">
-			<h3 class="w3-center w3-padding-left topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
-			<span><a class="w3-right w3-padding-right" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-			</h3>
-			<div class="content-base">
-				<div class="content-wrapper content-1 club-content-span w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
-				<div>Edit</div>
-			</div>
+		<form method="post" action="" class="">
+		{{ formset.management_form }}
+		{% for form in formset %}
+		<div class="homebeer content-base">
+		{% for hidden in form.hidden_fields %}
+			{{ hidden }}
+		{% endfor %}
+		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile" style="text-align:center;"></div><div class="content-3" style="text-align:center;">{{ form.announcement }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile" style="text-align:center;">Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div></div>
+		{% csrf_token %}
 		</div>
 		{% endfor %}
-		{% else %}
-		<div>No announcement yet...</div>
 		{% endif %}
+		<br><input type="submit" value="Update / Add"/>
+		</form>
 	<div class="w3-padding-top w3-margin-top"><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
 </div>
 {% endblock content %}

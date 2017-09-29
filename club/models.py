@@ -17,7 +17,7 @@ class Club(models.Model):
     is_public		= models.BooleanField(default=False)
     established		= models.DateField(default=datetime.date.today)
     annual_fee		= models.DecimalField(max_digits=6, decimal_places=2)
-    bio				= models.CharField(max_length=1500)
+    bio				= models.TextField(max_length=1000)
 
     def __str__(self):
 		return self.name
@@ -41,10 +41,10 @@ class Club_User(models.Model):
 		
 class Club_Announcement(models.Model):
 	club			= models.ForeignKey(Club, on_delete=models.CASCADE)
-	announcement	= models.CharField(max_length=1000)
+	announcement	= models.TextField(max_length=1000)
 	is_active		= models.BooleanField(default=True)
-	expiration_date	= models.DateTimeField(auto_now_add=False)
-	date_added		= models.DateTimeField(auto_now_add=True)
+	expiration_date	= models.DateTimeField(null=True, blank=True)
+	date_added		= models.DateField(default=datetime.date.today, blank=True)
 	
 	class Meta:
 		ordering = ['-date_added']

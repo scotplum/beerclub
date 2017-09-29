@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Club, Club_Admin, Club_User, Club_Announcement, Club_Event
-from forms import ClubForm
+from forms import ClubForm, ClubAnnouncementForm
+from django.forms import modelformset_factory
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
@@ -142,6 +143,19 @@ def announcement(request, id):
 		context['crowd_announcement'] = crowd_announcement
     club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
     context['club_admin_check'] = club_admin_check
+    context['form'] = ClubAnnouncementForm(instance=crowd)
+    ClubAnnouncementFormSet = modelformset_factory(Club_Announcement, exclude=('expiration_date','club',))
+    formset = ClubAnnouncementFormSet(queryset=Club_Announcement.objects.filter(club=crowd))
+    context['formset'] = formset
+    if request.method == 'POST':
+        formset = ClubAnnouncementFormSet(request.POST, request.FILES)
+        formset.club = crowd.id
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.club = crowd
+                instance.save()
+            return redirect('/club/' + id + '/')
     return render(request, 'club/announcement.html', context)  
 
 @login_required
