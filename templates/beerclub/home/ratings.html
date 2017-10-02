@@ -9,11 +9,16 @@
 	<div class="w3-beer w3-container w3-padding-bottom">
 		<h3 class="w3-center"><b>{{ request.user.username }}'s beer ratings</b></h3>
 	</div>
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Here is a look at all of your ratings sorted by the most recent rating.
+			</div>
+		</div>
+	</div>
 	<div class="w3-center w3-padding-bottom">
 		<div class="homebeer w3-padding-top">
 			{% for rating in user_beer_ratings %}
 			<div class="content-base">
-				<div class="removelink"><a class="w3-right" href="/">x</a></div>
 				<div class="content-1 w3-padding-bottom"><a href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-2">{{ rating.beer_company }}</span></div>
 				<div class="content-3">{% ratings rating %}</div>
 			</div>

@@ -13,7 +13,14 @@ body {
 	border-bottom: 2px solid navy; 
 }
 
-.topmenu-announcement {
+.bottom-border-tomato {
+	border-bottom: 2px solid tomato; 
+	padding-bottom: .5px;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
+.topmenu-manage {
 	background-color: tomato;
 	color: snow;
 	font-weight: bold;
@@ -24,14 +31,33 @@ body {
 	padding-right: 0;
 	font-size: 85%;
 	text-decoration: none;
+	text-align: center;
 }
+
+.topmenu-announcement {
+	background-color: #cfccd6;
+	color: navy;
+	font-weight: bold;
+	margin: 0;
+	padding-top: .25%;
+	padding-bottom: .25%;
+	padding-left: 0;
+	padding-right: 0;
+	font-size: 85%;
+	text-decoration: none;
+	text-align: center;
+	border-bottom: 1px solid tomato;
+	border-top: 1px solid tomato;
+}
+
 
 .w3-beer{
 	color: snow;
 	background-color: tomato;
 	padding: 0;
 	margin: .5% 1% 1px 1%;
-	border-bottom: 2px solid navy; 
+	border-bottom: 1px solid navy; 
+	border-top: 1px solid navy; 
 	text-shadow: 0px 0px 2px navy;
 	font-weight: bold;
 	}
@@ -122,7 +148,8 @@ body {
 	padding-top: 1%;
 	font-size: 140%;
 	font-weight: 600;
-	border-bottom: 1px solid tomato;
+	border-bottom: 2px solid tomato;
+	border-top: 2px solid tomato;
 	}
 
 .loginlink{
@@ -162,7 +189,7 @@ body {
 	padding: 1%;
 	text-align: left;
 	font-weight: bold;
-	border-bottom: .5px solid tomato;
+	border-bottom: .5px solid #cfccd6;
 	text-align: center;
 	padding-right: 1.5%;
 }
@@ -180,7 +207,7 @@ body {
 
 .navybottomborder{
 	padding: 1%;
-	border-bottom: 1px solid navy;
+	border-bottom: 2px solid navy;
 	margin-left: 1%;
 	margin-right: 1%;
 }
@@ -275,6 +302,17 @@ body {
 	font-weight: 500;
 }
 
+.club-content-span-text{
+	color: navy;
+	font-weight: 500;
+	font-size: 80%;
+}
+
+.club-content-span-bold{
+	color: black;
+	font-weight: 700;
+}
+
 .dropdown{
 	font-size: 75%;
 	color: navy;
@@ -293,11 +331,17 @@ body {
 	height: 100px;
 }
 
-#id_bio {
-	width: 100%;
-	height: 80px;
+
+input[id^='id_']{	
+	padding: 5px;
+    border: solid 3px #cfccd6;
+    transition: border 0.3s;
 }
 
+input[id^='id_']:focus,
+input[id^='id_'].focus {	
+  border: solid 3px tomato;
+}
 
 #id_name {
 	width: 70%;
@@ -306,6 +350,19 @@ body {
 #beernoteinput {
 	width: 78%;
 	height: 30px;
+}
+
+textarea {
+	width: 95%;
+	height: 60px;
+	padding: 5px;
+    border: solid 3px #cfccd6;
+    transition: border 0.3s;
+}
+
+textarea:focus,
+textarea.focus {
+	border: solid 3px tomato;
 }
 
 .fafaspace{

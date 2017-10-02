@@ -5,19 +5,25 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-padding-bottom w3-card">
-		<h3 class="w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">Manage {{ crowd }} <span class="w3-tiny"><a class="topmenu-announcement" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
+	<div class="w3-beer w3-container">
+		<h3 class="w3-center"><b>Manage {{ crowd }} </b><span class="w3-tiny"><a class="topmenu-manage" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
+	</div>
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Changes made to the About managed section will be made when you click the "Update About" button near the bottom of the page.
+			</div>
+		</div>
 	</div>
 	<h3 class="w3-center beerheading">About</h3>
 		<form method="post" action="" class="">
 		<div class="homebeer">
-		<div class="w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">Crowd Biography</div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">Crowd Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">Established</div><div class="content-3" style="text-align:center;">{{ form.established }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">Annual Fee ($)</div><div class="content-3" style="text-align:center;">{{ form.annual_fee }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile" style="text-align:center;">Crowd is public</div><div class="content-3" style="text-align:center;">{{ form.is_public }}</div></div>
+		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Crowd Description</div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Crowd Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Established</div><div class="content-3" style="text-align:center;">{{ form.established }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Annual Fee ($)</div><div class="content-3" style="text-align:center;">{{ form.annual_fee }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Crowd is public</div><div class="content-3" style="text-align:center;">{{ form.is_public }}</div></div>
 		{% csrf_token %}
 		</div>
 		<br><input type="submit" value="Update About"/>

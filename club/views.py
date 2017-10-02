@@ -2,7 +2,7 @@ from __future__ import division
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Club, Club_Admin, Club_User, Club_Announcement, Club_Event
+from .models import Club, Club_User, Club_Announcement, Club_Event
 from forms import ClubForm, ClubAnnouncementForm
 from django.forms import modelformset_factory
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
@@ -45,11 +45,11 @@ def club(request, id):
 		context['banner'] = beer_banner
     context['user_object'] = user_object
     crowd = Club.objects.get(id=id)
-    club_admin = Club_Admin.objects.filter(club=crowd)
+    club_admin = Club_User.objects.filter(club=crowd).filter(is_admin=True)
     crowd_announcement_check = Club_Announcement.objects.filter(club=crowd).exists()
     club_event_check = Club_Event.objects.filter(club=crowd).exists()
     club_user_check = Club_User.objects.filter(club=crowd).exists()
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['club_admin'] = club_admin
     context['club_admin_check'] = club_admin_check
@@ -119,7 +119,7 @@ def manage(request, id):
     context['club_check'] = club_check
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
     return render(request, 'club/manage.html', context)  
 
@@ -141,7 +141,7 @@ def announcement(request, id):
     if crowd_announcement_check:
 		crowd_announcement = Club_Announcement.objects.filter(club=crowd)
 		context['crowd_announcement'] = crowd_announcement
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
     context['form'] = ClubAnnouncementForm(instance=crowd)
     ClubAnnouncementFormSet = modelformset_factory(Club_Announcement, exclude=('expiration_date','club',))
@@ -171,7 +171,7 @@ def about(request, id):
     context['club_check'] = club_check
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
     context['form'] = ClubForm(instance=crowd)
     if request.method == 'POST':
@@ -183,6 +183,7 @@ def about(request, id):
             updated_crowd.name = post_info['name']
             updated_crowd.city = post_info['city']
             updated_crowd.state = post_info['state']
+            updated_crowd.established = post_info['established']
             updated_crowd.annual_fee = post_info['annual_fee']
             if 'is_public' in post_info:
 				updated_crowd.is_public = True
@@ -206,12 +207,41 @@ def membership(request, id):
     club_check = Club_User.objects.filter(user=user_object).exists()
     context['club_check'] = club_check
     club_user_check = Club_User.objects.filter(club=crowd).exists()
+    context['club_user_check'] = club_user_check
+    club_inactive_user_check = Club_User.objects.filter(club=crowd).filter(is_active=False).exists()
+    context['club_inactive_user_check'] = club_inactive_user_check
     if club_user_check:
 		club_user = Club_User.objects.filter(club=crowd)
 		context['club_user'] = club_user
     context['crowd'] = crowd
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
+    if request.method == "POST": 
+		rp = request.POST
+		if 'inactivate' in rp:
+			member_id = request.POST.get("inactivate")
+			club_member = Club_User.objects.get(id=member_id, club=crowd)
+			club_member.is_active = False
+			club_member.save()
+			return redirect('/club/' + id + '/manage/membership/')
+		elif 'setactive' in rp:
+			member_id = request.POST.get("setactive")
+			club_member = Club_User.objects.get(id=member_id, club=crowd)
+			club_member.is_active = True
+			club_member.save()
+			return redirect('/club/' + id + '/manage/membership/')
+		elif 'removeadmin' in rp:
+			member_id = request.POST.get("removeadmin")
+			club_member = Club_User.objects.get(id=member_id, club=crowd)
+			club_member.is_admin = False
+			club_member.save()
+			return redirect('/club/' + id + '/manage/membership/')
+		elif 'addadmin' in rp:
+			member_id = request.POST.get("addadmin")
+			club_member = Club_User.objects.get(id=member_id, club=crowd)
+			club_member.is_admin = True
+			club_member.save()
+			return redirect('/club/' + id + '/manage/membership/')
     return render(request, 'club/membership.html', context)  
 
 @login_required
@@ -227,6 +257,6 @@ def event(request, id):
     context['club_check'] = club_check
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
-    club_admin_check = Club_Admin.objects.filter(club=crowd).filter(user=user_object).exists()
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
     return render(request, 'club/event.html', context)  

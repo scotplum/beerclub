@@ -6,7 +6,14 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container">
-		<h3 class="w3-center" style="font-weight: bold;">Manage {{ crowd }} <span class="w3-tiny"><a class="topmenu-announcement" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
+		<h3 class="w3-center" style="font-weight: bold;">Manage {{ crowd }} <span class="w3-tiny"><a class="topmenu-manage" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
+	</div>
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: left;">Any changes or additions made will take place when you click the Update / Add button at the bottom of the page. Remove announcements from the crowd page by unchecking "Active" on an announcement.  
+			You may add a new announcement by completing the empty announcement form at the bottom.  Announcements are sorted on the crowd and manage pages by announcement date (most recent to oldest).
+			</div>
+		</div>
 	</div>
 	<h3 class="w3-center beerheading">Announcements</h3>
 		{% if crowd_announcement_check %}
@@ -17,9 +24,9 @@
 		{% for hidden in form.hidden_fields %}
 			{{ hidden }}
 		{% endfor %}
-		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile" style="text-align:center;"></div><div class="content-3" style="text-align:center;">{{ form.announcement }}</div></div>
-		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile" style="text-align:center;">Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
-		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div></div>
+		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Announcement</div><div class="content-3" style="text-align:center;">{{ form.announcement }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
 		{% csrf_token %}
 		</div>
 		{% endfor %}

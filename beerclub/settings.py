@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
 	'127.0.0.1',
 	'localhost',
 	'0.0.0.0',
-	'5abfa205.ngrok.io',
+	'589cbfef.ngrok.io',
 	'10.100.1.185',
 ]
 
@@ -180,3 +180,4 @@ STAR_RATINGS_STAR_HEIGHT = 28
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_SIGNUP_FORM_CLASS = 'home.forms.SignupForm' 

@@ -35,6 +35,10 @@ class Club_User(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
 	club			= models.ForeignKey(Club, on_delete=models.CASCADE)
 	is_active 		= models.BooleanField(default=True)
+	is_admin		= models.BooleanField(default=False)
+	
+	class Meta:
+		ordering = ['user__last_name']
 
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.club)
