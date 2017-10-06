@@ -13,7 +13,8 @@
 	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Welcome Home
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">I am a firm believer in the people. If given the truth, they can be depended upon to meet any national crisis. The great point is to bring them the real facts, and beer.
+			<br>- Abraham Lincoln -
 			</div>
 		</div>
 	</div>
@@ -114,9 +115,28 @@
 			<div class="homebeer w3-padding-top">
 			{% for rating in beer_rating %}
 			<div class="content-base">			
-				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a>  
-					<span class="content-2">{{ rating.rating.content_object.beer_company }}</span> 
-					<div class="content-3">{{ rating.score }} / 10</div>
+				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}<span class="content-3"> {{ rating.rating.content_object.beer_company }}</span></a>  
+					{% if rating.score == 1 %}
+					<div class="home-star">&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 2 %}
+					<div class="home-star">&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 3 %}
+					<div class="home-star">&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 4 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>				
+					{% elif rating.score == 5 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>				
+					{% elif rating.score == 6 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 7 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 8 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 9 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% elif rating.score == 10 %}
+					<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
+					{% endif %}
 				</div>				
 			</div>
 			{% endfor %}

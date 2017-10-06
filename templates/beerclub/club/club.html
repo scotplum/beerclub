@@ -15,6 +15,20 @@
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
 			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
+			{% if not club_db_user_check and not club_application_pending_check %}
+			<div class="">
+				<form name="applyForm" class="w3-center" method="Post">
+				<button class="removesubmit" name="apply" value="" type="submit"><a class="w3-center w3-small">Apply For Membership</a></button>
+				{% csrf_token %}
+				</form>
+			</div>
+			{% endif %}
+			{% if club_application_pending_check %}
+			<div class="w3-small">Your Application Is Pending</div>
+			{% endif %}
+			{% if club_admin_check and club_admin_pending_check %}
+			<div class="w3-small"><a href='manage/membership/'>Applications Currently Pending</a></div>
+			{% endif %}
 		</div>
 	</div>
 	<div class="w3-container">

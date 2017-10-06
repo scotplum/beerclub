@@ -11,8 +11,9 @@
 </div>
 <div class="w3-container w3-center">
 	<div class="content-base-navyborder">
-		<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Thanks for checking us out!  Inside you'll find like-minded, craft beer loving 
-		people.
+		<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Beer's intellectual.  What a shame so many idiots drink it. <br>- Ray Bradbury -
+		<br><br>
+		Join the beer crowd!
 		</div>
 	</div>
 </div>
@@ -22,14 +23,14 @@
   {% csrf_token %}
   <div class="w3-padding-bottom">{{ form.username }}</div>
   <div class="w3-padding-bottom">{{ form.email }}</div>
-  <div class="w3-padding-bottom">{{ form.password1 }}</div>
-  <div class="w3-padding-bottom">{{ form.password2 }}</div>
   <div class="w3-padding-bottom">{{ form.first_name }}</div>
   <div class="w3-padding-bottom">{{ form.last_name }}</div>
+  <div class="w3-padding-bottom">{{ form.password1 }}</div>
+  <div class="w3-padding-bottom">{{ form.password2 }}</div>
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <div class="w3-padding-top"><button type="submit">{% trans "Register" %} &raquo;</button></div>
+  <div class="w3-padding-top"><button type="submit">{% trans "Register" %}</button></div>
   <br><br>
 </form>
 </div>

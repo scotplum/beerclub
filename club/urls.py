@@ -18,6 +18,10 @@ urlpatterns = [
 	url(r'^(?P<id>[0-9]+)/manage/membership/$', views.membership, name='membership'),
 	#ex: /1/manage/announcement/'
 	url(r'^(?P<id>[0-9]+)/manage/event/$', views.event, name='event'),
+	#ex: /add/
+	url(r'^add/$', views.add, name='add'),
+	#ex: /search/
+	url(r'^search/$', views.search, name='search'),
 	#ex: /
 	url(r'^$', views.index, name='index'),
 ]

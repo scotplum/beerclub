@@ -10,7 +10,12 @@
 	<div class="w3-beer w3-container">
 		<h3 class="w3-center"><b>{{ beer_info.beer_name }} Profile</b></h3>
 	</div>
-	<li class="w3-padding-top"><a href="/home/findbeer/{{ beer_info.bdb_id }}/">Go Back to the Beer</a></li>
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">Turn a phone sideways for this part
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;"><a href="/home/findbeer/{{ beer_info.bdb_id }}/">Back to the Beer</a>
+			</div>
+		</div>
+	</div>
 	<div class="w3-container">
 		<form class="w3-padding-bottom" method="Post">
 			{% for category in profile_category %}
@@ -24,9 +29,9 @@
 						 {% for attribute in profile_attribute %}
 						 {% if attribute.section == section %}
 							{% if attribute.id in ps_attribute %}
-							<li class="w3-padding-right w3-padding-bottom"><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked>{{ attribute.attribute }}</input></li>
+							<li id="profilesheet" class="w3-padding-right w3-padding-bottom">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked></input></li>
 							{% else %}	
-							<li class="w3-padding-right w3-padding-bottom"><input type="checkbox" value="{{ attribute.id }}" name="checks[]">{{ attribute.attribute }}</input></li>
+							<li id="profilesheet" class="w3-padding-right w3-padding-bottom">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]"></input></li>
 							{% endif %}
 						 {% endif %}
 						 {% endfor %}
@@ -40,6 +45,6 @@
 			{% csrf_token %}
 		</form>
 	</div>
-	<li class=""><a href="/home/findbeer/{{ beer_info.bdb_id }}/">Go Back to the Beer</a></li>
+	<a href="/home/findbeer/{{ beer_info.bdb_id }}/">Back to the Beer</a>
 </div>
 {% endblock content %}

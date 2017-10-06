@@ -34,7 +34,7 @@ class Club_Admin(models.Model):
 class Club_User(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
 	club			= models.ForeignKey(Club, on_delete=models.CASCADE)
-	is_active 		= models.BooleanField(default=True)
+	is_active 		= models.BooleanField(default=False)
 	is_admin		= models.BooleanField(default=False)
 	
 	class Meta:
@@ -62,3 +62,19 @@ class Club_Event(models.Model):
 	
 	def __str__(self):
 		return str(self.club) + ' | ' + str(self.event) 
+
+STATUS_CHOICES = (
+	('accepted', 'ACCEPTED'),
+	('rejected', 'REJECTED'),
+	('pending', 'PENDING'),
+)
+		
+class Club_Application(models.Model):
+	club			= models.ForeignKey(Club, on_delete=models.CASCADE)
+	user			= models.ForeignKey(User, on_delete=models.CASCADE)
+	date_applied	= models.DateTimeField(auto_now_add=True)
+	status			= models.CharField(max_length=8, choices=STATUS_CHOICES, default='pending')
+	date_completed	= models.DateTimeField(null=True, blank=True)
+	
+	def __str__(self):
+		return str(self.club) + ' | ' + str(self.user) + ' | ' + self.status

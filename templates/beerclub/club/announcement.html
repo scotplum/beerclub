@@ -16,7 +16,6 @@
 		</div>
 	</div>
 	<h3 class="w3-center beerheading">Announcements</h3>
-		{% if crowd_announcement_check %}
 		<form method="post" action="" class="">
 		{{ formset.management_form }}
 		{% for form in formset %}
@@ -30,7 +29,6 @@
 		{% csrf_token %}
 		</div>
 		{% endfor %}
-		{% endif %}
 		<br><input type="submit" value="Update / Add"/>
 		</form>
 	<div class="w3-padding-top w3-margin-top"><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
