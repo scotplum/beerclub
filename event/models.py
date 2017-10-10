@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
+from localflavor.us.models import USStateField, USZipCodeField
 
 # Create your models here.
 
@@ -12,9 +13,9 @@ class Event_Address(models.Model):
     description 	= models.CharField(_("description"),max_length=128)
     address_1 		= models.CharField(_("address"), max_length=128)
     address_2 		= models.CharField(_("address cont'd"), max_length=128, blank=True)
-    city 			= models.CharField(_("city"), max_length=64, default="Oklahoma City")
-    state 			= models.CharField(_("state"), max_length=2,default="OK")
-    zip_code 		= models.CharField(_("zip code"), max_length=5, default="73142")
+    city 			= models.CharField(_("city"), max_length=64)
+    state 			= USStateField(null=True, blank=True)
+    zip_code 		= USZipCodeField(null=True, blank=True)
     google_maps		= models.URLField(_("google maps"), max_length=200)
 	
     def __str__(self):

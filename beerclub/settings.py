@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
 	'127.0.0.1',
 	'localhost',
 	'0.0.0.0',
-	'589cbfef.ngrok.io',
+	'edd700b2.ngrok.io',
 	'10.100.1.185',
 ]
 

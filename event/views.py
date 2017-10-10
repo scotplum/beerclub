@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Event, Event_Address, Event_Beer, Event_Attend, Event_Note
+from club.models import Club, Club_User, Club_Event
 from home.models import Wanted_Beers, Beer_Banner
 from django.utils import timezone
 from django.utils.timezone import datetime
+from forms import EventForm
+from beerclub.decorators import user_is_admin
 
 # Create your views here.
 
@@ -36,9 +39,15 @@ def one_event(request, event_id):
 		context['banner'] = beer_banner
     event = Event.objects.get(id=event_id)
     context['event'] = event
+    club_event = Club_Event.objects.get(event=event)
+    context['club_event'] = club_event
+    club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
     suggestions = Wanted_Beers.objects.all()
-    committed = Event_Beer.objects.filter(event=event) 
-    context['committed'] = committed
+    commited_beer_check = Event_Beer.objects.filter(event=event).exists()
+    if commited_beer_check:
+        committed = Event_Beer.objects.filter(event=event)
+        context['committed'] = committed
     desired = []
     for beer in suggestions:
 	    desired.append(beer.beer_name)
@@ -73,11 +82,23 @@ def one_event(request, event_id):
 		if 'remove' in rp:
 			event_attend = Event_Attend.objects.get(user=user_object, event=event)
 			event_attend.will_attend = False
+			user_beer_check = Event_Beer.objects.filter(user=user_object, event=event).exists()
+			if user_beer_check:
+				user_beer = Event_Beer.objects.filter(user=user_object, event=event)
+				for beer in user_beer:
+					beer.is_active = False
+					beer.save()
 			event_attend.save()
 			return redirect(redirect_url)
 		elif 'activate' in rp:
 			event_attend = Event_Attend.objects.get(user=user_object, event=event)
 			event_attend.will_attend = True
+			user_beer_check = Event_Beer.objects.filter(user=user_object, event=event).exists()
+			if user_beer_check:
+				user_beer = Event_Beer.objects.filter(user=user_object, event=event)
+				for beer in user_beer:
+					beer.is_active = True
+					beer.save()
 			event_attend.save()
 			return redirect(redirect_url)
 		elif 'attend' in rp:
@@ -94,3 +115,54 @@ def one_event(request, event_id):
 			event_note.save()
 			return redirect(redirect_url)
     return render(request, 'event/event.html', context)  
+
+@login_required
+def newaddress(request, event_id):
+    user_object = request.user 
+    context['user_object'] = user_object
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    event = Event.objects.get(id=event_id)
+    context['event'] = event
+    club_event = Club_Event.objects.get(event=event)
+    context['club_event'] = club_event
+    club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'event/newaddress.html', context)
+
+@login_required	
+def manage(request, event_id):
+    context = {}
+    user_object = request.user 
+    context['user_object'] = user_object
+    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+    if beer_banner_check:
+		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		context['banner'] = beer_banner
+    event = Event.objects.get(id=event_id)
+    context['event'] = event
+    club_event = Club_Event.objects.get(event=event)
+    context['club_event'] = club_event
+    club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
+    context['form'] = EventForm(instance=event)
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        post_info = request.POST
+        if form.is_valid():
+            updated_event = event
+            updated_event.description = post_info['description']
+            updated_event.event_name = post_info['event_name']
+            updated_event.event_date = post_info['event_date']
+            updated_address = post_info['address']
+            address = Event_Address.objects.get(id=updated_address)
+            updated_event.address = address
+            if 'is_active' in post_info:
+				updated_event.is_active = True
+            else:
+				updated_event.is_active = False
+            updated_event.save()
+            return redirect('/event/' + event_id + '/')
+    return render(request, 'event/manage.html', context)

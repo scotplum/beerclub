@@ -129,6 +129,15 @@ def beer(request, bdb_id):
 							context['region'] = location['region']
     context['data'] = data
     context['style'] = style
+    beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+    context['beer_attribute_check'] = beer_attribute_check
+    if beer_attribute_check:
+		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
+		ps_attribute = profile_sheet.values_list('beer_attribute')
+		ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).order_by('section')
+		context['profile_sheet'] = profile_sheet
+		context['ps_attribute'] = ps_attribute
+		context['ps_attribute_objects'] = ps_attribute_objects
     beer_note_check = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
     context['beer_notes'] = {}
     if beer_note_check:

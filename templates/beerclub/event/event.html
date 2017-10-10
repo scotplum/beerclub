@@ -6,15 +6,16 @@
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-padding-bottom w3-card">
-		<h3 class="w3-center w3-text-white"><b>{{ event.event_name }}</b><br><div class="w3-large beerpaddingthin"><b>{{ event.event_date|date:'F d, Y' }}</b></div><div class="w3-medium beerpaddingthin"><b>{{ event.event_date|time:'g:iA'|lower }}</b></div></h3>
+		<h3 class="w3-center w3-text-white"><b>{{ club_event.club.name }}</b><br><b>{{ event.event_name }}</b><div class="w3-large beerpaddingthin"><b>{{ event.event_date|date:'F d, Y' }}</b> (<b>{{ event.event_date|time:'g:iA'|lower }})</b>		{% if club_admin_check %}<span class="w3-tiny"><a class="topmenu-manage" href="manage/">manage</a></span>{% endif %}</div>
+		</h3>
 	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
 			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
 			{% if event_attendance.will_attend%}
-			You are currently attending this event
+			You are currently attending this <a class="" href="/club/{{ club_event.club.id }}/">{{ club_event.club.name }}</a> event
 			{% else %}
-			You are not currently attending this event
+			You are not currently attending this <a class="" href="/club/{{ club_event.club.id }}/">{{ club_event.club.name }}</a> event
 			{% endif %}
 			</div>
 			<form name="eventattendForm" class="w3-center beerpadding" method="Post">
@@ -22,18 +23,21 @@
 				{% if event_attendance.will_attend == True %}
 			<button class="w3-small loginlink" name="remove" value="y" type="submit">Can't make it now</button>
 				{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="activate" value="y" type="submit">I'm coming now</button>			
+			<button class="w3-small loginlink" name="activate" value="y" type="submit">I'm coming now</button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="attend" value="y" type="submit">I'll be there</button>
-			<button class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink" style="text-shadow:1px 0 0" name="decline" value="y" type="submit">Can't make it</button>
+			<button class="w3-small loginlink" name="attend" value="y" type="submit">I'll be there</button>
+			<button class="w3-small loginlink" name="decline" value="y" type="submit">Can't make it</button>
 			{% endif %}
 			{% csrf_token %}
 			</form>
 	</div>
 	<div class="w3-center w3-container">
 		<div class="w3-cell w3-half w3-left">
-			<h3 class="beerheading">event location</h3>
+			<h3 class="beerheading w3-padding-left">event location
+				{% if club_admin_check %}
+				<span><a class="w3-right" href='manage/location/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}	</h3>
 			<div class="homebeer content-base">
 				<div class="w3-center content-1 w3-large" style="">{{ event.address.description }}</div>
 				<div class="eventaddress w3-padding-0 w3-margin-0 content-2">{{ event.address.address_1 }}</div>
@@ -43,9 +47,12 @@
 			<div class="beerpaddingthin"></div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">event description</h3>
+			<h3 class="beerheading w3-padding-left">event description
+				{% if club_admin_check %}
+				<span><a class="w3-right" href='manage/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}	</h3>
 			<div class="homebeer content-base">
-				<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top w3-center" style="">{{ event.description }}</div>
+				<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top" style="text-align:left;">{{ event.description }}</div>
 			</div>
 			<div class="beerpaddingthin"></div>
 		</div>
