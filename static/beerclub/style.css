@@ -214,7 +214,7 @@ body {
 .content-base{
 	color:navy;
 	background-color:snow;
-	padding: 1%;
+	padding: .5%;
 	text-align: left;
 	font-weight: bold;
 	border-bottom: .5px solid #cfccd6;
@@ -258,6 +258,11 @@ body {
 	text-shadow: 0px 0px 1px tomato;
 }
 
+.alt-hyper{
+	color: blue;
+}
+
+
 .content-1-nm{
 	font-size: 90%;
 	color: navy;
@@ -268,8 +273,7 @@ body {
 	color: black;
 	padding-bottom: 0;
 	text-decoration: none;
-	font-weight: 500;
-	font-style: italic;
+	font-weight: 700;
 	font-size: 80%;
 }
 

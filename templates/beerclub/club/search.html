@@ -20,7 +20,7 @@
 		{% for crowd in crowd_state %}
 			<div class="w3-padding-top topmenu-announcement">{{ crowd.grouper }}</div>
 			{% for club in crowd.list %}
-				<div class="content-base w3-small"><a href="/club/{{ club.id }}/">{{ club.name }}</a> ({{ club.city }})</div>
+				<div class="content-base content-1-nm"><a href="/club/{{ club.id }}/">{{ club.name }}</a> ({{ club.city }})</div>
 			{% endfor %}
 		{% endfor %}
 		</div><br>

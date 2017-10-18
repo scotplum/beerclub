@@ -111,7 +111,7 @@
 						{% for event in club_event %}
 						{% if event.event.is_active %}
 						<div class="content-base">
-							<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+							<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event.event_name }}</a></div>
 							<div class="content-3">{{ event.event.address }}</div>
 							<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
 						</div>
@@ -123,5 +123,25 @@
 				</div>
 			</div>
 		</div>	
+		<div class="w3-padding-bottom w3-container">
+			<div class="w3-cell w3-half w3-left w3-padding-bottom">
+				<h3 class="beerheading">Top 10 Beers</h3>
+				<div class="homebeer w3-padding-top">
+				{% for rating in club_beer_sorted %}
+				<div class="content-base">			
+					<div class="content-1"><a href="/home/findbeer/{{ rating.name.bdb_id }}/">{{ rating.name.beer_name }}</a>  
+						<span class="content-2">{{ rating.name.beer_company }}</span> 
+					</div>
+						<div class="content-3">{{ rating.avg }} / 10</div>
+					<span class="w3-tiny">Rated By: </span>
+					{% for user in rating.username %}
+					<span class="w3-small"><a href="/home/tasters/{{ user.id }}/">{{ user.username }}</a></span>
+					{% endfor %}
+				</div>
+				{% endfor %}
+				</div>
+				<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="//ratings/">See All Ratings</a></div>
+			</div>
+		</div>
 </div>
 {% endblock content %}

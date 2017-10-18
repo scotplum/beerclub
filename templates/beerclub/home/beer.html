@@ -58,22 +58,11 @@
 			<div class="homebeer">
 				{% if data.description %}
 				{% if data.description|length < 130 %}
-				<div class="content-base content-description" style="text-align: center;">{{ data.description }}</div>
+				<div class="content-base content-description w3-padding" style="text-align: center;">{{ data.description }}</div>
 				{% else %}
-				<div class="content-base content-description" style="text-align: left;">{{ data.description }}</div>
+				<div class="content-base content-description w3-padding" style="text-align: left;">{{ data.description }}</div>
 				{% endif %}
 				{% endif %}
-				<div class="w3-container content-base">
-				<a class="w3-padding-bottom w3-large" href="{{ urlprofilesheet }}">Profile Sheet</a>
-				{% regroup ps_attribute_objects by section as attribute_section %}
-				{% for attribute in attribute_section %}
-				<div class="w3-cell-row content-1 w3-padding-top content-correction">{{ attribute.grouper.section }} ({{ attribute.grouper.category }}): 
-					{% for a in attribute.list %}
-					<span class="content-beer-black">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
-					{% endfor %}
-					</div>
-				{% endfor %}
-				</div>
 				<div class="w3-container content-base">
 				{% if category.name %}
 					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-beer-black">{{ category.name }}</span></div>
@@ -91,6 +80,17 @@
 					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-beer-black">{{ data.foodPairings }}</span></div>
 					{% endif %}
 				</div>
+				<div class="w3-container content-base">
+				<a class="w3-padding-bottom w3-large" href="{{ urlprofilesheet }}">Your Profile</a>
+				{% regroup ps_attribute_objects by section as attribute_section %}
+				{% for attribute in attribute_section %}
+				<div class="w3-cell-row content-1 w3-padding-top content-correction">{{ attribute.grouper.section }} ({{ attribute.grouper.category }}): 
+					{% for a in attribute.list %}
+					<span class="content-beer-black">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
+					{% endfor %}
+					</div>
+				{% endfor %}
+				</div>
 			</div>
 			{% if brewery.nameShortDisplay %}
 			<h3 class="beerheading">{{ brewery.nameShortDisplay }}</h3>
@@ -100,9 +100,9 @@
 			<div class="homebeer">
 				{% if brewery.description %}
 				{% if brewery.description|length < 100 %}
-				<div class="content-base content-description" style="text-align: center;">{{ brewery.description }}</div>
+				<div class="content-base content-description w3-padding" style="text-align: center;">{{ brewery.description }}</div>
 				{% else %}
-				<div class="content-base content-description" style="text-align: left;">{{ brewery.description }}</div>
+				<div class="content-base content-description w3-padding" style="text-align: left;">{{ brewery.description }}</div>
 				{% endif %}
 				{% endif %}
 				<div class="w3-container w3-padding-top content-base">

@@ -20,6 +20,8 @@ urlpatterns = [
 	url(r'^(?P<id>[0-9]+)/manage/event/$', views.event, name='event'),
 	#ex: /1/manage/event/addevent/'
 	url(r'^(?P<id>[0-9]+)/manage/event/addevent/$', views.addevent, name='addevent'),
+	# ex: /1/manage/event/newaddress/
+	url(r'^(?P<id>[0-9]+)/manage/event/newaddress/$', views.newaddress, name='newaddress'),
 	#ex: /add/
 	url(r'^add/$', views.add, name='add'),
 	#ex: /search/

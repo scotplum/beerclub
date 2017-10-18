@@ -29,10 +29,10 @@ def index(request):
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:12]
+		beer_rating = UserRating.objects.filter(user=user_object).prefetch_related('user','rating').order_by('-id')[:12]
 		context['beer_rating'] = beer_rating
     context['user_object'] = user_object 
-    context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id) 
+    context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id)
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
     context['form'] = findbeerForm() 
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).exists()
@@ -134,7 +134,7 @@ def beer(request, bdb_id):
     if beer_attribute_check:
 		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
 		ps_attribute = profile_sheet.values_list('beer_attribute')
-		ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).order_by('section')
+		ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).prefetch_related('section').order_by('section')
 		context['profile_sheet'] = profile_sheet
 		context['ps_attribute'] = ps_attribute
 		context['ps_attribute_objects'] = ps_attribute_objects
@@ -254,9 +254,7 @@ def beerevent(request, bdb_id):
 			if eid in rp:
 				event_beer = Event_Beer(user=user_object, event = event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
 				event_beer.save()
-				return redirect('/home/')
-			else:
-				return render(request, 'fun.html', context)
+				return redirect('/event/' + str(event.id) + '/')
     return render(request, 'home/beerevent.html', context)
 
 @login_required	
@@ -419,11 +417,11 @@ def profilesheet(request, bdb_id):
 		ps_attribute = p_s.values_list('beer_attribute', flat=True)
 		context['ps_attribute'] = ps_attribute
 	context['p_s'] = p_s
-	profile_section = Beer_Attribute_Section.objects.all()
+	profile_section = Beer_Attribute_Section.objects.all().prefetch_related('category')
 	context['profile_section'] = profile_section
 	profile_category = Beer_Attribute_Category.objects.all()
 	context['profile_category'] = profile_category
-	profile_attribute = Beer_Attribute.objects.all()
+	profile_attribute = Beer_Attribute.objects.all().prefetch_related('section')
 	context['profile_attribute'] = profile_attribute
 	if request.method == "POST": 
 		rp = request.POST

@@ -18,11 +18,11 @@
 		<div class="w3-center w3-padding-bottom">
 		<form method="post" action="" class="">
 		<div class="homebeer content-base">
-		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
+		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Address (<a href="/club/{{ crowd.id }}/manage/event/newaddress/">new address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div></div>				
+		<div class="w3-container w3-padding-bottom w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
 		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
 		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Date (2017-10-21 18:30:00)</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div></div>
 		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
-		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Address (<a>add new address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div></div>				
 		{% csrf_token %}
 		</div>
 		<br><input type="submit" value="Update"/>

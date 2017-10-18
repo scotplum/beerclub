@@ -16,7 +16,8 @@ class Event_Address(models.Model):
     city 			= models.CharField(_("city"), max_length=64)
     state 			= USStateField(null=True, blank=True)
     zip_code 		= USZipCodeField(null=True, blank=True)
-    google_maps		= models.URLField(_("google maps"), max_length=200)
+    google_maps		= models.URLField(_("google maps"), max_length=200, null=True, blank=True)
+    club			= models.ForeignKey("club.Club", on_delete=models.CASCADE)
 	
     def __str__(self):
 		return self.description

@@ -6,8 +6,8 @@ from club.models import Club, Club_User, Club_Event
 from home.models import Wanted_Beers, Beer_Banner
 from django.utils import timezone
 from django.utils.timezone import datetime
-from forms import EventForm
-from beerclub.decorators import user_is_admin
+from forms import EventForm, EventEditForm
+from beerclub.decorators import user_is_admin, event_is_active
 
 # Create your views here.
 
@@ -15,6 +15,7 @@ context = {}
 
 @login_required
 def event(request):
+    context = {}
     user_object = request.user
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
     if beer_banner_check:
@@ -30,12 +31,14 @@ def event(request):
 	
 
 @login_required
+@event_is_active
 def one_event(request, event_id):
+    context = {}
     user_object = request.user 
     context['user_object'] = user_object
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
     if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
+		beer_banner = Beer_Banner.objects.get(user=user_object)
 		context['banner'] = beer_banner
     event = Event.objects.get(id=event_id)
     context['event'] = event
@@ -43,10 +46,10 @@ def one_event(request, event_id):
     context['club_event'] = club_event
     club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
-    suggestions = Wanted_Beers.objects.all()
+    suggestions = Wanted_Beers.objects.all().select_related('user')
     commited_beer_check = Event_Beer.objects.filter(event=event).exists()
     if commited_beer_check:
-        committed = Event_Beer.objects.filter(event=event)
+        committed = Event_Beer.objects.filter(event=event).select_related('user', 'event')
         context['committed'] = committed
     desired = []
     for beer in suggestions:
@@ -55,20 +58,21 @@ def one_event(request, event_id):
     event_beer_check = Event_Beer.objects.filter(event=event).exists()
     event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()
     taster_response_check = Event_Attend.objects.filter(event=event).exists()
+    context['taster_response_check'] = taster_response_check
     event_note_check = Event_Note.objects.filter(event=event).exists()
     context['event_notes'] = {}
     if event_note_check:
-		context['event_notes'] = Event_Note.objects.filter(event=event)
+		context['event_notes'] = Event_Note.objects.filter(event=event).select_related('user')
     context['declined_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=False).exists()
     context['confirmed_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=True).exists()
     suggest = []
     if taster_response_check:
-		taster_response = Event_Attend.objects.filter(event=event)
+		taster_response = Event_Attend.objects.filter(event=event).select_related('user', 'event')
 		context['taster_response'] = taster_response
 		suggest = []
 		for taster in taster_response:
 			if taster.will_attend == True:
-				want = Wanted_Beers.objects.filter(user=taster.user)
+				want = Wanted_Beers.objects.filter(user=taster.user).select_related('user')
 				suggest.append(want)
     if event_attendance_check:
 		event_attendance = Event_Attend.objects.get(user=user_object, event=event)
@@ -114,23 +118,13 @@ def one_event(request, event_id):
 			event_note = Event_Note(user=user_object, event=event, is_active=True, date_added=timezone.now(), note=note,)
 			event_note.save()
 			return redirect(redirect_url)
+		if 'removeconfirmed' in rp:
+			event_beer_id = request.POST.get("removeconfirmed")
+			confirmed_beer = Event_Beer.objects.get(id=event_beer_id)
+			confirmed_beer.is_active = False
+			confirmed_beer.save()
+			return redirect(redirect_url)
     return render(request, 'event/event.html', context)  
-
-@login_required
-def newaddress(request, event_id):
-    user_object = request.user 
-    context['user_object'] = user_object
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    event = Event.objects.get(id=event_id)
-    context['event'] = event
-    club_event = Club_Event.objects.get(event=event)
-    context['club_event'] = club_event
-    club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
-    context['club_admin_check'] = club_admin_check
-    return render(request, 'event/newaddress.html', context)
 
 @login_required	
 def manage(request, event_id):
@@ -147,9 +141,9 @@ def manage(request, event_id):
     context['club_event'] = club_event
     club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
-    context['form'] = EventForm(instance=event)
+    context['form'] = EventForm(instance=event, club=club_event.club.id)
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventEditForm(request.POST)
         post_info = request.POST
         if form.is_valid():
             updated_event = event
