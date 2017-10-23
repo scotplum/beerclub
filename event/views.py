@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
 from beerclub.decorators import user_is_admin, event_is_active
+from beerclub.utils import navigation
 
 # Create your views here.
 
@@ -16,12 +17,9 @@ context = {}
 @login_required
 def event(request):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
     pastevents = Event.objects.filter(event_date__lt=timezone.now())
@@ -34,12 +32,9 @@ def event(request):
 @event_is_active
 def one_event(request, event_id):
     context = {}
-    user_object = request.user 
-    context['user_object'] = user_object
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)
-		context['banner'] = beer_banner
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     event = Event.objects.get(id=event_id)
     context['event'] = event
     club_event = Club_Event.objects.get(event=event)
@@ -129,12 +124,9 @@ def one_event(request, event_id):
 @login_required	
 def manage(request, event_id):
     context = {}
-    user_object = request.user 
-    context['user_object'] = user_object
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     event = Event.objects.get(id=event_id)
     context['event'] = event
     club_event = Club_Event.objects.get(event=event)

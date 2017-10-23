@@ -14,7 +14,7 @@
 			</div>
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">Add Address</h3>
+	<h3 class="w3-center beerheading">EDIT Address</h3>
 		<form method="post" action="" class="">
 		<div class="homebeer">
 		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Address Name</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
@@ -24,7 +24,7 @@
 		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Zip Code</div><div class="content-3" style="text-align:center;">{{ form.zip_code }}</div></div>
 		{% csrf_token %}
 		</div>
-		<br><input type="submit" value="Update About"/>
+		<br><input type="submit" value="Update Address"/>
 		</form>
 	<br>
 	<div><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to Event Setup</a></div>

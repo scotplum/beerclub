@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Club, Club_User, Club_Announcement, Club_Event, Club_Application
-from event.models import Event
+from event.models import Event, Event_Address
 from forms import ClubForm, ClubAnnouncementForm
-from event.forms import EventForm, EventAddressForm, EventEditForm
+from event.forms import EventForm, EventAddressForm, EventEditForm, EventAddressEditForm
 from django.forms import modelformset_factory
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from star_ratings.models import UserRating, Rating
@@ -13,6 +13,7 @@ from django.utils import timezone
 import datetime
 from operator import itemgetter
 from beerclub.decorators import user_is_admin
+from beerclub.utils import navigation
 
 # Create your views here.
 context = {}
@@ -20,30 +21,17 @@ context = {}
 @login_required
 def index(request):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
-    if club_check:
-		clubs = Club_User.objects.filter(user=user_object)
-		club_count = len(Club_User.objects.filter(user=user_object))
-		context['club_count'] = club_count
-		context['clubs'] = clubs
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     return render(request, 'club/index.html', context)  
 
 @login_required	
 def club(request, id):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     club_beer = []
     club_admin = Club_User.objects.filter(club=crowd).filter(is_admin=True).select_related('user','club')
@@ -124,14 +112,9 @@ def club(request, id):
 @user_is_admin
 def manage(request, id):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
     club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
@@ -142,15 +125,9 @@ def manage(request, id):
 @user_is_admin	
 def announcement(request, id):
     context = {}
-    user_object = request.user
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
     crowd_announcement_check = Club_Announcement.objects.filter(club=crowd).exists()
@@ -179,14 +156,9 @@ def announcement(request, id):
 @user_is_admin	
 def about(request, id):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
     club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
@@ -216,15 +188,10 @@ def about(request, id):
 @user_is_admin	
 def membership(request, id):
     context = {}
-    user_object = request.user
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
     club_user_check = Club_User.objects.filter(club=crowd).exists()
     context['club_user_check'] = club_user_check
     club_pending_user_check = Club_Application.objects.filter(club=crowd).filter(status='pending').exists()
@@ -290,14 +257,9 @@ def membership(request, id):
 @user_is_admin	
 def event(request, id):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
-    club_check = Club_User.objects.filter(user=user_object).exists()
-    context['club_check'] = club_check
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['crowd'] = crowd
     club_event_check = Club_Event.objects.filter(club=crowd).exists()
@@ -311,12 +273,9 @@ def event(request, id):
 @login_required
 def add(request):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     context['form'] = ClubForm()
     if request.method == 'POST':
         form = ClubForm(request.POST)
@@ -333,12 +292,9 @@ def add(request):
 @login_required	
 def search(request):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     public_crowds = Club.objects.filter(is_public=True).filter(is_active=True)
     context['public_crowds'] = public_crowds
     return render(request, 'club/search.html', context)
@@ -347,12 +303,9 @@ def search(request):
 @user_is_admin
 def addevent(request, id):
     context = {}
-    user_object = request.user
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
-    context['user_object'] = user_object
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['form'] = EventForm(club=id)
     context['crowd'] = crowd
@@ -372,12 +325,9 @@ def addevent(request, id):
 @user_is_admin
 def newaddress(request, id):
     context = {}
-    user_object = request.user 
-    context['user_object'] = user_object
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		beer_banner = Beer_Banner.objects.get(user=user_object)	
-		context['banner'] = beer_banner
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
     crowd = Club.objects.get(id=id)
     context['form'] = EventAddressForm()
     context['crowd'] = crowd
@@ -391,3 +341,38 @@ def newaddress(request, id):
             address.save()
             return redirect('/club/' + str(crowd.id) + '/manage/event/')
     return render(request, 'club/newaddress.html', context)
+
+@login_required
+@user_is_admin
+def address(request, id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    crowd = Club.objects.get(id=id)
+    event_address = Event_Address.objects.filter(club=crowd)
+    context['event_address'] = event_address
+    context['crowd'] = crowd
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
+    return render(request, 'club/address.html', context)  
+	
+@login_required
+@user_is_admin
+def editaddress(request, id, address_id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    crowd = Club.objects.get(id=id)
+    event_address = Event_Address.objects.get(id=address_id)
+    context['form'] = EventAddressEditForm(instance=event_address)
+    context['crowd'] = crowd
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
+    if request.method == 'POST':
+        form = EventAddressEditForm(request.POST, instance=event_address)
+        if form.is_valid():
+            form.save()
+            return redirect('/club/' + str(crowd.id) + '/manage/event/')
+    return render(request, 'club/editaddress.html', context)

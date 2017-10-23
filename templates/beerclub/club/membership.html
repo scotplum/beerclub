@@ -42,9 +42,8 @@
 			{% for member in club_user %}
 			{% if member.is_active %}
 			<div class="content-base">
-				{% if member.is_admin %}<div class="homebeer">ADMINISTRATOR</div>{% endif %}
 				<form name="membershipForm" class="w3-center" method="Post">
-				<div class="club-content-span w3-padding-bottom w3-padding-top" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }} {% endif %}(<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>)</div>
+				<div class="club-content-span w3-padding-bottom w3-padding-top" style="font-size: 90%; font-weight: bold;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }} {% endif %}(<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>){% if member.is_admin %}<div class="homebeer"><b>ADMIN</b></div>{% endif %}</div>
 				{% if member.user != user_object %}
 				<button class="removesubmit w3-padding-right" name="inactivate" value="{{ member.id }}" type="submit"><a class="w3-center w3-tiny">Set to Inactive</a></button>
 				{% endif %}
@@ -73,7 +72,7 @@
 			{% for member in club_user %}
 			{% if member.is_active == False %}
 			<div class="content-base">
-				<div class="w3-padding-top club-content-span" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}{% endif %} (<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>)</div>
+				<div class="w3-padding-top club-content-span" style="font-size: 90%; font-weight: bold;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}{% endif %} (<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>)</div>
 				<form name="membershipForm" class="w3-center" method="Post">
 				<button class="removesubmit" name="setactive" value="{{ member.id }}" type="submit"><a class="w3-right w3-tiny">Set to Active</a></button>
 				{% csrf_token %}

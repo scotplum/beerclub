@@ -22,6 +22,10 @@ urlpatterns = [
 	url(r'^(?P<id>[0-9]+)/manage/event/addevent/$', views.addevent, name='addevent'),
 	# ex: /1/manage/event/newaddress/
 	url(r'^(?P<id>[0-9]+)/manage/event/newaddress/$', views.newaddress, name='newaddress'),
+	# ex: /1/manage/event/address/
+	url(r'^(?P<id>[0-9]+)/manage/event/address/$', views.address, name='address'),
+	# ex: /1/manage/event/address/8/
+	url(r'^(?P<id>[0-9]+)/manage/event/address/(?P<address_id>[0-9]+)/$', views.editaddress, name='editaddress'),
 	#ex: /add/
 	url(r'^add/$', views.add, name='add'),
 	#ex: /search/

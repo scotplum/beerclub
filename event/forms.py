@@ -26,5 +26,9 @@ class EventEditForm(forms.ModelForm):
 class EventAddressForm(forms.ModelForm):
 	class Meta:
 		model = Event_Address
-		exclude = ('address_2', 'club',)
+		exclude = ('club', 'google_maps',)
 		
+class EventAddressEditForm(forms.ModelForm):
+	class Meta:
+		model = Event_Address
+		exclude = ('club', 'google_maps',)

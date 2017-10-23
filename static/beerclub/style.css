@@ -285,10 +285,24 @@ body {
 	padding-right: 1%;
 }
 
+.content-3-black{
+	font-size: 75%;
+	color: black;
+	font-weight: 700;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
 .content-description{
 	font-weight: 500;
 	padding-left: 3%;
 	padding-right: 3%;
+	font-size: 80%;
+	letter-spacing: 1px;
+}
+
+.content-description-bullet{
+	font-weight: 500;
 	font-size: 80%;
 	letter-spacing: 1px;
 }

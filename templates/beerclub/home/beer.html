@@ -19,7 +19,7 @@
 			</div>
 		</div>
 	</div>
-			<form name="beerForm" class="w3-center w3-padding-top w3-margin-bottom" method="Post">
+			<form name="beerForm" class="w3-center w3-padding-top w3-padding-bottom" method="Post">
 			{% if fav_beer_check %}
 				{% if fav_beer.is_active %}
 			<button title="Remove from Favorites" class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-star fafaspace" aria-hidden="true"></i>
@@ -46,12 +46,26 @@
 </button>
 			{% csrf_token %}
 			</form>
-	<div class="w3-container w3-center w3-padding-top">
+	<div class="w3-container w3-center">
 		<div class="w3-display-container">
-			<div class="w3-center w3-padding-bottom">{% ratings score_beer %}</div>
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
+			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
+			<h3 class="beerheading w3-padding-left"><a class="" style="text-decoration: none; color: white;" href="{{ urlprofilesheet }}">Your Profile</a>
+			<span><a class="w3-right" href='{{ urlprofilesheet }}' style="text-decoration: none; color: white;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			</h3>
+			<div class="homebeer">
+			{% regroup ps_attribute_objects by section as attribute_section %}
+			{% for attribute in attribute_section %}
+				<div class="content-base">
+				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
+				{% for a in attribute.list %}
+				<span class="content-description-bullet">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
+				{% endfor %}
+				</div>
+			{% endfor %}
+			</div>
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
@@ -65,31 +79,20 @@
 				{% endif %}
 				<div class="w3-container content-base">
 				{% if category.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-beer-black">{{ category.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-description-bullet">{{ category.name }}</span></div>
 					{% endif %}
 					{% if style.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Style: </b><span class="content-beer-black">{{ style.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Style: </b><span class="content-description-bullet">{{ style.name }}</span></div>
 					{% endif %}
 					{% if data.abv %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Alcohol Content: </b><span class="content-beer-black">{{ data.abv }}% abv</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Alcohol Content: </b><span class="content-description-bullet">{{ data.abv }}% abv</span></div>
 					{% endif %}
 					{% if data.glass.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Glass: </b><span class="content-beer-black">{{ data.glass.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Glass: </b><span class="content-description-bullet">{{ data.glass.name }}</span></div>
 					{% endif %}
 					{% if data.foodPairings %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-beer-black">{{ data.foodPairings }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-description-bullet">{{ data.foodPairings }}</span></div>
 					{% endif %}
-				</div>
-				<div class="w3-container content-base">
-				<a class="w3-padding-bottom w3-large" href="{{ urlprofilesheet }}">Your Profile</a>
-				{% regroup ps_attribute_objects by section as attribute_section %}
-				{% for attribute in attribute_section %}
-				<div class="w3-cell-row content-1 w3-padding-top content-correction">{{ attribute.grouper.section }} ({{ attribute.grouper.category }}): 
-					{% for a in attribute.list %}
-					<span class="content-beer-black">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
-					{% endfor %}
-					</div>
-				{% endfor %}
 				</div>
 			</div>
 			{% if brewery.nameShortDisplay %}
@@ -107,10 +110,10 @@
 				{% endif %}
 				<div class="w3-container w3-padding-top content-base">
 					{% if brewery.established %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Established: </b><span class="content-beer-black">{{ brewery.established }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Established: </b><span class="content-description-bullet">{{ brewery.established }}</span></div>
 					{% endif %}
 					{% if region %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction" ><b>Region: </b><span class="content-beer-black">{{ region }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction" ><b>Region: </b><span class="content-description-bullet">{{ region }}</span></div>
 					{% endif %}
 				</div>
 			</div>
