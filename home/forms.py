@@ -19,9 +19,8 @@ class findbeerForm(forms.Form):
         self.helper.form_class = 'form-inline' 
         self.helper.form_id = 'findbeerForm' 
         self.helper.form_method = 'post' 
-        self.helper.form_action = 'findbeer/' 
+        self.helper.form_action = '/home/findbeer/' 
          
-        self.helper.add_input(Submit('submit', 'Beer Me')) 
         super(findbeerForm, self).__init__(*args, **kwargs)
 
 class CustomSelectMultiple(ModelMultipleChoiceField):

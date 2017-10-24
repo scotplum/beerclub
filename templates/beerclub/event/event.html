@@ -21,13 +21,13 @@
 			<form name="eventattendForm" class="w3-center beerpadding w3-padding-bottom" method="Post">
 			{% if event_attendance_check %}
 				{% if event_attendance.will_attend == True %}
-			<button class="w3-small loginlink" name="remove" value="y" type="submit">Can't make it now</button>
+			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="remove" value="y" type="submit">Can't make it now</button>
 				{% else %}
-			<button class="w3-small loginlink" name="activate" value="y" type="submit">I'm coming now</button>			
+			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="activate" value="y" type="submit">I'm coming now</button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-small loginlink" name="attend" value="y" type="submit">I'll be there</button>
-			<button class="w3-small loginlink" name="decline" value="y" type="submit">Can't make it</button>
+			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="attend" value="y" type="submit">I'll be there</button>
+			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="decline" value="y" type="submit">Can't make it</button>
 			{% endif %}
 			{% csrf_token %}
 			</form>

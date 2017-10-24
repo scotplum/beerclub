@@ -74,7 +74,7 @@
 				{% endif %}
 				{% endfor %}
 				{% else %}
-				<div>No announcement yet...</div>
+				<div class="content-blankstate">There are not currently any announcements</div>
 				{% endif %}
 		</div>
 	</div>	
@@ -93,7 +93,7 @@
 							<div class="w3-padding-top content-base club-content-span2" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}<br>{% endif %}<a class="w3-small" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
 							{% endfor %}
 							{% else %}
-							<p>No current members</p>
+							<div class="content-blankstate">No current members</div>
 							{% endif %}
 							</div>
 						</div>
@@ -106,10 +106,10 @@
 				<span><a class="w3-right w3-padding-right" href='manage/event/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
 				{% endif %}			
 				</h3>
-				<div class="homebeer w3-padding-top">
 						{% if club_event_check %}
 						{% for event in club_event %}
 						{% if event.event.is_active %}
+				<div class="homebeer w3-padding-top">
 						<div class="content-base">
 							<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
 							<div class="content-3">{{ event.event.address }}</div>
@@ -117,10 +117,10 @@
 						</div>
 						{% endif %}
 						{% endfor %}
-						{% else %}
-						<div class="content-2">This crowd has no upcoming or previous events</div>
-						{% endif %}
 				</div>
+						{% else %}
+						<div class="content-blankstate">There are no events scheduled at this time</div>
+						{% endif %}
 			</div>
 		</div>	
 </div>

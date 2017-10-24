@@ -3,13 +3,11 @@
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
-{% load crispy_forms_tags %}
 
 
 <div class="w3-mobile w3-center">
 	<div class="w3-beer w3-container w3-padding-bottom">
-		<h3 class="w3-half w3-cell"><b>{{ request.user.username }}'s beer profile</b></h3>
-		<div class="w3-right w3-half w3-cell w3-margin-top w3-padding-left w3-padding-right">{% crispy form %}</div>
+		<h3 class=""><b>{{ request.user.username }}'s beer profile</b></h3>
 	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
@@ -22,7 +20,7 @@
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h3 class="beerheading">favorites</h3>
 			{% if fav_beer_check == False %}
-			<div class="content-blankstate content-1">Try finding a favorite in the search box above</div>
+			<div class="content-blankstate">Try finding a favorite in the search box above</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">			
 			{% for beer in favorite %}
@@ -42,7 +40,7 @@
 		<div class="w3-cell w3-half w3-right w3-padding-bottom">
 			<h3 class="beerheading">wanted</h3>
 			{% if want_beer_check == False %}
-			<div class="content-blankstate content-1">Hint: "Beer Me"</div>
+			<div class="content-blankstate">Hint: "Beer Me"</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">
 			{% for beer in wanted %}
@@ -106,7 +104,7 @@
 			{% endfor %}
 			</div>
 			{% else %}
-			<div class="content-blankstate content-1">Enter notes at the bottom of a selected beer page</div>
+			<div class="content-blankstate">Notes are entered at the bottom of a beer page</div>
 			{% endif %}
 
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Notes</a></div>
@@ -144,7 +142,7 @@
 			{% endfor %}
 			</div>
 			{% else %}
-			<div class="content-blankstate content-1">Ratings added at the top of a selected beer page</div>
+			<div class="content-blankstate content-1">Ratings are added by going to a beer page and assigning a star rating</div>
 			{% endif %}
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Ratings</a></div>
 		</div>

@@ -1,6 +1,7 @@
 from club.models import Club, Club_User
 from django.contrib.auth.models import User
 from home.models import Beer_Banner
+from home.forms import findbeerForm
 
 def navigation(request):
 	#Build the context for this user, check Beer Banner and assign Club links for navigation

@@ -25,24 +25,24 @@
 			<button title="Remove from Favorites" class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink" name="removefav" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-star fafaspace" aria-hidden="true"></i>
 </button>
 				{% else %}
-			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>			
+			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu-negative  w3-hover-indigo loginlink"  name="activatefav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>			
 				{% endif %}
 			{% else %}
-			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="fav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>
+			<button title="Add to Favorites" class="w3-btn w3-round w3-small topmenu-negative  w3-hover-indigo loginlink"  name="fav" value="y" type="submit"><i class="fa fa-star" aria-hidden="true"></i></button>
 			{% endif %}
 			{% if want_beer_check %}
 				{% if want_beer.is_active %}
 			<button title="Remove from Wanted" class="w3-btn w3-round w3-small topmenu-positive w3-hover-indigo loginlink"  name="removewant" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-shopping-basket fafaspace" aria-hidden="true"></i>
 </button>			
 				{% else %}
-			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="activatewant" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu-negative  w3-hover-indigo loginlink"  name="activatewant" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
 </button>						
 				{% endif %}
 			{% else %}
-			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="want" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+			<button title="Add to Wanted" class="w3-btn w3-round w3-small topmenu-negative  w3-hover-indigo loginlink"  name="want" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
 </button>
 			{% endif %}
-			<button title="Add to Event" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink"  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+			<button title="Add to Event" class="w3-btn w3-round w3-small topmenu-negative  w3-hover-indigo loginlink"  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
 </button>
 			{% csrf_token %}
 			</form>
@@ -51,21 +51,6 @@
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
-			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
-			<h3 class="beerheading w3-padding-left"><a class="" style="text-decoration: none; color: white;" href="{{ urlprofilesheet }}">Your Profile</a>
-			<span><a class="w3-right" href='{{ urlprofilesheet }}' style="text-decoration: none; color: white;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-			</h3>
-			<div class="homebeer">
-			{% regroup ps_attribute_objects by section as attribute_section %}
-			{% for attribute in attribute_section %}
-				<div class="content-base">
-				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
-				{% for a in attribute.list %}
-				<span class="content-description-bullet">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
-				{% endfor %}
-				</div>
-			{% endfor %}
-			</div>
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
@@ -79,22 +64,38 @@
 				{% endif %}
 				<div class="w3-container content-base">
 				{% if category.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-description-bullet">{{ category.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Category: </b><span class="content-description-beer">{{ category.name }}</span></div>
 					{% endif %}
 					{% if style.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Style: </b><span class="content-description-bullet">{{ style.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Style: </b><span class="content-description-beer">{{ style.name }}</span></div>
 					{% endif %}
 					{% if data.abv %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Alcohol Content: </b><span class="content-description-bullet">{{ data.abv }}% abv</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Alcohol Content: </b><span class="content-description-beer">{{ data.abv }}% abv</span></div>
 					{% endif %}
 					{% if data.glass.name %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Glass: </b><span class="content-description-bullet">{{ data.glass.name }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Glass: </b><span class="content-description-beer">{{ data.glass.name }}</span></div>
 					{% endif %}
 					{% if data.foodPairings %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-description-bullet">{{ data.foodPairings }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Food Pairings: </b><span class="content-description-beer">{{ data.foodPairings }}</span></div>
 					{% endif %}
 				</div>
 			</div>
+			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
+			<h3 class="beerheading w3-padding-left"><a class="" style="text-decoration: none; color: white;" href="{{ urlprofilesheet }}">Your Profile</a>
+			<span><a class="w3-right" href='{{ urlprofilesheet }}' style="text-decoration: none; color: white;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			</h3>
+			<div class="homebeer">
+			{% regroup ps_attribute_objects by section as attribute_section %}
+			{% for attribute in attribute_section %}
+				<div class="content-base">
+				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
+				{% for a in attribute.list %}
+				<span class="content-description-beer">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
+				{% endfor %}
+				</div>
+			{% endfor %}
+			</div>
+
 			{% if brewery.nameShortDisplay %}
 			<h3 class="beerheading">{{ brewery.nameShortDisplay }}</h3>
 			{% else %}
@@ -110,10 +111,10 @@
 				{% endif %}
 				<div class="w3-container w3-padding-top content-base">
 					{% if brewery.established %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Established: </b><span class="content-description-bullet">{{ brewery.established }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction"><b>Established: </b><span class="content-description-beer">{{ brewery.established }}</span></div>
 					{% endif %}
 					{% if region %}
-					<div class="w3-cell-row content-1 w3-padding-top content-correction" ><b>Region: </b><span class="content-description-bullet">{{ region }}</span></div>
+					<div class="w3-cell-row content-1 w3-padding-top content-correction" ><b>Region: </b><span class="content-description-beer">{{ region }}</span></div>
 					{% endif %}
 				</div>
 			</div>

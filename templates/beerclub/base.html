@@ -19,49 +19,55 @@
     </head>
 	
     <body>
-        <div class="w3-center w3-container w3-mobile w3-padding-top w3-margin-top">
+	{% load crispy_forms_tags %}
+        <div class="w3-center w3-container w3-mobile w3-margin-top">
             <div id="content" class="w3-display-container">
                 {% block topbar %}
                 <div class="w3-hover-grayscale">
 				{% if banner.image_url %}
-				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
+				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
 				{% endif %}
 				</div>
 				 {% if request.user.is_authenticated %}
-				<div class="w3-wide beercrowd w3-padding-bottom">The Beer Crowd</div>
-				<div class="w3-center">
-					<a href="/club/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">crowd</a>
-					<div class="w3-dropdown-click w3-center">
-					 <button onclick="myFunction()" class="w3-button w3-text-white w3-round topmenu loginlink material-icons" style="font-size: 80%;"><i class="fa fa-bars" aria-hidden="true"></i></button>
-					  <div id="Dropclick" class="w3-dropdown-content w3-border">
-						{% for club in clubs %}
-						<a href="/club/{{ club.club.id }}/" class="w3-center dropdown w3-padding-4">{{ club.club.name }}</a>
-						{% endfor %}
-						<a href="/home/notes/" class="w3-center dropdown w3-padding-4">Beer Notes</a>
-						<a href="/home/ratings/" class="w3-center dropdown w3-padding-4">Beer Ratings</a>
-						<a href="/event/" class="w3-center dropdown w3-padding-4">Events</a>
-						<a href="/accounts/logout/" class="w3-center dropdown w3-padding-4">Logout</a>
-					  </div>
-					</div>						
-					<a href="/home/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">home</a>
+				<div class="w3-wide beercrowd">The Beer Crowd</div>
+				<div class="w3-container" style="display: inline-block;">
+					<form name="beerForm" class="w3-center" style="margin: 0; padding:0;" action="/home/findbeer/" method="Post">
+						<button type="button" onclick="myFunction()" class="w3-round-small w3-btn content-description-bullet" style="text-decoration: none; font-size: 70%;"><i class="fa fa-bars" aria-hidden="true"></i></button>
+							<div id="Dropclick" class="w3-dropdown-content">
+								{% for club in clubs %}
+								<a href="/club/{{ club.club.id }}/" class="w3-center dropdown w3-padding-4">{{ club.club.name }}</a>
+								{% endfor %}
+								<a href="/home/notes/" class="w3-center dropdown w3-padding-4">Beer Notes</a>
+								<a href="/home/ratings/" class="w3-center dropdown w3-padding-4">Beer Ratings</a>
+							</div>
+						<input  name="findbeer" type="text" />
+						<button class="w3-round-small w3-btn content-description-bullet" type="submit">Beer Me</button>
+						{% csrf_token %}
+					</form>
 				</div>
-					<script>
-					function myFunction() {
-						var x = document.getElementById("Dropclick");
-						if (x.className.indexOf("w3-show") == -1) { 
-							x.className += " w3-show";
-						} else {
-							x.className = x.className.replace(" w3-show", "");
-						}
-					}
-					</script> 	
-				{% endif %}
-                {% endblock topbar %}
             </div>
 		</div>
-		<div id="content">
+		<div class="topmenu w3-center">
+			<a href="/club/" class="topmenu-links w3-btn w3-round-small" style="text-decoration: none;">Crowd</a>
+			<a href="/event/" class="topmenu-links w3-btn w3-round-small" style="text-decoration: none;">Event</a>
+			<a href="/home/" class="topmenu-links w3-btn w3-round-small" style="text-decoration: none;">Home</a>
+			<a href="/accounts/logout/" class="topmenu-links w3-btn w3-round-small" style="text-decoration: none;">Logout</a>			
+		</div>
+		<script>
+		function myFunction() {
+			var x = document.getElementById("Dropclick");
+			if (x.className.indexOf("w3-show") == -1) { 
+				x.className += " w3-show";
+			} else {
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}
+		</script> 
+		{% endif %}
+        {% endblock topbar %}
+		<div id="content" style="margin: 0; padding: 0;">
 		{% block content %}
 		{% endblock content %}
 		</div>

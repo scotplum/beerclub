@@ -66,12 +66,13 @@ def findbeer(request):
     user_object = nav['user_object']
     context = nav['context']
     if request.method == "POST": 
-        form = findbeerForm(request.POST) 
-        if form.is_valid(): 
+        rp = request.POST
+        context['rp'] = rp
+        if 'findbeer' in rp: 
          
             #Search BreweryDB api for results from user's findbeerForm submission 
-            formdata = form.cleaned_data
-            search = formdata['beer'] #? Need to figure out how to get the value from the search 
+            formdata = request.POST.get("findbeer")
+            search = formdata #? Need to figure out how to get the value from the search 
             beersearch_url = 'http://api.brewerydb.com/v2/search/?withBreweries=Y&key=' + secret + '&q=' + search 
              
             #Retrieve Search Result From BreweryDB 
@@ -85,7 +86,7 @@ def findbeer(request):
     else: 
         form = findbeerForm() 
      
-    return render(request, 'home/findbeer.html',{'form':form}) 
+    return render(request, 'home/findbeer.html') 
 
 @login_required
 def beer(request, bdb_id):
