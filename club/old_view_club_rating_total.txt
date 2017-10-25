@@ -1,0 +1,39 @@
+    if club_user_check:
+		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club')
+		context['club_user'] = club_user
+		"""
+		for u in club_user:
+			rating_user_check = UserRating.objects.filter(user=u.user.id).exists()
+			if rating_user_check:
+				beer_rating = UserRating.objects.filter(user=u.user.id).select_related('user', 'rating')
+				for beer in beer_rating:
+					rated_beer = Beer_Rating.objects.filter(bdb_id = beer.rating.content_object.bdb_id).prefetch_related('rating')
+					user_beer_rating.append(rated_beer)
+			user_beers = list(set(user_beer_rating))
+			context['user_beers'] = user_beers
+			club_beer = []
+			club_beer_sorted = []
+			for b in user_beers:
+				b_rating = Rating.objects.filter(Beer_Rating=b).select_related('user')
+				b_score = 0
+				b_count = 0
+				b_list = []
+				b_dict = {}
+				b_user = []
+				for c_u in club_user:
+					if c_u.is_active:
+						if UserRating.objects.filter(rating=b_rating).filter(user=c_u.user).exists():
+							b_count += 1
+							b_userrating = UserRating.objects.filter(rating=b_rating).filter(user=c_u.user).select_related('user')
+							for s in b_userrating:
+								b_score = b_score + s.score
+								b_user.append(c_u.user)
+				b_dict['username'] = b_user
+				b_dict['name'] = b
+				b_dict['score'] = b_score
+				b_dict['count'] = b_count
+				b_dict['avg'] = b_score / b_count
+				club_beer.append(b_dict)
+    club_beer_sorted = sorted(club_beer, key=itemgetter('avg'), reverse=True)[:10]
+    context['club_beer_sorted'] = club_beer_sorted
+    """

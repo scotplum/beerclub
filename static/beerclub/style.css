@@ -4,9 +4,10 @@ body {
 }
 
 .topmenu {
-	background-color: navy;
+	background-color: #1569C7;
 	margin: .5% 1% 0 1%;
 	color: snow;
+	border-top: 2px solid navy;
 }
 
 
@@ -14,11 +15,12 @@ body {
 	color: snow;
 	text-decoration: none;
 	font-weight: 700;
-	padding: 1px 1%;
+	padding: 10px 1%;
 	margin: 0 2%;
-	font-size: 70%;
-	background-color: navy;
+	font-size: 100%;
+	background-color: #1569C7;
 	letter-spacing: 2px;
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
 .topmenu-shortcut {
@@ -26,7 +28,6 @@ body {
 	text-decoration: none;
 	font-weight: 800;
 	font-size: 70%;
-	background-color: tomato;
 }
 
 .topmenu-positive {
@@ -61,8 +62,8 @@ body {
 }
 
 .topmenu-announcement {
-	background-color: #cfccd6;
-	color: navy;
+	background-color: tomato;
+	color: white;
 	font-weight: bold;
 	margin: 0;
 	padding-top: .25%;
@@ -72,8 +73,7 @@ body {
 	font-size: 85%;
 	text-decoration: none;
 	text-align: center;
-	border-bottom: 1px solid tomato;
-	border-top: 1px solid tomato;
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
 
@@ -84,7 +84,7 @@ body {
 	margin-left: 1%;
 	margin-right: 1%;
 	border-bottom: 1px solid navy; 
-	border-top: 2px solid navy; 
+	border-top: 1px solid navy; 
 	text-shadow: 0px 0px 2px navy;
 	font-weight: bold;
 	}
@@ -121,6 +121,8 @@ body {
 	margin-left: 5%;
 	margin-right: 5%;
 	color: navy;
+	border-left: 1px solid #cfccd6;
+	border-right: 1px solid #cfccd6;
 }
 
 .homebeerfull{
@@ -175,7 +177,7 @@ body {
 
 .beerheading{
 	color: white;
-	background-color: navy;
+	background-color: #1569C7;
 	letter-spacing: 2px;
 	font-variant:small-caps;
     font-family: "Arial"; 
@@ -185,7 +187,9 @@ body {
 	padding-bottom: 1%;
 	padding-top: 1%;
 	font-size: 140%;
-	font-weight: 600;
+	font-weight: 500;
+	border: 1px solid navy;
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 	}
 
 .beerheadingfull{
@@ -215,8 +219,8 @@ body {
 .beercrowd{
 	font-size: 280%;
 	font-variant:small-caps;
-	color: navy;
-	text-shadow: 0px 0px 5px tomato;
+	color: tomato;
+	text-shadow: 2px 2px 1px navy;
 	font-weight: bold;
 }
 
@@ -252,9 +256,12 @@ body {
 	padding: 1%;
 	text-align: left;
 	font-weight: bold;
-	border-bottom: 1px solid navy;
+	border-bottom: 2px solid navy;
 	text-align: center;
-	padding-right: 1.5%;
+}
+
+.content-base-shadow{
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
 .navybottomborder{
@@ -332,6 +339,15 @@ body {
 	letter-spacing: 1px;
 	background-color: #1569C7;
 	margin-bottom: 2px;
+}
+
+.content-description-top{
+	font-weight: 700;
+	font-size: 75%;
+	letter-spacing: 1px;
+	background-color: tomato;
+	margin-bottom: 2px;
+	color: white;
 }
 
 .content-description-beer{
@@ -477,6 +493,17 @@ textarea.focus {
 	width: 80%;
 }
 
+.managetool {
+	color: snow;
+	margin: 0 5px;
+}
+
+.managetool:hover {
+	color: tomato;
+	background-color: #1569C7;
+	padding: 0;
+}
+
 ul
 {
     list-style-type: none;
@@ -491,4 +518,9 @@ li#profilesheet
 input
 {
 	text-align: center;
+}
+
+a:hover {
+	background-color: snow;
+	color: tomato;
 }
