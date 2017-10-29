@@ -10,11 +10,13 @@ from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from crispy_forms.bootstrap import TabHolder, Tab 
 
 class ClubForm(forms.ModelForm):
-    class Meta:
-        model = Club
-        exclude = ('date_added',)
+	established = forms.DateField(widget=forms.DateInput(format = '%m/%d/%Y'),input_formats=('%m/%d/%Y',))
 	
-class ClubAnnouncementForm(forms.ModelForm):
+	class Meta:
+		model = Club
+		exclude = ('date_added',)
+	
+class ClubAnnouncementForm(forms.ModelForm):	
 	class Meta:
 		model = Club_Announcement
 		exclude = ('expiration_date',)

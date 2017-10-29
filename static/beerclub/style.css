@@ -270,6 +270,13 @@ body {
 	margin-left: 1%;
 	margin-right: 1%;
 }
+
+.bluebottomborder{
+	border-bottom: 2px solid #1569C7;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
 .content-1{
 	font-size: 90%;
 	padding: 0 0 0 0;
@@ -324,6 +331,7 @@ body {
 	padding-left: 1%;
 	padding-right: 1%;
 }
+
 
 .content-description{
 	font-weight: 500;
@@ -420,6 +428,12 @@ body {
 .removesubmit{
 	background: none;
 	border: none;
+	padding: 0;
+}
+
+.removesubmit:hover{
+	color: tomato;
+	background-color: snow;
 	padding: 0;
 }
 

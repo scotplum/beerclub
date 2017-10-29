@@ -5,16 +5,14 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container">
-		<h3 class="w3-center" style="font-weight: bold;">Manage {{ club_event.event.event_name }}</h3>
-	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Edit the fields below that you would like to change and click update. Inactive events will not be visible to the crowd. The page for the event can not be visited by anyone including admins.  You may confirm an inactive event by attempting to visit the link at the bottom of this page.
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+			Edit the fields below that you would like to change and click update. Inactive events will not be visible to the crowd. The page for the event can not be visited by anyone including admins.  You may confirm an inactive event by attempting to visit the link at the bottom of this page.
 			</div>
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">Manage Event</h3>
+	<h3 class="w3-center beerheading">Manage {{ club_event.event.event_name }}</h3>
 		<form method="post" action="" class="">
 		<div class="homebeer">
 		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>

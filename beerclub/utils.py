@@ -16,4 +16,4 @@ def navigation(request):
     context['club_check'] = club_check    
     if club_check:
 		context['clubs'] = Club_User.objects.filter(user=user_object.id).filter(is_active=True).select_related()
-    return {'context':context, 'user_object':user_object}
+    return {'context':context, 'user_object':user_object, 'club_check':club_check}

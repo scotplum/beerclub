@@ -5,9 +5,6 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-padding-bottom w3-card">
-		<h3 class="w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">Create Crowd</h3>
-	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
 			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">Completing the form below will create a new crowd.</div>
@@ -22,7 +19,7 @@
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Established</div><div class="content-3" style="text-align:center;">{{ form.established }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Established (Format: 03/05/2017)</div><div class="content-3" style="text-align:center;">{{ form.established }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Annual Fee ($)</div><div class="content-3" style="text-align:center;">{{ form.annual_fee }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Crowd is public</div><div class="content-3" style="text-align:center;">{{ form.is_public }}</div></div>
 		{% csrf_token %}

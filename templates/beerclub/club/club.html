@@ -123,12 +123,5 @@
 			</div>
 		</div>	
 </div>
-{% for b in beer_rating %}
-{% for set in b %}
-{{ set.rating.content_object.bdb_id }}
-{% endfor %}
-{% endfor %}
--------------
-{{ user_beers }}
 
 {% endblock content %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+{% load ratings %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+			<div>
+				<form name="ratingsForm" class="w3-center" method="Post">
+				<button class="removesubmit" name="sortratings" value="1" type="submit"><a class="w3-margin-right">1</a></button>
+				<button class="removesubmit" name="sortratings" value="2" type="submit"><a class="w3-margin-right">2</a></button>
+				<button class="removesubmit" name="sortratings" value="3" type="submit"><a class="w3-margin-right">3</a></button>
+				<button class="removesubmit" name="sortratings" value="4" type="submit"><a class="w3-margin-right w3-large" style="color: tomato;"><b>4</b></a></button>
+				<button class="removesubmit" name="sortratings" value="5" type="submit"><a class="w3-margin-right">5</a></button> 
+				<button class="removesubmit" name="sortratings" value="6" type="submit"><a class="w3-margin-right">6</a></button> 
+				<button class="removesubmit" name="sortratings" value="7" type="submit"><a class="w3-margin-right">7</a></button> 
+				<button class="removesubmit" name="sortratings" value="8" type="submit"><a class="w3-margin-right">8</a></button>
+				<button class="removesubmit" name="sortratings" value="9" type="submit"><a class="w3-margin-right">9</a></button>
+				<button class="removesubmit" name="sortratings" value="10" type="submit"><a class="w3-margin-right">10</a></button>
+				<button class="removesubmit" name="sortratings" value="All" type="submit"><a class="w3-margin-right">All</a></button>
+				{% csrf_token %}
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="w3-center w3-padding-bottom">
+		<div class="homebeer w3-padding-top">
+			{% for rating in beer_rating %}
+			{% if rating.score == 4 %}
+			<div class="content-base">
+				<div class="content-1 w3-padding-bottom"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a> <span class="content-2">{{ rating.rating.content_object.beer_company }}</span></div>
+				<div class="content-3">{% ratings rating.rating.content_object %}</div>
+			</div>
+			{% endif %}
+			{% endfor %}
+		</div>
+	</div><br><br>
+</div>
+
+{% endblock content %}

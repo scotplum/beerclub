@@ -5,12 +5,10 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container">
-		<h3 class="w3-center" style="font-weight: bold;">{{ crowd.name }} <span class="w3-tiny"><a class="topmenu-manage" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
-	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: center;"><a class="w3-padding-right" href="addevent/">Add event</a>|<a class="w3-padding-left"href="address/">Edit address</a>
+			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: center;"><div>{{ crowd.name }}</div>
+			<br><a class="w3-padding-right" href="addevent/">Add event</a>|<a class="w3-padding-left"href="address/">Edit address</a>
 			</div>
 		</div>
 	</div>

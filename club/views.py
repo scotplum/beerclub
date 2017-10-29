@@ -10,7 +10,7 @@ from django.forms import modelformset_factory
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
-import datetime
+from datetime import datetime
 from operator import itemgetter
 from beerclub.decorators import user_is_admin
 from beerclub.utils import navigation
@@ -149,7 +149,8 @@ def about(request, id):
             updated_crowd.name = post_info['name']
             updated_crowd.city = post_info['city']
             updated_crowd.state = post_info['state']
-            updated_crowd.established = post_info['established']
+            post_info_established = post_info['established']
+            updated_crowd.established = datetime.strptime(post_info_established, '%m/%d/%Y').strftime('%Y-%m-%d')
             updated_crowd.annual_fee = post_info['annual_fee']
             if 'is_public' in post_info:
 				updated_crowd.is_public = True

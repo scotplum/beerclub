@@ -8,8 +8,8 @@
 <div class="w3-mobile w3-center">
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">I am a firm believer in the people. If given the truth, they can be depended upon to meet any national crisis. The great point is to bring them the real facts, and beer.
-			<br>- Abraham Lincoln -
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;"><b>How do we get started?</b>
+			<br><br>Type in any beer in the text box above, click on Beer Me then select the beer.  
 			</div>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h3 class="beerheading">Favorites</h3>
 			{% if fav_beer_check == False %}
-			<div class="content-blankstate">Try finding a favorite in the search box above</div>
+			<div class="content-blankstate">Favorites added at the top of a beer page</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">			
 			{% for beer in favorite %}
@@ -36,7 +36,7 @@
 		<div class="w3-cell w3-half w3-right w3-padding-bottom">
 			<h3 class="beerheading">Wanted</h3>
 			{% if want_beer_check == False %}
-			<div class="content-blankstate">Hint: "Beer Me"</div>
+			<div class="content-blankstate">Wanted added at the top of a beer page</div>
 			{% endif %}
 			<div class="w3-center homebeer w3-padding-top">
 			{% for beer in wanted %}
@@ -58,31 +58,35 @@
 			<h3 class="beerheading">Upcoming Events</h3>
 			<div class="w3-center homebeer w3-padding-top">
 			{% for event in events %}
-			{% if event.is_active == True %}
+			{% for e in event %}
+			{% if e.event.is_active == True %}
 			<div class="content-base">
-				<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
-				<div class="content-3">{{ event.address }}</div>
-				<div class="content-3">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
+				<div class="content-1"><a href="/event/{{ e.event.id }}/">{{ e.event.event_name }}</a></div>
+				<div class="content-3">{{ e.event.address }}</div>
+				<div class="content-3">{{ e.event.event_date|date:'n/j/y g:i A'|lower }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
+			{% endfor %}
 			</div>
-		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top">See All Upcoming Events</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/event/">See All Upcoming Events</a></div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Past Events</h3>
 			<div class="w3-center homebeer w3-padding-top">
 			{% for event in past_events %}
-			{% if event.is_active == True %}
+			{% for pe in event %}
+			{% if pe.event.is_active == True %}
 			<div class="content-base">
-				<div class="content-1"><a href="/event/{{ event.id }}/">{{ event.event_name }}</a></div>
-				<div class="content-3">{{ event.address }}</div>
-				<div class="content-3">{{ event.event_date|date:'n/j/y g:i A'|lower }}</div>
+				<div class="content-1"><a href="/event/{{ pe.event.id }}/">{{ pe.event.event_name }}</a></div>
+				<div class="content-3">{{ pe.event.address }}</div>
+				<div class="content-3">{{ pe.event.event_date|date:'n/j/y g:i A'|lower }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
+			{% endfor %}
 			</div>
-		<div class="w3-padding-top w3-margin-top homecompany w3-margin-right">See All Past Events</div>
+		<div class="w3-padding-top w3-margin-top homecompany w3-margin-right"><a href="/event/">See All Past Events</a></div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">

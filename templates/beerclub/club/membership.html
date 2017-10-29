@@ -5,12 +5,9 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container">
-		<h3 class="w3-center" style="font-weight: bold;">{{ crowd }} <span class="w3-tiny"><a class="topmenu-manage" href="/club/{{ crowd.id }}/manage/">manage</a></span></h3>
-	</div>
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">You may set a member to inactive or active.  You may also add or remove aministrator level priveleges.</div>
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">You may set a member to inactive or active.  You may also add or remove aministrator level privileges.</div>
 		</div>
 	</div>
 	{% if club_pending_user_check %}
@@ -43,9 +40,9 @@
 			{% if member.is_active %}
 			<div class="content-base">
 				<form name="membershipForm" class="w3-center" method="Post">
-				<div class="club-content-span w3-padding-bottom w3-padding-top" style="font-size: 90%; font-weight: bold;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }} {% endif %}(<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>){% if member.is_admin %}<div class="homebeer"><b>ADMIN</b></div>{% endif %}</div>
+				<div class="club-content-span w3-padding-bottom w3-padding-top" style="font-size: 90%; font-weight: bold;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }} {% endif %}(<a href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a>){% if member.is_admin %}<div class="homebeer w3-small"><b>administrator</b></div>{% endif %}</div>
 				{% if member.user != user_object %}
-				<button class="removesubmit w3-padding-right" name="inactivate" value="{{ member.id }}" type="submit"><a class="w3-center w3-tiny">Set to Inactive</a></button>
+				<button class="removesubmit w3-padding-right" name="inactivate" value="{{ member.id }}" type="submit"><a class="w3-center w3-tiny">Set Inactive</a></button> |
 				{% endif %}
 				{% if member.is_admin %}
 				{% if member.user != user_object %}

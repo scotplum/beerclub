@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm, Beer_Color, Beer_Head, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
 from event.models import Event, Event_Beer
+from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
@@ -20,6 +21,7 @@ def index(request):
     context = {}
     nav = navigation(request)
     user_object = nav['user_object']
+    club_check = nav['club_check']
     context = nav['context']
     beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
     context['beer_notes_check'] = beer_notes_check
@@ -39,10 +41,20 @@ def index(request):
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check	
     now = timezone.now()
-    events = Event.objects.filter(event_date__gte=timezone.now())
-    pastevents = Event.objects.filter(event_date__lt=timezone.now())
-    context['events'] = events
-    context['past_events'] = pastevents
+    if club_check:
+		clubs = Club_User.objects.filter(user=user_object).select_related()
+		club_events = []
+		club_past_events = []
+		for club in clubs:
+			club_object = Club.objects.get(id=club.club.id)
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).exists():
+				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).select_related()
+				club_events.append(events)
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).exists():
+				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).select_related()
+				club_past_events.append(past_events)
+		context['events'] = club_events
+		context['past_events'] = club_past_events
     if request.method == "POST": 
 		rp = request.POST
 		if 'removefav' in rp:
@@ -321,15 +333,34 @@ def ratings(request):
     context = nav['context']
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
-    test_rating = Beer_Rating.objects.filter(ratings__isnull=False).order_by('ratings__average')
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')
+		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id').prefetch_related('user', 'rating')
 		context['beer_rating'] = beer_rating
-		user_beer_rating = []
-		for beer in beer_rating:
-			rated_beer = Beer_Rating.objects.get(bdb_id = beer.rating.content_object.bdb_id)
-			user_beer_rating.append(rated_beer)
-		context['user_beer_ratings'] = user_beer_rating
+    if request.method == "POST": 
+		rp = request.POST.get("sortratings")
+		context['rp'] = rp
+		if rp == '1':
+			return render(request, 'home/ratings_1.html', context)
+		if rp == '2':
+			return render(request, 'home/ratings_2.html', context)
+		if rp == '3':
+			return render(request, 'home/ratings_3.html', context)
+		if rp == '4':
+			return render(request, 'home/ratings_4.html', context)
+		if rp == '5':
+			return render(request, 'home/ratings_5.html', context)
+		if rp == '6':
+			return render(request, 'home/ratings_6.html', context)
+		if rp == '7':
+			return render(request, 'home/ratings_7.html', context)
+		if rp == '8':
+			return render(request, 'home/ratings_8.html', context)
+		if rp == '9':
+			return render(request, 'home/ratings_9.html', context)
+		if rp == '10':
+			return render(request, 'home/ratings_10.html', context)
+		if rp == 'All':
+			return render(request, 'home/ratings.html', context)
     return render(request, 'home/ratings.html', context)
 
 @login_required	
@@ -372,7 +403,7 @@ def noteedit(request, id):
             beer_note = Beer_Note.objects.get(id=id)
             context['beer_note'] = beer_note
             context['form'] = BeerNoteForm(instance=beer_note)
-            return render(request, 'home/noteedit.html', context)
+            return redirect('/home/findbeer/' + beer_note.bdb_id + '/')
     else:
         form = BeerNoteForm()
     return render(request, 'home/noteedit.html',context)
