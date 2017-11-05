@@ -38,15 +38,15 @@
 			</h3>
 			<div class="homebeer w3-padding-top">
 				<div class="">
-					<div class="club-content-span2 content-base content-1-nm">Established: {{ crowd.established }}</div>				
-					<div class="club-content-span2 content-base content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
+					<div class="club-content-span2 content-base-nobold content-1-nm">Established: {{ crowd.established }}</div>				
+					<div class="club-content-span2 content-base-nobold content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
 					{% if crowd.is_public %}
-					<div class="club-content-span2 content-base content-1-nm">Applications open to the public</div>
+					<div class="club-content-span2 content-base-nobold content-1-nm">Applications open to the public</div>
 					{% else %}
-					<div class="club-content-span2 content-base content-1-nm">Invitations by email only</div>
+					<div class="club-content-span2 content-base-nobold content-1-nm">Invitations by email only</div>
 					{% endif %}
-					<div class="club-content-span2 content-base content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
-					<div class="club-content-span2 content-base content-1-nm">Aministered by 
+					<div class="club-content-span2 content-base-nobold content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
+					<div class="club-content-span2 content-base-nobold content-1-nm">Aministered by 
 					{% for admin in club_admin %}
 					<br><span><a class="w3-small" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
 					{% endfor %}					
@@ -64,7 +64,7 @@
 				{% for announcement in crowd_announcement %}
 				{% if announcement.is_active %}
 				<div class="homebeer">
-					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}</div>
+					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}{% if club_admin_check %}<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>{% endif %}</div>
 					<div class="content-base">
 						<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
 					</div>
@@ -91,7 +91,7 @@
 							<div class="w3-padding-top content-base club-content-span2" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}<br>{% endif %}<a class="w3-small" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
 							{% endfor %}
 							{% else %}
-							<div class="content-blankstate">No current members</div>
+							<div class="content-base">No current members</div>
 							{% endif %}
 							</div>
 						</div>
@@ -112,13 +112,13 @@
 						<div class="content-base">
 							<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
 							<div class="content-3">{{ event.event.address }}</div>
-							<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+							<div class="content-2-nobold">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
 						</div>
 						{% endif %}
 						{% endfor %}
 				</div>
 						{% else %}
-						<div class="content-blankstate">There are no events scheduled at this time</div>
+						<div class="content-base">There are no events scheduled at this time</div>
 						{% endif %}
 			</div>
 		</div>	

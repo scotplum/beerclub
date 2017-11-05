@@ -10,10 +10,10 @@ from django.forms import modelformset_factory
 from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from star_ratings.models import UserRating, Rating
 from django.utils import timezone
-from datetime import datetime
+import datetime
 from operator import itemgetter
 from beerclub.decorators import user_is_admin
-from beerclub.utils import navigation
+from beerclub.utils import navigation, mobile
 
 # Create your views here.
 context = {}
@@ -24,7 +24,12 @@ def index(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    return render(request, 'club/index.html', context)  
+    if mobile(request):
+		is_mobile = True
+		return render(request, 'club/index_m.html', context)
+    else:
+		is_mobile = False
+		return render(request, 'club/index.html', context)  
 
 @login_required	
 def club(request, id):
@@ -113,20 +118,58 @@ def announcement(request, id):
 		context['crowd_announcement'] = crowd_announcement
     club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
-    context['form'] = ClubAnnouncementForm(instance=crowd)
-    ClubAnnouncementFormSet = modelformset_factory(Club_Announcement, exclude=('expiration_date','club',))
-    formset = ClubAnnouncementFormSet(queryset=Club_Announcement.objects.filter(club=crowd))
-    context['formset'] = formset
+    return render(request, 'club/manage_announcement.html', context)  
+	
+@login_required
+@user_is_admin
+def editannouncement(request, id, announcement_id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    crowd_announcement = Club_Announcement.objects.get(id=announcement_id)
+    context['crowd_announcement'] = crowd_announcement
+    form = ClubAnnouncementForm(instance=crowd_announcement)
+    context['form'] = form
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
     if request.method == 'POST':
-        formset = ClubAnnouncementFormSet(request.POST, request.FILES)
-        formset.club = crowd.id
-        if formset.is_valid():
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.club = crowd
-                instance.save()
-            return redirect('/club/' + id + '/')
-    return render(request, 'club/announcement.html', context)  
+        form = ClubAnnouncementForm(request.POST)
+        post_info = request.POST
+        if form.is_valid():
+			updated_announcement = crowd_announcement
+			updated_announcement.announcement = post_info['announcement']
+			updated_announcement.date_added = post_info['date_added']
+			if 'is_active' in post_info:
+				updated_announcement.is_active = True
+			else:
+				updated_announcement.is_active = False
+			updated_announcement.save()
+			return redirect('/club/' + id + '/')
+    return render(request, 'club/editannouncement.html', context)
+	
+@login_required
+@user_is_admin
+def newannouncement(request, id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    crowd = Club.objects.get(id=id)
+    context['form'] = ClubAnnouncementForm()
+    context['crowd'] = crowd
+    club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
+    context['club_admin_check'] = club_admin_check
+    if request.method == 'POST':
+        form = ClubAnnouncementForm(request.POST)
+        if form.is_valid():
+            announcement = form.save(commit=False)
+            announcement.club = crowd
+            announcement.save()
+            return redirect('/club/' + str(crowd.id) + '/')
+    return render(request, 'club/newannouncement.html', context)
 
 @login_required
 @user_is_admin	
@@ -150,7 +193,7 @@ def about(request, id):
             updated_crowd.city = post_info['city']
             updated_crowd.state = post_info['state']
             post_info_established = post_info['established']
-            updated_crowd.established = datetime.strptime(post_info_established, '%m/%d/%Y').strftime('%Y-%m-%d')
+            updated_crowd.established = datetime.datetime.strptime(post_info_established, '%m/%d/%Y').strftime('%Y-%m-%d')
             updated_crowd.annual_fee = post_info['annual_fee']
             if 'is_public' in post_info:
 				updated_crowd.is_public = True

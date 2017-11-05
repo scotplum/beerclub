@@ -7,9 +7,9 @@
 {% load ratings %}
 {% load home_extras %}
 <div class="w3-mobile w3-center">
-	<div class="w3-container w3-center">
-		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+	<div class="w3-center">
+		<div class="content-base-navyborder topmenu-margin">
+			<div class="content-description-beer club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
 			<div class="w3-xlarge">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div><br>
 			{% if data.description %}
 			{% if data.description|length < 225 %}
@@ -51,12 +51,26 @@
 			</div>
 		</div>
 	</div>
-	<div class="w3-container w3-center w3-padding-top">
+	<div class="w3-container w3-center w3-padding-top w3-margin-top">
 		<div class="w3-display-container">
 			{% if data.labels.medium %}
 			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
 			{% endif %}
 			<div class="w3-center w3-padding-top">{% ratings score_beer %}</div>
+			<h3 class="beerheading w3-padding-left"><a class="managetool w3-margin-left" style="" href="{{ urlprofilesheet }}">Your Profile</a>
+			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			</h3>
+			<div class="homebeer">
+			{% regroup ps_attribute_objects by section as attribute_section %}
+			{% for attribute in attribute_section %}
+				<div class="content-base">
+				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
+				{% for a in attribute.list %}
+				<span class="content-description-beer">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
+				{% endfor %}
+				</div>
+			{% endfor %}
+			</div>			
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
@@ -68,13 +82,22 @@
 					<div class="content-base"><b>Style: </b><span class="content-description-beer">{{ style.name }}</span></div>
 					{% endif %}
 					{% if data.abv %}
-					<div class="content-base"><b>Alcohol Content: </b><span class="content-description-beer">{{ data.abv }}% abv</span></div>
+					<div class="content-base"><b>ABV: </b><span class="content-description-beer">{{ data.abv }}%</span></div>
+					{% endif %}
+					{% if data.ibu %}
+					<div class="content-base"><b>IBUs: </b><span class="content-description-beer">{{ data.ibu }}</span></div>
 					{% endif %}
 					{% if data.glass.name %}
 					<div class="content-base"><b>Glass: </b><span class="content-description-beer">{{ data.glass.name }}</span></div>
 					{% endif %}
 					{% if data.foodPairings %}
 					<div class="content-base"><b>Food Pairings: </b><span class="content-description-beer">{{ data.foodPairings }}</span></div>
+					{% endif %}
+					{% if data.servingTemperatureDisplay %}
+					<div class="content-base"><b>Serving Temperature: </b><span class="content-description-beer">{{ data.servingTemperatureDisplay }}</span></div>
+					{% endif %}
+					{% if data.available.description %}
+					<div class="content-base"><b>Availability: </b><span class="content-description-beer">{{ data.available.description }}</span></div>
 					{% endif %}
 			</div>
 			{% if brewery.nameShortDisplay %}
@@ -91,27 +114,19 @@
 				{% endif %}
 				{% endif %}
 				<div class="w3-padding-top">
+					{% if brewery.brandClassification %}
+					<div class="content-base"><b>Classification: </b><span class="content-description-beer">{{ brewery.brandClassification }}</span></div>
+					{% endif %}
 					{% if brewery.established %}
 					<div class="content-base"><b>Established: </b><span class="content-description-beer">{{ brewery.established }}</span></div>
 					{% endif %}
 					{% if region %}
 					<div class="content-base"><b>Region: </b><span class="content-description-beer">{{ region }}</span></div>
 					{% endif %}
+					{% if brewery.website %}
+					<div class="content-base"><b>Website: </b><span class="content-description-beer"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
+					{% endif %}
 				</div>
-			</div>
-			<h3 class="beerheading w3-padding-left"><a class="managetool w3-margin-left" style="" href="{{ urlprofilesheet }}">Your Profile</a>
-			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-			</h3>
-			<div class="homebeer">
-			{% regroup ps_attribute_objects by section as attribute_section %}
-			{% for attribute in attribute_section %}
-				<div class="content-base">
-				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
-				{% for a in attribute.list %}
-				<span class="content-description-beer">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
-				{% endfor %}
-				</div>
-			{% endfor %}
 			</div>
 		</div>
 	</div>

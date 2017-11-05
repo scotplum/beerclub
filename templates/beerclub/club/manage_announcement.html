@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Manage {{ crowd }}
+			<br><br><a href="new/">Add an Announcement</a>
+		</div>
+	</div>
+	<div class="w3-container w3-margin w3-padding-bottom">
+		<h3 class="w3-center beerheading">Active Announcements</h3>
+		<div class="w3-center homebeer">
+			{% for announcement in crowd_announcement %} 
+			{% if announcement.is_active %}
+			<div class="w3-padding-top content-base"><a href="{{ announcement.id }}/">{{ announcement.date_added}}</a></div>
+			{% endif %}
+			{% endfor %}
+		</div><br>
+	</div>
+	<div class="w3-container w3-margin w3-padding-bottom">
+		<h3 class="w3-center beerheading">Inactive Announcements</h3>
+		<div class="w3-center homebeer">
+			{% for announcement in crowd_announcement %} 
+			{% if announcement.is_active == False %}
+			<div class="w3-padding-top content-base"><a href="{{ announcement.id }}/">{{ announcement.date_added}}</a></div>
+			{% endif %}
+			{% endfor %}
+		</div><br>
+		<div><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+	</div>
+</div>
+{% endblock content %}

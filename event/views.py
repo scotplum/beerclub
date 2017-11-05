@@ -20,11 +20,22 @@ def event(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    club_check = nav['club_check']
     now = timezone.now()
-    events = Event.objects.filter(event_date__gte=timezone.now())
-    pastevents = Event.objects.filter(event_date__lt=timezone.now())
-    context['events'] = events
-    context['past_events'] = pastevents
+    if club_check:
+		clubs = Club_User.objects.filter(user=user_object).select_related()
+		club_events = []
+		club_past_events = []
+		for club in clubs:
+			club_object = Club.objects.get(id=club.club.id)
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).exists():
+				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).select_related()
+				club_events.append(events)
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).exists():
+				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).select_related()
+				club_past_events.append(past_events)
+		context['events'] = club_events
+		context['past_events'] = club_past_events
     return render(request, 'event/index.html', context)  
 	
 
@@ -41,16 +52,12 @@ def one_event(request, event_id):
     context['club_event'] = club_event
     club_admin_check = Club_User.objects.filter(club=club_event.club).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
-    suggestions = Wanted_Beers.objects.all().select_related('user')
-    commited_beer_check = Event_Beer.objects.filter(event=event).exists()
-    if commited_beer_check:
-        committed = Event_Beer.objects.filter(event=event).select_related('user', 'event')
+    committed_beer_check = Event_Beer.objects.filter(event=event).exists()
+    if committed_beer_check:
+        committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name').distinct()
         context['committed'] = committed
     desired = []
-    for beer in suggestions:
-	    desired.append(beer.beer_name)
-    context['suggestions'] = suggestions
-    event_beer_check = Event_Beer.objects.filter(event=event).exists()
+    event_beer_check = Event_Beer.objects.filter(event=event).filter(is_active=True).exists()
     event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()
     taster_response_check = Event_Attend.objects.filter(event=event).exists()
     context['taster_response_check'] = taster_response_check
@@ -67,8 +74,17 @@ def one_event(request, event_id):
 		suggest = []
 		for taster in taster_response:
 			if taster.will_attend == True:
-				want = Wanted_Beers.objects.filter(user=taster.user).select_related('user')
+				want = Wanted_Beers.objects.filter(user=taster.user).filter(is_active=True).select_related('user')
 				suggest.append(want)
+    suggest_distinct = []
+    bdb_id = []
+    for beer in suggest:
+		for b in beer:
+			if b.bdb_id not in bdb_id:
+				event_wanted_beer = [b.bdb_id, b.beer_company, b.beer_name]
+				bdb_id.append(b.bdb_id)
+				suggest_distinct.append(event_wanted_beer)
+    context['suggest_distinct'] = suggest_distinct
     if event_attendance_check:
 		event_attendance = Event_Attend.objects.get(user=user_object, event=event)
 		context['event_attendance'] = event_attendance
@@ -115,9 +131,10 @@ def one_event(request, event_id):
 			return redirect(redirect_url)
 		if 'removeconfirmed' in rp:
 			event_beer_id = request.POST.get("removeconfirmed")
-			confirmed_beer = Event_Beer.objects.get(id=event_beer_id)
-			confirmed_beer.is_active = False
-			confirmed_beer.save()
+			confirmed_beer = Event_Beer.objects.filter(bdb_id=event_beer_id)
+			for beer_obj in confirmed_beer:
+				beer_obj.is_active = False
+				beer_obj.save()
 			return redirect(redirect_url)
     return render(request, 'event/event.html', context)  
 

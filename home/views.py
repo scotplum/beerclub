@@ -23,7 +23,7 @@ def index(request):
     user_object = nav['user_object']
     club_check = nav['club_check']
     context = nav['context']
-    beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
+    beer_notes_check = Beer_Note.objects.filter(user=user_object).filter(is_active=True).exists()
     context['beer_notes_check'] = beer_notes_check
     if beer_notes_check:
 		beer_notes = Beer_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8]
@@ -47,11 +47,11 @@ def index(request):
 		club_past_events = []
 		for club in clubs:
 			club_object = Club.objects.get(id=club.club.id)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).exists():
-				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).select_related()
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).filter(event__is_active=True).exists():
+				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).filter(event__is_active=True).select_related()
 				club_events.append(events)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).exists():
-				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).select_related()
+			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).filter(event__is_active=True).exists():
+				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).filter(event__is_active=True).select_related()
 				club_past_events.append(past_events)
 		context['events'] = club_events
 		context['past_events'] = club_past_events
@@ -69,6 +69,8 @@ def index(request):
 			want_beer.is_active = False
 			want_beer.save()
 			return redirect('/home/')
+    if request.session['is_mobile']:
+		return render(request, 'home/index_m.html', context)
     return render(request, 'home/index.html', context)  
 	
 @login_required 
@@ -111,6 +113,7 @@ def beer(request, bdb_id):
     context['urlprofilesheet'] = urlprofilesheet
 	#Retrieve Beer Using ID From BreweryDB
     beer = requests.get(urlbeer).json()
+    context['brewerydb_call'] = beer
     image_url = {}
     data = ''
     style = ''
@@ -283,19 +286,21 @@ def taster(request, id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    taster = User.objects.get(id=id)
+    context['taster'] = taster
     fav_beer_check = Favorite_Beers.objects.filter(user=id).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=id).exists()
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check
-    beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
+    beer_notes_check = Beer_Note.objects.filter(user=taster).exists()
     context['beer_notes_check'] = beer_notes_check
     if beer_notes_check:
-		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')[:8]
+		beer_notes = Beer_Note.objects.filter(user=taster).order_by('-date_added')[:8]
 		context['beer_notes'] = beer_notes    
-    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    beer_rating_check = UserRating.objects.filter(user=taster).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id')[:10]
+		beer_rating = UserRating.objects.filter(user=taster).order_by('-id')[:10]
 		context['beer_rating'] = beer_rating
     if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.filter(user=id)
@@ -447,4 +452,6 @@ def profilesheet(request, bdb_id):
 			p_s_a.beer_attribute.add(attribute_add)
 		p_s_a.save()
 		return redirect('/home/findbeer/' + bdb_id + '/')
+    if request.session['is_mobile']:
+		return render(request, 'home/profilesheet_m.html', context)
     return render(request, 'home/profilesheet.html', context)

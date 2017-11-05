@@ -5,9 +5,13 @@ body {
 
 .topmenu {
 	background-color: #1569C7;
-	margin: .5% 1% 0 1%;
+	margin: 0 1% 0 1%;
 	color: snow;
-	border-top: 2px solid navy;
+	border-top: 2px solid tomato;
+}
+
+.topmenu-margin{
+	margin: 0 1% 0 1%;
 }
 
 
@@ -38,6 +42,11 @@ body {
 .topmenu-negative {
 	background-color: #1569C7;
 	border: 1px solid navy;
+}
+
+.topmenu-negative:hover {
+	color: snow;
+	background-color: tomato;
 }
 
 .bottom-border-tomato {
@@ -194,7 +203,7 @@ body {
 
 .beerheadingfull{
 	color: white;
-	background-color: navy;
+	background-color: #1569C7;
 	letter-spacing: 2px;
 	font-variant:small-caps;
     font-family: "Arial"; 
@@ -204,9 +213,8 @@ body {
 	padding-bottom: 1%;
 	padding-top: 1%;
 	font-size: 140%;
-	font-weight: 600;
-	border-bottom: 2px solid tomato;
-	border-top: 2px solid tomato;
+	font-weight: 500;
+	text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 	}	
 
 .loginlink{
@@ -250,13 +258,22 @@ body {
 	text-align: center;
 }
 
+.content-base-nobold{
+	color:navy;
+	background-color:snow;
+	padding: .5%;
+	text-align: left;
+	border-bottom: .5px solid #cfccd6;
+	text-align: center;
+}
+
 .content-base-navyborder{
 	color:navy;
 	background-color:snow;
 	padding: 1%;
 	text-align: left;
 	font-weight: bold;
-	border-bottom: 2px solid navy;
+	border-bottom: 2px solid #1569C7;
 	text-align: center;
 }
 
@@ -278,7 +295,7 @@ body {
 }
 
 .content-1{
-	font-size: 90%;
+	font-size: 85%;
 	padding: 0 0 0 0;
 	margin-left: 3%;
 	margin-right: 3%;
@@ -291,10 +308,9 @@ body {
 	padding: 0 0 0 0;
 	margin-left: 3%;
 	margin-right: 3%;
-	color: navy;
+	color: tomato;
 	text-decoration: none;
 	font-weight: 900;
-	text-shadow: 0px 0px 1px tomato;
 }
 
 .alt-hyper{
@@ -316,12 +332,24 @@ body {
 	font-size: 80%;
 }
 
+.content-2-nobold{
+	color: black;
+	padding-bottom: 0;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 80%;
+}
+
 .content-3{
-	font-size: 75%;
+	font-size: 80%;
 	color: navy;
 	font-weight: 700;
 	padding-left: 1%;
 	padding-right: 1%;
+}
+
+.nobold{
+	font-weight: 500;
 }
 
 .content-3-black{
@@ -332,6 +360,10 @@ body {
 	padding-right: 1%;
 }
 
+.content-tomato{
+	color: tomato;
+	font-weight: bold;
+}
 
 .content-description{
 	font-weight: 500;
@@ -369,13 +401,15 @@ body {
 }
 
 .content-blankstate{
-	font-size: 100%;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	background-color: snow;
 	margin-left: 5%;
 	margin-right: 5%;
-	color: navy;
+	color:navy;
+	background-color:snow;
+	padding: 1%;
+	text-align: left;
+	font-weight: bold;
+	border-bottom: .5px solid #cfccd6;
+	text-align: center;
 }
 
 .content-wrapper{
@@ -403,7 +437,7 @@ body {
 }
 
 .club-content-span{
-	color: black;
+	color: navy;
 	font-weight: 500;
 }
 
@@ -414,15 +448,15 @@ body {
 }
 
 .club-content-span-bold{
-	color: black;
+	color: navy;
 	font-weight: 700;
 }
 
 .dropdown{
 	font-size: 90%;
-	color: snow;
-	font-weight: 400;
-	background-color: #1569C7;
+	color: white;
+	font-weight: 700;
+	background-color: tomato;
 }
 
 .removesubmit{
@@ -518,6 +552,17 @@ textarea.focus {
 	padding: 0;
 }
 
+.managetooltomato {
+	color: snow;
+	margin: 0 5px;
+}
+
+.managetooltomato:hover {
+	color: #1569C7;
+	background-color: tomato;
+	padding: 0;
+}
+
 ul
 {
     list-style-type: none;
@@ -527,6 +572,12 @@ li#profilesheet
 {
 	display: inline-block;
 	width: 15%;
+}
+
+li#profilesheetm
+{
+	display: inline-block;
+	width: 24%;
 }
 
 input

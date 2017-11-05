@@ -19,7 +19,7 @@ class ClubForm(forms.ModelForm):
 class ClubAnnouncementForm(forms.ModelForm):	
 	class Meta:
 		model = Club_Announcement
-		exclude = ('expiration_date',)
+		exclude = ('expiration_date', 'club',)
 		
 class ClubMembershipForm(forms.ModelForm):
 	class Meta:

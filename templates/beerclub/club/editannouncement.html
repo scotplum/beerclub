@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: left;">Any changes or additions made will take place when you click the Update button at the bottom of the page. Remove announcements from the crowd page by unchecking "Active" on an announcement.  
+
+			</div>
+		</div>
+	</div>
+	<h3 class="w3-center beerheading">Announcements</h3>
+		<form method="post" action="" class="">
+		<div class="homebeer content-base">
+		<div class="w3-container w3-padding-bottom"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Announcement</div><div class="content-3" style="text-align:center;">{{ form.announcement }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div></div>
+		<div class="w3-padding-bottom w3-container"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
+		{% csrf_token %}
+		</div>
+		<br><input type="submit" value="Update Announcement"/>
+		</form>
+	<div class="w3-padding-top w3-margin-top"><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+</div>
+{% endblock content %}
