@@ -10,40 +10,39 @@
 		<link rel="stylesheet" href="/lib/w3-colors-food.css">
         <script src="https://www.w3schools.com/lib/w3.js"></script>
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Averia+Libre:700|Open+Sans:400,700|Roboto|Roboto+Slab:700" rel="stylesheet">  
         {% load static %}
         <link rel="stylesheet" href={% static "beerclub/style.css" %}>
 		<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     </head>
 	
     <body>
-        <div class="w3-center w3-container w3-mobile w3-padding-top w3-margin-top">
+	{% load crispy_forms_tags %}
+        <div class="w3-center w3-container w3-mobile w3-margin-top">
             <div id="content" class="w3-display-container">
+				<div style="background-color: tomato; margin: 1%;"><span class="beercrowd">The Beer Crowd</span></div>
+				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity">We are thrilled you joined the beer crowd</span></div>
                 {% block topbar %}
                 <div class="w3-hover-grayscale">
 				{% if banner.image_url %}
-				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image w3-margin-bottom" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
+				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
 				{% endif %}
 				</div>
-				<div class="w3-padding-bottom w3-wide beercrowd">The Beer Crowd</div>
-				{% if request.user.is_authenticated %}
-				<div class="w3-center">
-				<a href="/club/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">crowds</a>
-				<a href="/event/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">events</a>
-				<a href="/home/" class="w3-btn w3-round w3-small topmenu w3-hover-indigo loginlink">home</a>
-				<a href="/accounts/logout/" class="w3-btn w3-round w3-small loginlink topmenu w3-hover-indigo">logout</a>
-				</div>
-				{% endif %}
-                {% endblock topbar %}
             </div>
 		</div>
-		<div id="content">
+		<div class="topmenu w3-center w3-padding-bottom w3-padding-top"><br>
+		</div>
+        {% endblock topbar %}
+		<div id="content" style="margin: 0; padding: 0;">
 		{% block content %}
 		{% endblock content %}
-		</div>
-		<div class="w3-beer beerpadding w3-border-bottom"></div>
+		</div><br><br>
+		<div class="bottom-border-tomato"></div>
 		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right;"><b class="googlemaps ratings">Beer data by BreweryDB</b></div><br>
     </body>
 

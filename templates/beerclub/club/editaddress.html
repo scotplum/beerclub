@@ -14,11 +14,11 @@
 	<h3 class="w3-center beerheading">EDIT Address</h3>
 		<form method="post" action="" class="">
 		<div class="homebeer">
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Address Name</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Address</div><div class="content-3" style="text-align:center;">{{ form.address_1 }}</div></div>
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Zip Code</div><div class="content-3" style="text-align:center;">{{ form.zip_code }}</div></div>
+		<div class="w3-container content-base"><div class="manage-descriptor">Address Name</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
+		<div class="w3-container content-base"><div class="manage-descriptor">Address</div><div class="content-3" style="text-align:center;">{{ form.address_1 }}</div></div>
+		<div class="w3-container content-base"><div class="manage-descriptor">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
+		<div class="w3-container content-base"><div class="manage-descriptor">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
+		<div class="w3-container content-base"><div class="manage-descriptor">Zip Code</div><div class="content-3" style="text-align:center;">{{ form.zip_code }}</div></div>
 		{% csrf_token %}
 		</div>
 		<br><input type="submit" value="Update Address"/>

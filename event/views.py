@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .models import Event, Event_Address, Event_Beer, Event_Attend, Event_Note
 from club.models import Club, Club_User, Club_Event
-from home.models import Wanted_Beers, Beer_Banner
+from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
 from django.utils import timezone
 from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
@@ -55,6 +55,11 @@ def one_event(request, event_id):
     committed_beer_check = Event_Beer.objects.filter(event=event).exists()
     if committed_beer_check:
         committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name').distinct()
+        score_bdb_id = []
+        for sb in committed:
+			score_bdb_id.append(sb['bdb_id'])
+        score_beer = Beer_Rating.objects.filter(bdb_id__in=score_bdb_id)
+        context['score_beer'] = score_beer
         context['committed'] = committed
     desired = []
     event_beer_check = Event_Beer.objects.filter(event=event).filter(is_active=True).exists()

@@ -6,10 +6,10 @@
 
 {% block content %}
 <div class="w3-center w3-mobile">
-<div class="w3-beer w3-container w3-border-bottom w3-border-top w3-border-indigo w3-padding-bottom">
-<h1 class="w3-center w3-text-white" style="text-shadow:0px 1px 0 #444; font-variant: small-caps; font-weight: bold;">{% trans "Sign Out" %}</h1>
+<div class="content-base-navyborder topmenu-margin">
+<h1 class="w3-center content-tomato w3-padding-bottom">{% trans "Sign Out" %}</h1>
 </div>
-<p class="w3-padding-top w3-margin-top homebeer">{% trans 'Are you sure you want to sign out?' %}</p>
+<p class="w3-padding-top w3-margin-top">{% trans 'Are you sure you want to sign out?' %}</p>
 
 <form class="w3-padding-bottom w3-margin-bottom" method="post" action="{% url 'account_logout' %}">
   {% csrf_token %}

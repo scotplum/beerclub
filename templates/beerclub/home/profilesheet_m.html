@@ -8,11 +8,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="content-base-navyborder topmenu-margin">
-		<h3 class="w3-center"><b>{{ beer_info.beer_name }} Profile</b></h3>
-		<div class="nobold">Turning phone sideways on this page helps<br><br>
-			<div class="" style="text-align: center;"><a href="/home/findbeer/{{ beer_info.bdb_id }}/">Back to {{ beer_info.beer_name }}</a>
-			</div>
-		</div>
+		<h3 class="w3-center"><a href="/home/findbeer/{{ beer_info.bdb_id }}/">{{ beer_info.beer_name }}</a></h3>
 	</div>
 	<div class="">
 		<form class="w3-padding-bottom" method="Post">
@@ -27,9 +23,9 @@
 						 {% for attribute in profile_attribute %}
 						 {% if attribute.section == section %}
 							{% if attribute.id in ps_attribute %}
-							<li id="profilesheetm" class="w3-padding-right w3-padding-bottom">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked></input></li>
+							<li id="profilesheetm" class="beerstatsvalue">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked></input></li>
 							{% else %}	
-							<li id="profilesheetm" class="w3-padding-right w3-padding-bottom">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]"></input></li>
+							<li id="profilesheetm" class="beerstatsvalue">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]"></input></li>
 							{% endif %}
 						 {% endif %}
 						 {% endfor %}

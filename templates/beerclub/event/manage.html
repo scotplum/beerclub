@@ -15,11 +15,11 @@
 	<h3 class="w3-center beerheading">Manage {{ club_event.event.event_name }}</h3>
 		<form method="post" action="" class="">
 		<div class="homebeer">
-		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
-		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
-		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Date (Format: 2017-10-31 16:00)</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div></div>
-		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
-		<div class="w3-padding-bottom content-base w3-padding-top"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Address (<a href="/club/{{ club_event.club_id }}/manage/event/newaddress/">Add Address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div><br><div class="content-2"><a href="/club/{{ club_event.club_id }}/manage/event/address/">Edit Address</a></div></div>		
+		<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
+		<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Event Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
+		<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Event Date (Format: 2017-10-31 16:00)</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div></div>
+		<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Event Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
+		<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Event Address (<a href="/club/{{ club_event.club_id }}/manage/event/newaddress/">Add Address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div><br><div class="content-2"><a href="/club/{{ club_event.club_id }}/manage/event/address/">Edit Address</a></div></div>		
 		
 		{% csrf_token %}
 		</div>

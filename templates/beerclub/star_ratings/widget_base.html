@@ -52,11 +52,11 @@
     {% endblock %}
     {% block rating_detail %}
     {% block rating_average %}
-	<div class="w3-card w3-border w3-round-large w3-padding-top w3-padding-bottom w3-card ratings">
-    <div class="star-ratings-rating-average"><b>{% trans 'The Beer Crowd: ' %}</b> <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
+	<div class="w3-padding-bottom ratings">
+    <div class="star-ratings-rating-average w3-small"><b>{% trans 'The Beer Crowd: ' %}</b> <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
     {% endblock rating_average %}
     {% block rating_user %}
-    <div class="star-ratings-rating-user"><b>{% trans 'My Score: ' %}</b><span class='star-ratings-rating-value'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans 'Not rated' %}{% endif %}</span></div>
+    <div class="star-ratings-rating-user w3-small"><b>{% trans 'My Score: ' %}</b><span class='star-ratings-rating-value'>{% if user_rating %}{{ user_rating.score }}{% else %}{% trans 'Not rated' %}{% endif %}</span></div>
     {% if not user.is_authenticated and not anonymous_ratings and not read_only %}
         <p>{% trans 'Please log in to rate.' %}</p>
     {% endif %}

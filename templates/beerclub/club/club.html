@@ -7,9 +7,9 @@
 <div class="w3-mobile w3-center">
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<h3 class="w3-center content-base-shadow"><b>{{ crowd.name }}</b>
+			<h3 class="w3-center topheading">{{ crowd.name }}
 			{% if club_admin_check %}
-				<span class="w3-tiny"><a class="" href="manage/"><b>manage</b></a></span>
+				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
 			{% endif %}
 			</h3>
 			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
@@ -31,9 +31,10 @@
 	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
-			<h3 class="w3-padding-left beerheading">About
+			<h3 class="beerheading">About
 				{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/about/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
 				{% endif %}			
 			</h3>
 			<div class="homebeer w3-padding-top">
@@ -48,7 +49,7 @@
 					<div class="club-content-span2 content-base-nobold content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
 					<div class="club-content-span2 content-base-nobold content-1-nm">Aministered by 
 					{% for admin in club_admin %}
-					<br><span><a class="w3-small" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
+					<br><span><a class="" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
 					{% endfor %}					
 					</div>					
 				</div>
@@ -58,14 +59,20 @@
 			<h3 class="beerheading">Announcements
 			{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
 			{% endif %}
 			</h3>
 				{% if crowd_announcement_check %}
 				{% for announcement in crowd_announcement %}
 				{% if announcement.is_active %}
 				<div class="homebeer">
-					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}{% if club_admin_check %}<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>{% endif %}</div>
-					<div class="content-base">
+					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
+						{% if club_admin_check %}
+						<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+						<span><a class="w3-left managetooltomato"><i class="fa fa-times" aria-hidden="true"></i></a></span>
+						{% endif %}
+					</div>
+					<div class="">
 						<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
 					</div>
 				</div>
@@ -81,14 +88,15 @@
 				<h3 class="beerheading">Membership
 				{% if club_admin_check %}
 					<span><a class="w3-right managetool" href='manage/membership/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+					<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
 				{% endif %}				
 				</h3>
-					<div class="homebeer w3-padding-top">
+					<div class="homebeer">
 						<div class="">
 							<div class="">					
 							{% if club_user_check %}
 							{% for member in club_user %}
-							<div class="w3-padding-top content-base club-content-span2" style="font-size: 90%;">{% if member.user.first_name %}{{ member.user.first_name }} {{ member.user.last_name }}<br>{% endif %}<a class="w3-small" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
+							<div class="content-base"><a class="" style="font-size: 85%;" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
 							{% endfor %}
 							{% else %}
 							<div class="content-base">No current members</div>

@@ -9,8 +9,8 @@
 <div class="w3-mobile w3-center">
 	<div class="w3-center">
 		<div class="content-base-navyborder topmenu-margin">
-			<div class="content-description-beer club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
-			<div class="w3-xlarge">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div><br>
+			<div class="club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+			<div class="topheading">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div><br>
 			{% if data.description %}
 			{% if data.description|length < 225 %}
 			<div class="w3-padding-left w3-padding-right w3-margin-bottom" style="text-align: center;">{{ data.description }}</div>
@@ -64,9 +64,9 @@
 			{% regroup ps_attribute_objects by section as attribute_section %}
 			{% for attribute in attribute_section %}
 				<div class="content-base">
-				<div class="" style="">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</div>
+				<span class="beerstatslabel">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</span>
 				{% for a in attribute.list %}
-				<span class="content-description-beer">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
+				<span class="beerstatsvalue">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
 				{% endfor %}
 				</div>
 			{% endfor %}
@@ -76,28 +76,28 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if category.name %}
-					<div class="content-base"><b>Category: </b><span class="content-description-beer">{{ category.name }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Category </span><span class="beerstatsvalue">{{ category.name }}</span></div>
 					{% endif %}
 					{% if style.name %}
-					<div class="content-base"><b>Style: </b><span class="content-description-beer">{{ style.name }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Style </span><span class="beerstatsvalue">{{ style.name }}</span></div>
 					{% endif %}
 					{% if data.abv %}
-					<div class="content-base"><b>ABV: </b><span class="content-description-beer">{{ data.abv }}%</span></div>
+					<div class="content-base"><span class="beerstatslabel">ABV </span><span class="beerstatsvalue">{{ data.abv }}%</span></div>
 					{% endif %}
 					{% if data.ibu %}
-					<div class="content-base"><b>IBUs: </b><span class="content-description-beer">{{ data.ibu }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">IBUs </span><span class="beerstatsvalue">{{ data.ibu }}</span></div>
 					{% endif %}
 					{% if data.glass.name %}
-					<div class="content-base"><b>Glass: </b><span class="content-description-beer">{{ data.glass.name }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Glass </span><span class="beerstatsvalue">{{ data.glass.name }}</span></div>
 					{% endif %}
 					{% if data.foodPairings %}
-					<div class="content-base"><b>Food Pairings: </b><span class="content-description-beer">{{ data.foodPairings }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Food Pairings </span><span class="beerstatsvalue">{{ data.foodPairings }}</span></div>
 					{% endif %}
 					{% if data.servingTemperatureDisplay %}
-					<div class="content-base"><b>Serving Temperature: </b><span class="content-description-beer">{{ data.servingTemperatureDisplay }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Serving Temperature </span><span class="beerstatsvalue">{{ data.servingTemperatureDisplay }}</span></div>
 					{% endif %}
 					{% if data.available.description %}
-					<div class="content-base"><b>Availability: </b><span class="content-description-beer">{{ data.available.description }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Availability </span><span class="beerstatsvalue">{{ data.available.description }}</span></div>
 					{% endif %}
 			</div>
 			{% if brewery.nameShortDisplay %}
@@ -115,16 +115,16 @@
 				{% endif %}
 				<div class="w3-padding-top">
 					{% if brewery.brandClassification %}
-					<div class="content-base"><b>Classification: </b><span class="content-description-beer">{{ brewery.brandClassification }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.brandClassification|title }}</span></div>
 					{% endif %}
 					{% if brewery.established %}
-					<div class="content-base"><b>Established: </b><span class="content-description-beer">{{ brewery.established }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Established </span><span class="beerstatsvalue">{{ brewery.established }}</span></div>
 					{% endif %}
 					{% if region %}
-					<div class="content-base"><b>Region: </b><span class="content-description-beer">{{ region }}</span></div>
+					<div class="content-base"><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ region }}</span></div>
 					{% endif %}
 					{% if brewery.website %}
-					<div class="content-base"><b>Website: </b><span class="content-description-beer"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
+					<div class="content-base"><span class="beerstatslabel">Website </span><span class="beerstatsvalue"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
 					{% endif %}
 				</div>
 			</div>
