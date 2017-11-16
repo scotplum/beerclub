@@ -7,7 +7,7 @@
 <div class="w3-mobile w3-center">
 	<div class="w3-container w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">Completing the form below will create a new crowd.</div>
+			<div class="w3-padding-bottom w3-padding-top topheading">Create New Crowd</div>
 		</div>
 	</div>
 	<div class="w3-container w3-margin w3-padding-bottom">
@@ -15,7 +15,7 @@
 		<div class="w3-center w3-padding-bottom">
 		<form method="post" action="" class="">
 		<div class="homebeer">
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-bottom content-1-profile w3-large" style="text-align:center;">Description</div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Description</div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
@@ -27,6 +27,7 @@
 		<br><input type="submit" value="Create"/>
 		</form>
 		</div><br>
+		<div><a class="w3-padding" href="/club/">Back to My Crowds</a></div>
 	</div>
 </div>
 {% endblock content %}

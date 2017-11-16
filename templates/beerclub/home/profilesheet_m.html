@@ -23,9 +23,9 @@
 						 {% for attribute in profile_attribute %}
 						 {% if attribute.section == section %}
 							{% if attribute.id in ps_attribute %}
-							<li id="profilesheetm" class="beerstatsvalue">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked></input></li>
+							<li id="profilesheetm" class="beerstatsvalue-m">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]" checked></input></li>
 							{% else %}	
-							<li id="profilesheetm" class="beerstatsvalue">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]"></input></li>
+							<li id="profilesheetm" class="beerstatsvalue-m">{{ attribute.attribute }}<br><input type="checkbox" value="{{ attribute.id }}" name="checks[]"></input></li>
 							{% endif %}
 						 {% endif %}
 						 {% endfor %}

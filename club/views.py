@@ -87,6 +87,12 @@ def club(request, id):
 			club_member = Club_Application(user=user_object, club=crowd)
 			club_member.save()
 			return redirect('/club/' + id + '/')
+		if 'removeannouncement' in rp:
+			announcement_id = request.POST.get("removeannouncement")
+			club_announcement = Club_Announcement.objects.get(id=announcement_id)
+			club_announcement.is_active = False
+			club_announcement.save()
+			return redirect('/club/' + id + '/')
     return render(request, 'club/club.html', context) 
 	
 @login_required

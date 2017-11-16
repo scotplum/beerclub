@@ -59,7 +59,7 @@
 			<h3 class="beerheading">Announcements
 			{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
 			{% endif %}
 			</h3>
 				{% if crowd_announcement_check %}
@@ -69,7 +69,12 @@
 					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
 						{% if club_admin_check %}
 						<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-						<span><a class="w3-left managetooltomato"><i class="fa fa-times" aria-hidden="true"></i></a></span>
+						<span class="managetooltomato">
+							<form name="removeannouncementForm" class="w3-left managetooltomato" method="Post">
+							<button class="removesubmitannouncement" name="removeannouncement" value="{{ announcement.id }}" type="submit"><i class="removesubmitannouncement fa fa-times" aria-hidden="true"></i></button>
+							{% csrf_token %}
+							</form>
+						</span>
 						{% endif %}
 					</div>
 					<div class="">

@@ -26,21 +26,27 @@ def index(request):
     beer_notes_check = Beer_Note.objects.filter(user=user_object).filter(is_active=True).exists()
     context['beer_notes_check'] = beer_notes_check
     if beer_notes_check:
-		beer_notes = Beer_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8]
+		beer_notes = Beer_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8].select_related()
 		context['beer_notes'] = beer_notes    
     beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
 		beer_rating = UserRating.objects.filter(user=user_object).prefetch_related('user','rating').order_by('-id')[:12]
 		context['beer_rating'] = beer_rating
-    context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id)
-    context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id)
+    context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id).select_related()
+    context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id).select_related()
     context['form'] = findbeerForm() 
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).exists()
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check	
     now = timezone.now()
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    context['attribute_trophy_check'] = attribute_trophy_check
+    if attribute_trophy_check:
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		context['attribute_trophy'] = attribute_trophy
+		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
     if club_check:
 		clubs = Club_User.objects.filter(user=user_object).select_related()
 		club_events = []
@@ -147,6 +153,11 @@ def beer(request, bdb_id):
     context['style'] = style
     beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
     context['beer_attribute_check'] = beer_attribute_check
+    attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).exists()
+    context['attribute_overrall_check'] = attribute_overrall_check
+    if attribute_overrall_check:
+		attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).select_related()
+		context['attribute_overrall'] = attribute_overrall
     if beer_attribute_check:
 		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
 		ps_attribute = profile_sheet.values_list('beer_attribute')
@@ -190,7 +201,6 @@ def beer(request, bdb_id):
     if want_beer_check is True:
 		want_beer = Wanted_Beers.objects.get(user=user_object, bdb_id=bdb_id)
 		context['want_beer'] = want_beer
-	
 	#If the request method is a POST from a form submission then either add or remove from Favorite or Wanted beers
     if request.method == "POST": 
 		rp = request.POST
