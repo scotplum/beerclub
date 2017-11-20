@@ -8,7 +8,8 @@
 
 <div class="w3-mobile w3-center">
 	<div class="content-base-navyborder topmenu-margin">
-		<h3 class="w3-center"><a href="/home/findbeer/{{ beer_info.bdb_id }}/">{{ beer_info.beer_name }}</a></h3>
+		<div class="w3-padding-bottom w3-padding-top"><a class="topheading" href="/home/findbeer/{{ beer_info.bdb_id }}/">{{ beer_info.beer_name }}</a></div>
+		<div class="topcontent" style="text-align: left;">It is not necessary to save each section individually.  The Save Profile buttons are placed at the end of each section for convenience.</div>
 	</div>
 	<div class="">
 		<form class="w3-padding-bottom" method="Post">
@@ -32,7 +33,7 @@
 						</div>
 					</div>
 					{% endif %}
-				{% endfor %}<div class="w3-padding-top"><button class="w3-round-small w3-indigo w3-btn content-description-bullet" style="text-shadow:1px 0 0" type="submit">Save Profile</button></div>
+				{% endfor %}<div class="w3-padding-top"><button class="w3-round-small w3-btn content-description-bullet" style="text-shadow:1px 0 0" type="submit">Save Profile</button></div>
 			</div>
 			{% endfor %}
 			<br>

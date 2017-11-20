@@ -1,7 +1,10 @@
+from django.db.models import Avg, Count
 from club.models import Club, Club_User
 from django.contrib.auth.models import User
-from home.models import Beer_Banner
+from home.models import Beer_Banner, Beer_Score
+from star_ratings.models import UserRating
 from home.forms import findbeerForm
+from club.models import Club, Club_User
 import re
 
 def navigation(request):
@@ -34,3 +37,16 @@ def mobile(request):
 		return True
 	else:
 		return False
+		
+def beerscore(request, user_object, clubs, bdb_id):
+    club_score = []
+    for club in clubs:
+		club_users = Club_User.objects.filter(club=club.club_id).values_list('user')
+		score = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).aggregate(Avg('score'))
+		count = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).aggregate(Count('score'))
+		club = club.club.name
+		club_score_list = [club, score['score__avg'], count['score__count']]
+		club_score.append(club_score_list)
+    return club_score
+
+

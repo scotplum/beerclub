@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm, Beer_Color, Beer_Head, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
+from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
 from event.models import Event, Event_Beer
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm
@@ -9,7 +10,7 @@ from star_ratings.models import UserRating, Rating
 from django.utils import timezone
 import requests
 from django.forms import inlineformset_factory
-from beerclub.utils import navigation
+from beerclub.utils import navigation, beerscore
 
 # Create your views here.
 
@@ -28,10 +29,10 @@ def index(request):
     if beer_notes_check:
 		beer_notes = Beer_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8].select_related()
 		context['beer_notes'] = beer_notes    
-    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).prefetch_related('user','rating').order_by('-id')[:12]
+		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('-id')[:12]
 		context['beer_rating'] = beer_rating
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id).select_related()
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id).select_related()
@@ -114,6 +115,14 @@ def beer(request, bdb_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    if context['club_check']:
+		clubs = context['clubs']
+		club_score = beerscore(request, user_object, clubs, bdb_id)
+		context['club_score'] = club_score
+		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Avg('score'))
+		context['beercrowd_score'] = beercrowd_score['score__avg']
+		beercrowd_count = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Count('score'))
+		context['beercrowd_count'] = beercrowd_count['score__count']
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
     urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'
     context['urlprofilesheet'] = urlprofilesheet
@@ -170,6 +179,12 @@ def beer(request, bdb_id):
     if beer_note_check:
 		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
     beer_rating_check = Beer_Rating.objects.filter(bdb_id=bdb_id).exists()
+    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
+    if beer_score_check:
+		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
+		context['rating'] = rating
+    else:
+		context['rating'] = 0
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
@@ -204,6 +219,17 @@ def beer(request, bdb_id):
 	#If the request method is a POST from a form submission then either add or remove from Favorite or Wanted beers
     if request.method == "POST": 
 		rp = request.POST
+		if 'assignratings' in rp:
+			rating_value = rp['assignratings']
+			context['rating_value'] = rating_value
+			if beer_score_check:
+				rating.score = rating_value
+				rating.save()
+				return redirect('/home/findbeer/' + bdb_id + '/')
+			else:
+				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company)
+				new_rating.save()
+				return redirect('/home/findbeer/' + bdb_id + '/')
 		if 'fav' in rp:
 			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
 			favorite_beer.save()

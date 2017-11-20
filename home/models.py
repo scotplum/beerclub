@@ -83,31 +83,6 @@ class BeerNoteForm(ModelForm):
         model = Beer_Note
         fields = ['note']
 		
-class Beer_Color(models.Model):
-	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
-	bdb_id			= models.CharField(max_length=20)
-	
-	def __str__(self):
-		return str(self.user) + ' | ' + str(self.bdb_id)
-		
-class Beer_Head(models.Model):
-	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
-	bdb_id			= models.CharField(max_length=20)
-	persistent 		= models.BooleanField(default=False)
-	rocky 			= models.BooleanField(default=False)
-	large 			= models.BooleanField(default=False)
-	fluffy 			= models.BooleanField(default=False)
-	dissipating 	= models.BooleanField(default=False)
-	lingering 		= models.BooleanField(default=False)
-	white 			= models.BooleanField(default=False)
-	offwhite 		= models.BooleanField(default=False)
-	tan 			= models.BooleanField(default=False)
-	frothy 			= models.BooleanField(default=False)
-	delicate 		= models.BooleanField(default=False)
-	
-	def __str__(self):
-		return str(self.user) + ' | ' + str(self.bdb_id)
-
 		
 class Beer_Attribute_Category(models.Model):
 	category		= models.CharField(max_length=50)
@@ -142,6 +117,17 @@ class Profile_Sheet(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)	
 	bdb_id			= models.CharField(max_length=20)
 	beer_attribute 	= models.ManyToManyField(Beer_Attribute, blank=True)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.bdb_id)
+		
+class Beer_Score(models.Model):
+	user			= models.ForeignKey(User, on_delete=models.CASCADE)	
+	bdb_id			= models.CharField(max_length=20)
+	score			= models.PositiveSmallIntegerField()
+	beer_company  	= models.CharField(max_length=100) 
+	beer_name  		= models.CharField(max_length=500) 
+	beer_category 	= models.CharField(max_length=100)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id)

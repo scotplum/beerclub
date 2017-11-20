@@ -8,7 +8,7 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base">
-			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">How do we get started?</div>
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Getting Started</div>
 			<div class="topcontent">Type a beer in the box above and click Beer Me.</div>
 		</div>
 	</div>
@@ -27,12 +27,16 @@
 				{% csrf_token %}
 				</form>
 				<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ beer.bdb_id }}/">
+				{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span>
 				{% for trophy in trophy_beers %}
-				{% if beer.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
-				{% if beer.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
-				{% if beer.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-home"><use xlink:href="#localhero" /></svg></span>{% endif %}				
+				{% if beer.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-m"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+				{% if beer.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-m"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+				{% if beer.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-m"><use xlink:href="#localhero" /></svg></span>{% endif %}	
+				{% if beer.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-m"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
+				{% if beer.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-m"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
+				{% if beer.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-m"><use xlink:href="#whale" /></svg></span>{% endif %}	
 				{% endfor %}
-				{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span></div>
+				</div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -51,7 +55,16 @@
 					<button class="removesubmit" name="removewant" value="{{ beer.bdb_id }}" type="submit"><a class="w3-right w3-tiny"><i class="fa fa-times" aria-hidden="true"></i></a></button>
 					{% csrf_token %}
 					</form>
-					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span></div>
+					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span>
+					{% for trophy in trophy_beers %}
+					{% if beer.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-m"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+					{% if beer.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-m"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+					{% if beer.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-m"><use xlink:href="#localhero" /></svg></span>{% endif %}	
+					{% if beer.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-m"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
+					{% if beer.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-m"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
+					{% if beer.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-m"><use xlink:href="#whale" /></svg></span>{% endif %}	
+					{% endfor %}						
+					</div>
 				</div>
 				{% endif %}
 				{% endfor %}
@@ -106,7 +119,16 @@
 				{% for note in beer_notes %}
 				<div class="content-base w3-padding-bottom">	
 					<a href="/home/notes/{{ note.id }}/" class="w3-right"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-3">{{ note.beer_company }}</span></div>
+					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-3">{{ note.beer_company }}</span>
+					{% for trophy in trophy_beers %}
+					{% if note.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-m"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+					{% if note.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-m"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+					{% if note.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-m"><use xlink:href="#localhero" /></svg></span>{% endif %}	
+					{% if note.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-m"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
+					{% if note.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-m"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
+					{% if note.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-m"><use xlink:href="#whale" /></svg></span>{% endif %}	
+					{% endfor %}						
+					</div>
 					<div class="content-wrapper w3-margin-0"><div class="content-3-black">{{ note.note }}</div></div>
 				</div>
 				{% endfor %}
@@ -122,7 +144,15 @@
 				{% if beer_rating_check %}
 				{% for rating in beer_rating %}
 				<div class="content-base">			
-					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a> <span class="content-3">{{ rating.rating.content_object.beer_company }}</span>
+					<div class="content-1"><a href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3">{{ rating.beer_company }}</span>
+						{% for trophy in trophy_beers %}
+						{% if rating.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+						{% if rating.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+						{% if rating.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-home"><use xlink:href="#localhero" /></svg></span>{% endif %}	
+						{% if rating.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-home"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
+						{% if rating.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-home"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
+						{% if rating.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-home"><use xlink:href="#whale" /></svg></span>{% endif %}	
+						{% endfor %}		
 						{% if rating.score == 1 %}
 						<div class="home-star">&#9733;<span class="w3-small">{{ rating.score }}</span></div>
 						{% elif rating.score == 2 %}
@@ -148,7 +178,7 @@
 				</div>
 				{% endfor %}
 				{% else %}
-				<div class="content-base">Add star ratings on a beer page</div>
+				<div class="content-base emptycontent">Add ratings on a beer page</div>
 				{% endif %}
 			</div>
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Ratings</a></div>
