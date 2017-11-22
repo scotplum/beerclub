@@ -76,6 +76,13 @@ def index(request):
 			want_beer.is_active = False
 			want_beer.save()
 			return redirect('/home/')
+		elif 'assignratings' in rp:
+			rating_value = rp['assignratings']
+			ratingvalue, ratingbeer = rating_value.split("_")
+			rating = Beer_Score.objects.get(user=user_object, bdb_id=ratingbeer)
+			rating.score = ratingvalue
+			rating.save()
+			return redirect('/home/')
     if request.session['is_mobile']:
 		return render(request, 'home/index_m.html', context)
     return render(request, 'home/index.html', context)  
@@ -372,36 +379,27 @@ def ratings(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
+    context['rp'] = 'All'
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    context['attribute_trophy_check'] = attribute_trophy_check
+    if attribute_trophy_check:
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		context['attribute_trophy'] = attribute_trophy
+		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
+    beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=user_object).order_by('-id').prefetch_related('user', 'rating')
+		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('beer_name')
 		context['beer_rating'] = beer_rating
     if request.method == "POST": 
 		rp = request.POST.get("sortratings")
 		context['rp'] = rp
-		if rp == '1':
-			return render(request, 'home/ratings_1.html', context)
-		if rp == '2':
-			return render(request, 'home/ratings_2.html', context)
-		if rp == '3':
-			return render(request, 'home/ratings_3.html', context)
-		if rp == '4':
-			return render(request, 'home/ratings_4.html', context)
-		if rp == '5':
-			return render(request, 'home/ratings_5.html', context)
-		if rp == '6':
-			return render(request, 'home/ratings_6.html', context)
-		if rp == '7':
-			return render(request, 'home/ratings_7.html', context)
-		if rp == '8':
-			return render(request, 'home/ratings_8.html', context)
-		if rp == '9':
-			return render(request, 'home/ratings_9.html', context)
-		if rp == '10':
-			return render(request, 'home/ratings_10.html', context)
 		if rp == 'All':
-			return render(request, 'home/ratings.html', context)
+			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score', 'beer_name')
+		else:
+			beer_rating = Beer_Score.objects.filter(user=user_object).filter(score=rp).order_by('beer_name')
+		context['beer_rating'] = beer_rating
+		return render(request, 'home/ratings.html', context)
     return render(request, 'home/ratings.html', context)
 
 @login_required	
@@ -410,11 +408,39 @@ def notes(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    context['attribute_trophy_check'] = attribute_trophy_check
+    if attribute_trophy_check:
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		context['attribute_trophy'] = attribute_trophy
+		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
     beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
     context['beer_notes_check'] = beer_notes_check
+    context['sort_type'] = 'Most Recent'
     if beer_notes_check:
 		beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')
-		context['beer_notes'] = beer_notes    
+		context['beer_notes'] = beer_notes
+		context['sort_type'] = 'Most Recent'
+    if request.method == "POST": 
+		rp = request.POST.get("sortnotes")
+		context['rp'] = rp
+		if rp == 'Most Recent':
+			beer_notes = Beer_Note.objects.filter(user=user_object).order_by('-date_added')
+			context['beer_notes'] = beer_notes
+			context['sort_type'] = 'Most Recent'
+		elif rp == 'Beer':
+			beer_notes = Beer_Note.objects.filter(user=user_object).order_by('beer_name')
+			context['beer_notes'] = beer_notes
+			context['sort_type'] = 'Beer'
+		elif rp == 'Brewery':
+			beer_notes = Beer_Note.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
+			context['beer_notes'] = beer_notes
+			context['sort_type'] = 'Brewery'
+		elif rp == 'Oldest':
+			beer_notes = Beer_Note.objects.filter(user=user_object).order_by('date_added')
+			context['beer_notes'] = beer_notes
+			context['sort_type'] = 'Oldest'
+		return render(request, 'home/notes.html', context)
     return render(request, 'home/notes.html', context)
 
 @login_required	

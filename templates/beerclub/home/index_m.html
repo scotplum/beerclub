@@ -153,27 +153,19 @@
 						{% if rating.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-home"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
 						{% if rating.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-home"><use xlink:href="#whale" /></svg></span>{% endif %}	
 						{% endfor %}		
-						{% if rating.score == 1 %}
-						<div class="home-star">&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 2 %}
-						<div class="home-star">&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 3 %}
-						<div class="home-star">&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 4 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>				
-						{% elif rating.score == 5 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>				
-						{% elif rating.score == 6 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 7 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 8 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 9 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% elif rating.score == 10 %}
-						<div class="home-star">&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;&#9733;<span class="w3-small">{{ rating.score }}</span></div>
-						{% endif %}
+					<form name="ratingForm" method="Post">
+						<button class="removesubmit" title="1" value="1_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="2" value="2_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="3" value="3_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="4" value="4_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 3 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="5" value="5_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 4 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="6" value="6_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 5 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="7" value="7_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 6 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="8" value="8_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 7 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="9" value="9_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 8 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="10" value="10_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 9 %}<span class="beer-star-m">&#9733;</span>{% else %}<span class="beer-star-empty-m">&#9733;</span>{% endif %}</button>
+						{% csrf_token %}
+					</form>
 					</div>				
 				</div>
 				{% endfor %}

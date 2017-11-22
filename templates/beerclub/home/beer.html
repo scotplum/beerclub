@@ -10,22 +10,21 @@
 	<div class="w3-center">
 		<div class="content-base-navyborder topmenu-margin">
 			<div class="club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
-			<div class="topheading">
-			{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div>
+			<div class="topheading">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div>
 			<div>
-			<form name="ratingForm" method="Post">
-				<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="2" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="3" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="4" type="submit" name="assignratings">{% if rating.score > 3 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="5" type="submit" name="assignratings">{% if rating.score > 4 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="6" type="submit" name="assignratings">{% if rating.score > 5 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="7" type="submit" name="assignratings">{% if rating.score > 6 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="8" type="submit" name="assignratings">{% if rating.score > 7 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="9" type="submit" name="assignratings">{% if rating.score > 8 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				<button class="removesubmit" value="10" type="submit" name="assignratings">{% if rating.score > 9 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-				{% csrf_token %}
-			</form>
+				<form name="ratingForm" method="Post">
+					<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="2" value="2" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="3" value="3" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="4" value="4" type="submit" name="assignratings">{% if rating.score > 3 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="5" value="5" type="submit" name="assignratings">{% if rating.score > 4 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="6" value="6" type="submit" name="assignratings">{% if rating.score > 5 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="7" value="7" type="submit" name="assignratings">{% if rating.score > 6 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="8" value="8" type="submit" name="assignratings">{% if rating.score > 7 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="9" value="9" type="submit" name="assignratings">{% if rating.score > 8 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					{% csrf_token %}
+				</form>
 				{% for attr in ps_attribute %}
 				{% if 333 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 				{% if 340 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -36,9 +35,9 @@
 				{% endfor %}
 			{% if data.description %}
 			{% if data.description|length < 225 %}
-			<div class="w3-padding-left w3-padding-right w3-margin-bottom" style="text-align: center;">{{ data.description }}</div>
+			<div class="w3-padding-left w3-padding-right w3-margin-bottom topcontent" style="text-align: center;">{{ data.description }}</div>
 			{% else %}
-			<div class="w3-padding-left w3-padding-right w3-margin-bottom" style="text-align: left;">{{ data.description }}</div>
+			<div class="w3-padding-left w3-padding-right w3-margin-bottom topcontent" style="text-align: left;">{{ data.description }}</div>
 			{% endif %}
 			{% endif %}
 			<form name="beerForm" class="w3-center w3-padding-bottom" method="Post">
@@ -150,9 +149,9 @@
 			<div class="homebeer">
 				{% if brewery.description %}
 				{% if brewery.description|length < 100 %}
-				<div class="content-base content-description w3-padding" style="text-align: center;">{{ brewery.description }}</div>
+				<div class="content-base-navyborder topcontent w3-padding w3-small" style="text-align: center;">{{ brewery.description }}</div>
 				{% else %}
-				<div class="content-base content-description w3-padding" style="text-align: left;">{{ brewery.description }}</div>
+				<div class="content-base-navyborder topcontent w3-padding w3-small" style="text-align: left;">{{ brewery.description }}</div>
 				{% endif %}
 				{% endif %}
 				<div class="w3-padding-top">
@@ -166,7 +165,7 @@
 					<div class="content-base"><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ region }}</span></div>
 					{% endif %}
 					{% if brewery.website %}
-					<div class="content-base"><span class="beerstatslabel">Website </span><span class="beerstatsvalue"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
+					<div class="content-base"><span class="beerstatsvalue"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
 					{% endif %}
 				</div>
 			</div>
@@ -177,11 +176,10 @@
 		{% for note in beer_notes %}
 		{% if note.is_active == True %}
 		<div class="homebeer">
-		<div class="w3-row content-description content-base">
-		<a href="/home/notes/{{ note.id }}/" class="w3-right"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-		<div class="w3-padding-right w3-padding-top w3-padding-bottom" style="text-align: left;">{{ note.note }}</div>
-		<div class="w3-center w3-small w3-padding-bottom">{{ note.date_added }}</div>
-		</div>
+			<div class="content-base">
+				<div class="w3-padding-top w3-padding topcontent content-base w3-small" style="text-align: left;">{{ note.note }}</div>
+				<div class="w3-center w3-small w3-padding-left w3-padding-bottom">{{ note.date_added }}<span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
+			</div>
 		</div>
 		{% endif %}
 		{% endfor %}

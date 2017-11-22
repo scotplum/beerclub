@@ -94,6 +94,20 @@ body {
 	text-align: center;
 }
 
+.state_group {
+	background-color: #1569C7;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding-top: .25%;
+	padding-bottom: .25%;
+	padding-left: 2.5%;
+	padding-right: 0;
+	font-size: 100%;
+	letter-spacing: 2px;
+	text-decoration: none;
+	text-align: center;
+}
 
 .w3-beer{
 	color: snow;
@@ -208,7 +222,7 @@ body {
 	border-left: 1px solid #1569C7;
 	border-right: 1px solid #1569C7;
 	line-height: 30px;
-	}
+	}	
 
 .beerheadingfull{
 	color: white;
@@ -233,14 +247,14 @@ body {
 
 .beerstatsvalue{
 	color: #0c3c73;
-	font-size: 90%;
-	font-weight: 400;
+	font-size: 80%;
+	font-weight: 700;
 }
 
 .beerstatsvalue-m{
 	color: #0c3c73;
-	font-size: 85%;
-	font-weight: 400;
+	font-size: 65%;
+	font-weight: 700;
 }
 
 .profileattribute{
@@ -264,11 +278,11 @@ body {
 .topcontent{
 	color: #0c3c73;
 	font-family: 'Roboto', sans-serif;
-	font-weight: 400;
-	font-size: 110%;
+	font-weight: 700;
+	font-size: 95%;
 	padding-bottom: 2px;
-	padding-left: 5px;
-	padding-right: 5px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 	
 .loginlink{
@@ -666,6 +680,19 @@ textarea.focus {
 	letter-spacing: 4px;
 }
 
+.beer-star-m{
+	font-size: 150%;
+	color: tomato;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 4px;
+}
+
+.beer-star:hover{
+	font-weight: 900;
+	color: #1569C7;
+}
+
 .home-star-empty{
 	font-size: 150%;
 	color: gray;
@@ -681,6 +708,20 @@ textarea.focus {
 	padding: 0;
 	letter-spacing: 4px;
 }
+
+.beer-star-empty-m{
+	font-size: 150%;
+	color: gray;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 4px;
+}
+
+.beer-star-empty:hover{
+	font-weight: 900;
+	color: #1569C7;
+}
+
 
 .beerme{
 	width: 80%;

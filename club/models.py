@@ -19,6 +19,9 @@ class Club(models.Model):
     annual_fee		= models.DecimalField(max_digits=6, decimal_places=2)
     bio				= models.TextField(max_length=1000)
 
+    class Meta:
+		ordering = ['state']
+	
     def __str__(self):
 		return self.name
 

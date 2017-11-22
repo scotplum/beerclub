@@ -6,25 +6,38 @@
 
 
 <div class="w3-mobile w3-center">
-	<div class="w3-beer w3-container w3-padding-bottom">
-		<h3 class="w3-center"><b>{{ request.user.username }}'s beer notes</b></h3>
-	</div>
-	<div class="w3-container w3-center">
-		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">Placeholder for sorting...
+	<div class="w3-center">
+		<div class="content-base-navyborder topmenu-margin">
+			<div class="w3-padding-bottom w3-padding-top">
+				<form name="notesortForm" class="w3-center topcontent" style="font-size=150%;" method="Post">
+				<button class="removesubmit" name="sortnotes" value="Most Recent" type="submit"><a class="w3-padding-right" {% if sort_type == 'Most Recent' %}style="color: tomato; font-weight: 700;"{% endif %}>Most Recent</a></button>
+				<button class="removesubmit" name="sortnotes" value="Oldest" type="submit"><a class="w3-padding-right" {% if sort_type == 'Oldest' %}style="color: tomato; font-weight: 700;"{% endif %}>Oldest</a></button>
+				<button class="removesubmit" name="sortnotes" value="Beer" type="submit"><a class="w3-padding-right" {% if sort_type == 'Beer' %}style="color: tomato; font-weight: 700;"{% endif %}>Beer</a></button>
+				<button class="removesubmit" name="sortnotes" value="Brewery" type="submit"><a class="w3-padding-right" {% if sort_type == 'Brewery' %}style="color: tomato; font-weight: 700;"{% endif %}>Brewery</a></button>
+				{% csrf_token %}
+				</form>
 			</div>
 		</div>
 	</div>
-	<div class="w3-center w3-padding-bottom">
+	<div class="w3-center w3-padding-bottom"><br>
+		<div class="beerheading">Notes ({{ sort_type }})</div>
 		{% if beer_notes_check %}
 		<div class="w3-center homebeer w3-padding-top">
 		{% for note in beer_notes %}
 		{% if note.is_active %}
 		<div class="content-base">				
-			<a href="/home/notes/{{ note.id }}/" class="w3-right w3-tiny"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-			<div class="content-1"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }} <span class="content-2">{{ note.beer_company }}</span></a></div>
-			<div class="content-1 w3-small">{{ note.note }}</div>				
-			<div class="content-2 w3-tiny"><b>{{ note.date_added }}</b></div>
+			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }} <span class="beerstatslabel">{{ note.beer_company }}</span></a>
+			{% for trophy in trophy_beers %}
+			{% if note.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+			{% if note.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+			{% if note.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-home"><use xlink:href="#localhero" /></svg></span>{% endif %}	
+			{% if note.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-home"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
+			{% if note.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-home"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
+			{% if note.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-home"><use xlink:href="#whale" /></svg></span>{% endif %}	
+			{% endfor %}
+			</div>
+			<div class="content-3-black" style="text-align: left; padding-left: 3%;">{{ note.note }}</div>				
+			<div class="content-1 w3-padding-top w3-small" style="text-align:left;"><b>{{ note.date_added }}</b><span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
 		</div>
 		{% endif %}
 		{% endfor %}
