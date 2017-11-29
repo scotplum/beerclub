@@ -3,7 +3,6 @@
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
-{% load ratings %}
 
 <div class="w3-mobile w3-center">
 	<div class="w3-center">
@@ -105,9 +104,14 @@
 				{% endif %}
 				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
 					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
-					{% for sb in score_beer %}
-					{% if sb.bdb_id == beer.bdb_id %}
-					<div class="w3-padding-top">{% ratings sb %}</div>
+					{% for sb in score_beercrowd %}
+					{% if sb.0 == beer.bdb_id %}
+					<div><span class="beerstatslabel">The Beer Crowd</span> <span class="beerstatsvalue">{{ sb.1 }}</span></div>
+					{% endif %}
+					{% endfor %}
+					{% for sc in score_club %}
+					{% if sc.0 == beer.bdb_id %}
+					<div><span class="beerstatslabel">{{ club.name }}</span> <span class="beerstatsvalue">{{ sc.1 }}</span></div>
 					{% endif %}
 					{% endfor %}
 				</div>

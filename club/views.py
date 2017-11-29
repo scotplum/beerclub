@@ -24,12 +24,7 @@ def index(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    if mobile(request):
-		is_mobile = True
-		return render(request, 'club/index_m.html', context)
-    else:
-		is_mobile = False
-		return render(request, 'club/index.html', context)  
+    return render(request, 'club/index.html', context)  
 
 @login_required	
 def club(request, id):

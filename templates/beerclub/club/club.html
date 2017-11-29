@@ -62,10 +62,10 @@
 				<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
 			{% endif %}
 			</h3>
+				<div class="homebeer">
 				{% if crowd_announcement_check %}
 				{% for announcement in crowd_announcement %}
 				{% if announcement.is_active %}
-				<div class="homebeer">
 					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
 						{% if club_admin_check %}
 						<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
@@ -80,12 +80,12 @@
 					<div class="">
 						<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
 					</div>
-				</div>
 				{% endif %}
 				{% endfor %}
 				{% else %}
-				<div class="content-blankstate">There are not currently any announcements</div>
+				<div class="content-base emptycontent">There are not currently any announcements</div>
 				{% endif %}
+				</div>
 		</div>
 	</div>	
 	<div class="w3-container w3-padding">
@@ -104,7 +104,7 @@
 							<div class="content-base"><a class="" style="font-size: 85%;" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
 							{% endfor %}
 							{% else %}
-							<div class="content-base">No current members</div>
+							<div class="content-base emptycontent">No current members</div>
 							{% endif %}
 							</div>
 						</div>
@@ -131,7 +131,7 @@
 						{% endfor %}
 				</div>
 						{% else %}
-						<div class="content-base">There are no events scheduled at this time</div>
+						<div class="content-base emptycontent">There are no events scheduled at this time</div>
 						{% endif %}
 			</div>
 		</div>	

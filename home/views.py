@@ -514,6 +514,4 @@ def profilesheet(request, bdb_id):
 			p_s_a.beer_attribute.add(attribute_add)
 		p_s_a.save()
 		return redirect('/home/findbeer/' + bdb_id + '/')
-    if request.session['is_mobile']:
-		return render(request, 'home/profilesheet_m.html', context)
     return render(request, 'home/profilesheet.html', context)

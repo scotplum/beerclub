@@ -8,8 +8,8 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base">
-			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Getting Started</div>
-			<div class="topcontent">Type a beer in the box above and click Beer Me.</div>
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">{% if fav_beer_check or want_beer_check %}{{ user_object }}'s beer{% else %}Getting Started{% endif %}</div>
+			<div class="topcontent">{% if fav_beer_check or want_beer_check %}{% else %}Put a beer in the box above and select Beer Me{% endif %}</div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">

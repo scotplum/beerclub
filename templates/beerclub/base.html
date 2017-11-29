@@ -12,10 +12,8 @@
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
         {% load static %}
         <link rel="stylesheet" href={% static "beerclub/style.css" %}>
-		<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     </head>
 	
     <body>
@@ -81,9 +79,9 @@
 		<div id="content" style="margin: 0; padding: 0;">
 		{% block content %}
 		{% endblock content %}
-		</div><br><br>
+		</div><br>
 		<div class="bottom-border-blue"></div>
-		<div class="w3-margin-left w3-margin-right w3-padding w3-small" style="text-align:right; color: tomato;"><b class="">Beer data by BreweryDB</b></div><br>
+		<div class="w3-margin-left w3-margin-right w3-padding w3-tiny" {% if request.session.is_mobile %} style="text-align:center; color: tomato;" {% else %} style="text-align:right; color: tomato;"{% endif %}><b class="">Icons made by <a href="http://www.freepik.com/">Freepik</a> from <a href="http://www.flaticon.com">www.flaticon.com</a></b></div><br>
     </body>
 
 </html>

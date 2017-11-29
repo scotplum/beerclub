@@ -4,10 +4,17 @@
 
 {% block content %}
 
-<div class="w3-container w3-padding w3-mobile w3-center">
-	<div class="w3-cell w3-half w3-left w3-padding-bottom">
-		<h3 class="beerheading">upcoming events</h3>
+<div class="w3-container w3-mobile w3-center">
+	<div class="w3-center">
+		<div class="content-base">
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Getting Started</div>
+			<div class="topcontent">Type a beer in the box above and click Beer Me.</div>
+		</div>
+	</div>
+	<div class="w3-container w3-cell w3-half w3-left w3-padding-bottom">
+		<h3 class="beerheading">Upcoming</h3>
 		<div class="w3-center homebeer w3-padding-top">
+		{% if events %}
 		{% for event in events %}
 		{% for e in event %}
 		{% if e.event.is_active == True %}
@@ -19,11 +26,15 @@
 		{% endif %}
 		{% endfor %}
 		{% endfor %}
+		{% else %}
+		<div class="content-base emptycontent">You have no upcoming events</div>
+		{% endif %}
 		</div>
 	</div>
-	<div class="w3-cell w3-half w3-right">
-		<h3 class="beerheading">past events</h3>
+	<div class="w3-container w3-cell w3-half w3-right">
+		<h3 class="beerheading">Past</h3>
 		<div class="w3-center homebeer w3-padding-top">
+		{% if past_events %}
 		{% for event in past_events %}
 		{% for pe in event %}
 		{% if pe.event.is_active == True %}
@@ -35,7 +46,10 @@
 		{% endif %}
 		{% endfor %}
 		{% endfor %}
+		{% else %}
+		<div class="content-base emptycontent">You have no past events</div>
+		{% endif %}
 		</div>
 	</div>
-</div>
+</div><br>
 {% endblock content %}
