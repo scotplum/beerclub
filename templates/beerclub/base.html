@@ -21,20 +21,17 @@
 	{% load crispy_forms_tags %}
         <div class="w3-center w3-mobile w3-margin-top">
             <div id="content" class="">
-				<div style="background-color: tomato; margin: 1%;">
-				<span class="beercrowd">The<svg class="icon">
-				<use xlink:href="#pintglass" />
-				</svg>Beer<svg class="icon">
-				<use xlink:href="#tulip" />
-				</svg>Crowd</span><svg class="icon">
-				<use xlink:href="#beercan" />
-				</svg>
+				<div style="background-color: tomato; margin: 1%;"><img id="logo" src={% static "beerclub/thebeercrowd_logo.png" %}>
 				</div>
 				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity">We are thrilled you joined the beer crowd</span></div>
                 {% block topbar %}
                 <div class="w3-hover-grayscale w3-margin-bottom">
 				{% if banner.image_url %}
-				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
+				{% if banner.image_url == 'no url' %}
+				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height: 100px;" alt="beerclub">
+				{% else %}
+				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				
+				{% endif %}
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
 				{% endif %}
@@ -43,7 +40,7 @@
 				
 				<div class="w3-container w3-padding-bottom" style="display: inline-block;">
 					<form name="beerForm" class="w3-center" style="margin: 0; padding:0;" action="/home/findbeer/" method="Post">
-						<button type="button" onclick="myFunction()" class="w3-round-small w3-btn content-description-bullet" style="text-decoration: none; font-size: 70%;"><i class="fa fa-beer content-base-shadow" aria-hidden="true"></i></button>
+						<button type="button" onclick="myFunction()" class="w3-round-small w3-btn content-description-bullet" style="text-decoration: none; font-size: 70%;"><i class="fa fa-bookmark content-base-shadow" aria-hidden="true"></i></button>
 							<div id="Dropclick" class="w3-dropdown-content content-base-shadow">
 								{% for club in clubs %}
 								<a href="/club/{{ club.club.id }}/" class="w3-center dropdown w3-padding-4">{{ club.club.name }}</a>
@@ -79,9 +76,9 @@
 		<div id="content" style="margin: 0; padding: 0;">
 		{% block content %}
 		{% endblock content %}
-		</div><br>
+		</div><br><br><br>
 		<div class="bottom-border-blue"></div>
 		<div class="w3-margin-left w3-margin-right w3-padding w3-tiny" {% if request.session.is_mobile %} style="text-align:center; color: tomato;" {% else %} style="text-align:right; color: tomato;"{% endif %}><b class="">Icons made by <a href="http://www.freepik.com/">Freepik</a> from <a href="http://www.flaticon.com">www.flaticon.com</a></b></div><br>
-    </body>
+</body>
 
 </html>

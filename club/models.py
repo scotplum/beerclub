@@ -9,21 +9,24 @@ import datetime
 # Create your models here.
 
 class Club(models.Model): 
-    name	  		= models.CharField(max_length=100) 
-    date_added   	= models.DateTimeField(auto_now_add=True) 
-    is_active   	= models.BooleanField(default=True) 
-    city			= models.CharField(max_length=100)
-    state			= USStateField(null=True, blank=True)
-    is_public		= models.BooleanField(default=False)
-    established		= models.DateField(default=datetime.date.today)
-    annual_fee		= models.DecimalField(max_digits=6, decimal_places=2)
-    bio				= models.TextField(max_length=1000)
+    name	  			= models.CharField(max_length=100) 
+    date_added   		= models.DateTimeField(auto_now_add=True) 
+    is_active   		= models.BooleanField(default=True) 
+    city				= models.CharField(max_length=100)
+    state				= USStateField(null=True, blank=True)
+    is_public			= models.BooleanField(default=False)
+    established			= models.DateField(default=datetime.date.today)
+    annual_fee			= models.DecimalField(max_digits=6, decimal_places=2)
+    bio					= models.TextField(max_length=1000)
+    disp_members   		= models.BooleanField(default=True)
+    display_member_vote = models.PositiveSmallIntegerField(default=1)
 
     class Meta:
 		ordering = ['state']
 	
     def __str__(self):
 		return self.name
+		
 
 class Club_Admin(models.Model):
 	user			= models.ForeignKey(User, on_delete=models.CASCADE)

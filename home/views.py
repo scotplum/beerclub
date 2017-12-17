@@ -2,11 +2,10 @@ from django.shortcuts import render, redirect
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
+from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
 from event.models import Event, Event_Beer
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm
-from star_ratings.models import UserRating, Rating
 from django.utils import timezone
 import requests
 from django.forms import inlineformset_factory
@@ -160,6 +159,7 @@ def beer(request, bdb_id):
 				if 'images' in brew:
 					brewery_images = brew['images']
 					image_url = brewery_images['medium']
+				if 'website' in brew:
 					brewery_website = brew['website']
 				if 'locations' in brew:
 					for location in brew['locations']:
@@ -185,7 +185,6 @@ def beer(request, bdb_id):
     context['beer_notes'] = {}
     if beer_note_check:
 		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
-    beer_rating_check = Beer_Rating.objects.filter(bdb_id=bdb_id).exists()
     beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
     if beer_score_check:
 		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
@@ -196,27 +195,35 @@ def beer(request, bdb_id):
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
     beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
     if beer_banner_check:
-		if image_url:
+		if 'image_url' in locals() and 'brewery_website' in locals():
 			beer_banner = Beer_Banner.objects.get(user=user_object)
 			beer_banner.image_url = image_url
 			beer_banner.beer_website = brewery_website
 			beer_banner.save()
+		elif 'image_url' in locals():
+			beer_banner = Beer_Banner.objects.get(user=user_object)
+			beer_banner.image_url = image_url
+			beer_banner.beer_website = 'no website'
+			beer_banner.save()
+		else:
+			beer_banner = Beer_Banner.objects.get(user=user_object)
+			beer_banner.image_url = 'no url'
+			beer_banner.beer_website = 'no website'
+			beer_banner.save()
     else:
-		if image_url:
+		if 'image_url' in locals() and 'brewery_website' in locals():
 			beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website=brewery_website)
+			beer_banner.save()
+		elif 'image_url' in locals():
+			beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website='no website')
+			beer_banner.save()
+		else:
+			beer_banner = Beer_Banner(user=user_object, image_url='no url', beer_website='no website')
 			beer_banner.save()
     beer_banner = Beer_Banner.objects.get(user=user_object)
     context['banner'] = beer_banner
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check
-    context['beer_rating_check'] = beer_rating_check
-    if beer_rating_check:
-		pass
-    else:
-		beer_rating = Beer_Rating(beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), bdb_id = bdb_id)
-		beer_rating.save()
-    score_beer = Beer_Rating.objects.get(bdb_id=bdb_id)
-    context['score_beer'] = score_beer
     if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
 		context['fav_beer'] = fav_beer
@@ -481,8 +488,6 @@ def profilesheet(request, bdb_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    beer_info = Beer_Rating.objects.get(bdb_id=bdb_id)
-    context['beer_info'] = beer_info
     profile_sheet_check = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).exists()
     if profile_sheet_check:
 		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
@@ -492,11 +497,13 @@ def profilesheet(request, bdb_id):
     else:
 		new_p_s = Profile_Sheet.objects.create(bdb_id=bdb_id, user=user_object)
 		new_p_s.save()
-		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
-		p_s_a = Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object)
+		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
+		p_s_a = Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object).select_related()
 		ps_attribute = p_s.values_list('beer_attribute', flat=True)
 		context['ps_attribute'] = ps_attribute
     context['p_s'] = p_s
+    beer_info = Beer_Score.objects.get(bdb_id=bdb_id, user=user_object)
+    context['beer_info'] = beer_info
     profile_section = Beer_Attribute_Section.objects.all().prefetch_related('category')
     context['profile_section'] = profile_section
     profile_category = Beer_Attribute_Category.objects.all()

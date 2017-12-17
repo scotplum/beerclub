@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .models import Event, Event_Address, Event_Beer, Event_Attend, Event_Note
 from club.models import Club, Club_User, Club_Event
-from home.models import Wanted_Beers, Beer_Banner, Beer_Rating, Beer_Score
+from home.models import Wanted_Beers, Beer_Banner, Beer_Score
 from django.utils import timezone
 from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
@@ -61,15 +61,22 @@ def one_event(request, event_id):
         committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name').distinct()
         score_beercrowd = []
         score_club = []
+        score_user = []
         for sb in committed:
 			score_bdb_id = sb['bdb_id']
 			score_bc_average = Beer_Score.objects.filter(bdb_id=score_bdb_id).aggregate(Avg('score'))
-			score_beercrowd.append([score_bdb_id, score_bc_average['score__avg']])
+			score_bc_count = Beer_Score.objects.filter(bdb_id=score_bdb_id).aggregate(Count('score'))
+			score_beercrowd.append([score_bdb_id, score_bc_average['score__avg'], score_bc_count['score__count']])
 			score_club_average = Beer_Score.objects.filter(bdb_id=score_bdb_id).filter(user__in=club_users).aggregate(Avg('score'))
-			score_club.append([score_bdb_id, score_club_average['score__avg']])
+			score_club_count = Beer_Score.objects.filter(bdb_id=score_bdb_id).filter(user__in=club_users).aggregate(Count('score'))
+			score_club.append([score_bdb_id, score_club_average['score__avg'], score_club_count['score__count']])
+			score_user_average = Beer_Score.objects.filter(bdb_id=score_bdb_id).filter(user=user_object).aggregate(Avg('score'))
+			score_user_count = Beer_Score.objects.filter(bdb_id=score_bdb_id).filter(user=user_object).aggregate(Count('score'))
+			score_user.append([score_bdb_id, score_user_average['score__avg'], score_user_count['score__count']])
         context['score_beercrowd'] = score_beercrowd
         context['score_club'] = score_club
         context['committed'] = committed
+        context['score_user'] = score_user
     desired = []
     event_beer_check = Event_Beer.objects.filter(event=event).filter(is_active=True).exists()
     event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()

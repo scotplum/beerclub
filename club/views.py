@@ -1,14 +1,14 @@
 from __future__ import division
+from django.db.models import Avg, Count
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Club, Club_User, Club_Announcement, Club_Event, Club_Application
 from event.models import Event, Event_Address
-from forms import ClubForm, ClubAnnouncementForm
+from forms import ClubForm, ClubAnnouncementForm, ClubDisplayForm
 from event.forms import EventForm, EventAddressForm, EventEditForm, EventAddressEditForm
 from django.forms import modelformset_factory
-from home.models import Wanted_Beers, Beer_Banner, Beer_Rating
-from star_ratings.models import UserRating, Rating
+from home.models import Wanted_Beers, Beer_Banner, Beer_Score
 from django.utils import timezone
 import datetime
 from operator import itemgetter
@@ -42,10 +42,8 @@ def club(request, id):
     club_db_user_check = Club_User.objects.filter(club=crowd).filter(user=user_object).exists()
     club_application_pending_check = Club_Application.objects.filter(club=crowd).filter(user=user_object).filter(status='pending').exists()
     club_admin_pending_check = Club_Application.objects.filter(club=crowd).filter(status='pending').exists()
-    beer_rating_check = UserRating.objects.filter(user=user_object).exists()
     context['club_admin'] = club_admin
     context['club_admin_check'] = club_admin_check
-    context['beer_rating_check'] = beer_rating_check
     context['crowd_announcement_check'] = crowd_announcement_check
     context['club_event_check'] = club_event_check
     context['club_user_check'] = club_user_check
@@ -63,19 +61,9 @@ def club(request, id):
     if club_user_check:
 		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club')
 		context['club_user'] = club_user
-		user_beer_rating = []
-		club_beer = []
-		club_beer_sorted = []
-		for u in club_user:
-			rating_user_check = UserRating.objects.filter(user=u.user.id).exists()
-			if rating_user_check:
-				beer_rating = UserRating.objects.filter(user=u.user.id).select_related('user', 'rating')
-				user_beer_rating.append(beer_rating)
-				context['beer_rating'] = user_beer_rating
-			for b in user_beer_rating:
-				for set in b:
-					club_beer.append(set)
-			context['club_beer'] = club_beer
+		club_users = Club_User.objects.filter(club=crowd).values_list('user')
+		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-count', '-average', 'beer_name')[:15]
+		context['club_scores'] = club_scores		
     if request.method == "POST": 
 		rp = request.POST
 		if 'apply' in rp:
@@ -290,6 +278,31 @@ def event(request, id):
     club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check
     return render(request, 'club/event.html', context)
+	
+@login_required
+@user_is_admin	
+def display(request, id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    crowd = Club.objects.get(id=id)
+    context['crowd'] = crowd
+    context['form'] = ClubDisplayForm(instance=crowd)
+    if request.method == 'POST':
+        form = ClubDisplayForm(request.POST)
+        post_info = request.POST
+        if form.is_valid():
+            updated_crowd = crowd
+            if 'disp_members' in post_info:
+				updated_crowd.disp_members = True
+            else:
+				updated_crowd.disp_members = False
+            updated_crowd.display_member_vote = post_info['display_member_vote']
+            updated_crowd.save()
+            context['form'] = ClubDisplayForm(instance=crowd)
+            return redirect('/club/' + id + '/')
+    return render(request, 'club/display.html', context)
 
 @login_required
 def add(request):

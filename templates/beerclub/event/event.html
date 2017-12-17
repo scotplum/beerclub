@@ -42,9 +42,9 @@
 				<span><a class="w3-right managetool" href='manage/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 				{% endif %}	</h3>
 			<div class="homebeer">
-				<div class="w3-center content-1" style="font-weight: 700;">{{ event.address.description }}</div>
-				<div class="eventaddress w3-padding-0 w3-margin-0 club-content-span">{{ event.address.address_1 }}</div>
-				<div class="content-base eventaddress w3-margin-0 club-content-span">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
+				<div class="content-1" style="font-size: 120%; color: tomato; font-weight: bold">{{ event.address.description }}</div>
+				<div class="content-3" style="font-size: 100%; font-weight: 400">{{ event.address.address_1 }}</div>
+				<div class="content-3" style="font-size: 100%; font-weight: 400">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
@@ -104,14 +104,19 @@
 				{% endif %}
 				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
 					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
+					{% for su in score_user %}
+					{% if su.0 == beer.bdb_id %}
+					<div><span class="beerstatslabel">My Score</span> <span class="beerstatsvalue">{{ su.1 }}</span></div>
+					{% endif %}
+					{% endfor %}
 					{% for sb in score_beercrowd %}
 					{% if sb.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel">The Beer Crowd</span> <span class="beerstatsvalue">{{ sb.1 }}</span></div>
+					<div><span class="beerstatslabel">The Beer Crowd</span> <span class="beerstatsvalue">{{ sb.1 }} ({{ sb.2 }})</span></div>
 					{% endif %}
 					{% endfor %}
 					{% for sc in score_club %}
 					{% if sc.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel">{{ club.name }}</span> <span class="beerstatsvalue">{{ sc.1 }}</span></div>
+					<div><span class="beerstatslabel">{{ club.name }}</span> <span class="beerstatsvalue">{{ sc.1 }} ({{ sc.2 }})</span></div>
 					{% endif %}
 					{% endfor %}
 				</div>

@@ -21,23 +21,9 @@
 	{% load crispy_forms_tags %}
         <div class="w3-center w3-mobile w3-margin-top">
             <div id="content" class="">
-				<div style="background-color: tomato; margin: 1%;">
-				<span class="beercrowd">The<svg class="icon">
-				<use xlink:href="#pintglass" />
-				</svg>Beer<svg class="icon">
-				<use xlink:href="#tulip" />
-				</svg>Crowd</span><svg class="icon">
-				<use xlink:href="#beercan" />
-				</svg>
+				<div style="background-color: tomato; margin-left: 1%; margin-right: 1%; margin-top: 1%;"><img id="logo" src={% static "beerclub/thebeercrowd_logo.png" %}>
 				</div>
                 {% block topbar %}
-                <div class="w3-hover-grayscale">
-				{% if banner.image_url %}
-				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100% max-width:600px" src="{{ banner.image_url }}"></a>
-				{% else %}
-				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
-				{% endif %}
-				</div>
             </div>
 		</div>
 		<div class="topmenu-base"></div>

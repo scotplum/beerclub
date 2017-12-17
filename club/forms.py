@@ -14,7 +14,7 @@ class ClubForm(forms.ModelForm):
 	
 	class Meta:
 		model = Club
-		exclude = ('date_added',)
+		exclude = ('date_added', 'disp_members', 'display_member_vote',)
 	
 class ClubAnnouncementForm(forms.ModelForm):	
 	class Meta:
@@ -25,3 +25,9 @@ class ClubMembershipForm(forms.ModelForm):
 	class Meta:
 		model = Club_User
 		exclude = ('club',)
+		
+class ClubDisplayForm(forms.ModelForm):
+	
+	class Meta:
+		model = Club
+		fields = ('disp_members', 'display_member_vote',)

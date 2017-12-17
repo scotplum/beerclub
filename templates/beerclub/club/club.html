@@ -5,8 +5,8 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-container w3-center">
-		<div class="content-base-navyborder">
+	<div class="w3-center topmenu-margin">
+		<div class="content-base">
 			<h3 class="w3-center topheading">{{ crowd.name }}
 			{% if club_admin_check %}
 				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
@@ -29,8 +29,40 @@
 			{% endif %}
 		</div>
 	</div>
+	<div class="w3-padding-bottom">
+		<h3 class="beerheading">Announcements
+		{% if club_admin_check %}
+			<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
+		{% endif %}
+		</h3>
+			<div class="homebeer">
+			{% if crowd_announcement_check %}
+			{% for announcement in crowd_announcement %}
+			{% if announcement.is_active %}
+				<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
+					{% if club_admin_check %}
+					<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+					<span class="managetooltomato">
+						<form name="removeannouncementForm" class="w3-left managetooltomato" method="Post">
+						<button class="removesubmitannouncement" name="removeannouncement" value="{{ announcement.id }}" type="submit"><i class="removesubmitannouncement fa fa-times" aria-hidden="true"></i></button>
+						{% csrf_token %}
+						</form>
+					</span>
+					{% endif %}
+				</div>
+				<div class="">
+					<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
+				</div>
+			{% endif %}
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">There are not currently any announcements</div>
+			{% endif %}
+			</div>
+	</div>
 	<div class="w3-container">
-		<div class="w3-cell w3-half w3-left">
+		<div class="w3-cell w3-half">
 			<h3 class="beerheading">About
 				{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/about/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
@@ -38,103 +70,88 @@
 				{% endif %}			
 			</h3>
 			<div class="homebeer w3-padding-top">
-				<div class="">
-					<div class="club-content-span2 content-base-nobold content-1-nm">Established: {{ crowd.established }}</div>				
-					<div class="club-content-span2 content-base-nobold content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
-					{% if crowd.is_public %}
-					<div class="club-content-span2 content-base-nobold content-1-nm">Applications open to the public</div>
-					{% else %}
-					<div class="club-content-span2 content-base-nobold content-1-nm">Invitations by email only</div>
-					{% endif %}
-					<div class="club-content-span2 content-base-nobold content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
-					<div class="club-content-span2 content-base-nobold content-1-nm">Aministered by 
-					{% for admin in club_admin %}
-					<br><span><a class="" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }}</span></a>
-					{% endfor %}					
-					</div>					
-				</div>
+				<div class="club-content-span2 content-base-nobold content-1-nm">Established: {{ crowd.established }}</div>				
+				<div class="club-content-span2 content-base-nobold content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
+				{% if crowd.is_public %}
+				<div class="club-content-span2 content-base-nobold content-1-nm">Applications open to the public</div>
+				{% else %}
+				<div class="club-content-span2 content-base-nobold content-1-nm">Invitations by email only</div>
+				{% endif %}
+				<div class="club-content-span2 content-base-nobold content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
+				<div class="club-content-span2 content-base-nobold content-1-nm">Aministered by 
+				{% for admin in club_admin %}
+				<span><a class="" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }} {% if not forloop.last %},{% endif %}</span></a>
+				{% endfor %}					
+				</div>					
 			</div>
 		</div>
-		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">Announcements
+		<div class="w3-cell w3-half">
+			<h3 class="beerheading">Events
 			{% if club_admin_check %}
-				<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-				<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
-			{% endif %}
+			<span><a class="w3-left managetool" href='manage/event/addevent/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
+			<span><a class="w3-right managetool" href='manage/event/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+			{% endif %}			
+			</h3>
+			<div class="homebeer w3-padding-top">
+					{% if club_event_check %}
+					{% for event in club_event %}
+					{% if event.event.is_active %}
+
+					<div class="content-base">
+						<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+						<div class="content-3">{{ event.event.address }}</div>
+						<div class="content-2-nobold">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+			</div>
+					{% else %}
+					<div class="content-base emptycontent">There are no events scheduled at this time</div>
+					{% endif %}
+		</div>
+		{% if crowd.disp_members == True %}
+		<div class="w3-cell w3-half">
+			<h3 class="beerheading">Membership
+			{% if club_admin_check %}
+				<span><a class="w3-right managetool" href='manage/membership/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+			{% endif %}				
 			</h3>
 				<div class="homebeer">
-				{% if crowd_announcement_check %}
-				{% for announcement in crowd_announcement %}
-				{% if announcement.is_active %}
-					<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
-						{% if club_admin_check %}
-						<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-						<span class="managetooltomato">
-							<form name="removeannouncementForm" class="w3-left managetooltomato" method="Post">
-							<button class="removesubmitannouncement" name="removeannouncement" value="{{ announcement.id }}" type="submit"><i class="removesubmitannouncement fa fa-times" aria-hidden="true"></i></button>
-							{% csrf_token %}
-							</form>
-						</span>
-						{% endif %}
-					</div>
 					<div class="">
-						<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
+						<div class="">					
+						{% if club_user_check %}
+						{% for member in club_user %}
+						<div class="content-base"><a class="" style="font-size: 85%;" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
+						{% endfor %}
+						{% else %}
+						<div class="content-base emptycontent">No current members</div>
+						{% endif %}
+						</div>
 					</div>
-				{% endif %}
-				{% endfor %}
-				{% else %}
-				<div class="content-base emptycontent">There are not currently any announcements</div>
-				{% endif %}
 				</div>
 		</div>
-	</div>	
-	<div class="w3-container w3-padding">
-			<div class="w3-cell w3-half w3-left w3-padding-bottom">
-				<h3 class="beerheading">Membership
-				{% if club_admin_check %}
-					<span><a class="w3-right managetool" href='manage/membership/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-					<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
-				{% endif %}				
-				</h3>
-					<div class="homebeer">
-						<div class="">
-							<div class="">					
-							{% if club_user_check %}
-							{% for member in club_user %}
-							<div class="content-base"><a class="" style="font-size: 85%;" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
-							{% endfor %}
-							{% else %}
-							<div class="content-base emptycontent">No current members</div>
-							{% endif %}
-							</div>
-						</div>
-					</div>
-			</div>
-			<div class="w3-cell w3-half w3-right w3-padding-bottom">
-				<h3 class="beerheading">Events
-				{% if club_admin_check %}
-				<span><a class="w3-left managetool" href='manage/event/addevent/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
-				<span><a class="w3-right managetool" href='manage/event/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-				{% endif %}			
-				</h3>
-				<div class="homebeer w3-padding-top">
-						{% if club_event_check %}
-						{% for event in club_event %}
-						{% if event.event.is_active %}
-
-						<div class="content-base">
-							<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
-							<div class="content-3">{{ event.event.address }}</div>
-							<div class="content-2-nobold">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
-						</div>
+		{% endif %}
+		<div class="w3-cell w3-half">
+			<h3 class="beerheading">Top Beers <span class="w3-tiny">(Ranked by {{ crowd.display_member_vote }}+ members)</span>
+			{% if club_admin_check %}
+				<span><a class="w3-right managetool" href='manage/display/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+			{% endif %}			
+			</h3>
+				<div class="homebeer">
+					<div class="">
+						<div class="">					
+						{% for cs in club_scores %}
+						{% if cs.count >= crowd.display_member_vote %}
+						<div class="content-base"><span><a class="beerstatslabel" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a></span><span class="beerstatsvalue"> {{ cs.average }} ({{ cs.count }})</span></div>
 						{% endif %}
 						{% endfor %}
+						</div>
+					</div>
 				</div>
-						{% else %}
-						<div class="content-base emptycontent">There are no events scheduled at this time</div>
-						{% endif %}
-			</div>
-		</div>	
+		</div>
+	</div>
 </div>
 
 {% endblock content %}

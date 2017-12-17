@@ -13,10 +13,10 @@
 		</div>
 	</div>
 	<form method="post" action="" class="w3-padding w3-margin-top">
-	<div class="formdescription">{{ form }}</div>
+	<div class="formdescription">{{ form.note }}</div>
 	{% csrf_token %}<br>
-	<input type="submit" value="Update Note"/>
-	<input type="submit" name="removenote" value="Remove Note"/>
+	<input type="submit" value="Update"/>
+	<input type="submit" name="removenote" value="Remove"/>
 	</form>
 </div>
 <div>{{ post_info }}</div>
