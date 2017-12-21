@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 from django.forms.widgets import CheckboxSelectMultiple
 from django.forms.models import ModelMultipleChoiceField
-
+from django.contrib.auth.models import User 
 from crispy_forms.helper import FormHelper 
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field, Fieldset 
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions 
@@ -42,3 +42,9 @@ class SignupForm(forms.Form):
 		user.first_name = self.cleaned_data['first_name']
 		user.last_name = self.cleaned_data['last_name']
 		user.save()
+		
+class ProfileForm(forms.ModelForm):
+	
+	class Meta:
+		model = User
+		fields = ('last_name', 'first_name',  'email',)

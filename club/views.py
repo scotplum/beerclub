@@ -1,5 +1,6 @@
 from __future__ import division
 from django.db.models import Avg, Count
+from django.db.models.functions import Lower
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
@@ -59,11 +60,13 @@ def club(request, id):
 		context['club_event'] = club_event
     user_beer_rating = []    
     if club_user_check:
-		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club')
+		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club').order_by(Lower('user__username'))
 		context['club_user'] = club_user
 		club_users = Club_User.objects.filter(club=crowd).values_list('user')
-		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-count', '-average', 'beer_name')[:15]
-		context['club_scores'] = club_scores		
+		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-count', '-average', 'beer_name')[:20]
+		context['club_scores'] = club_scores
+		club_wanted_beers = Wanted_Beers.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).order_by('-count','beer_name')[:15]
+		context['club_wanted_beers'] = club_wanted_beers
     if request.method == "POST": 
 		rp = request.POST
 		if 'apply' in rp:
@@ -299,6 +302,7 @@ def display(request, id):
             else:
 				updated_crowd.disp_members = False
             updated_crowd.display_member_vote = post_info['display_member_vote']
+            updated_crowd.display_wanted_beer = post_info['display_wanted_beer']
             updated_crowd.save()
             context['form'] = ClubDisplayForm(instance=crowd)
             return redirect('/club/' + id + '/')

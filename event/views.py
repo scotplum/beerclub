@@ -82,6 +82,8 @@ def one_event(request, event_id):
     event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()
     taster_response_check = Event_Attend.objects.filter(event=event).exists()
     context['taster_response_check'] = taster_response_check
+    taster_response_attending_check = Event_Attend.objects.filter(event=event).filter(will_attend=True).exists()
+    context['taster_response_attending_check'] = taster_response_attending_check
     event_note_check = Event_Note.objects.filter(event=event).exists()
     context['event_notes'] = {}
     if event_note_check:

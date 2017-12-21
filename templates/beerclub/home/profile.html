@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-container w3-center">
+		<div class="content-base-navyborder">
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Profile for {{ user_object }} </div>
+			<div class="topcontent">Note: Some crowds require a first and last name before an application can be submitted</div>
+		</div>
+	</div>
+	<h3 class="w3-center beerheading">Your Profile</h3>
+		<form name="profileForm" method="Post">
+		<div class="homebeer">
+		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">First Name</div><div class="content-3" style="text-align:center;">{{ form.first_name }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Last Name</div><div class="content-3" style="text-align:center;">{{ form.last_name }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Email Address</div><div class="content-3" style="text-align:center;">{{ form.email }}</div></div>
+		{% csrf_token %}
+		</div>
+		<br><input type="submit" value="Update Profile"/>
+		</form>
+	<br>
+	<div><a class="w3-padding" href="/home/">Back Home</a></div>
+</div>
+{% endblock content %}

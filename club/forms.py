@@ -30,4 +30,4 @@ class ClubDisplayForm(forms.ModelForm):
 	
 	class Meta:
 		model = Club
-		fields = ('disp_members', 'display_member_vote',)
+		fields = ('disp_members', 'display_member_vote', 'display_wanted_beer',)

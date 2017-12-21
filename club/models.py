@@ -20,6 +20,7 @@ class Club(models.Model):
     bio					= models.TextField(max_length=1000)
     disp_members   		= models.BooleanField(default=True)
     display_member_vote = models.PositiveSmallIntegerField(default=1)
+    display_wanted_beer = models.PositiveSmallIntegerField(default=1)
 
     class Meta:
 		ordering = ['state']
@@ -44,7 +45,7 @@ class Club_User(models.Model):
 	is_admin		= models.BooleanField(default=False)
 	
 	class Meta:
-		ordering = ['user__last_name']
+		ordering = ['user__username']
 
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.club)

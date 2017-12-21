@@ -23,13 +23,13 @@
 			<form name="eventattendForm" class="w3-center beerpadding w3-padding-bottom" method="Post">
 			{% if event_attendance_check %}
 				{% if event_attendance.will_attend == True %}
-			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="remove" value="y" type="submit">I Can't Attend</button>
+			<button class="" name="remove" value="y" type="submit">I Can't Attend</button>
 				{% else %}
-			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="activate" value="y" type="submit">I Am Attending</button>			
+			<button class="" name="activate" value="y" type="submit">I Am Attending</button>			
 				{% endif %}
 			{% else %}
-			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="attend" value="y" type="submit">I'll be there</button>
-			<button class="w3-round-small w3-indigo w3-btn content-description-bullet" name="decline" value="y" type="submit">Can't make it</button>
+			<button class="" name="attend" value="y" type="submit">I'll be there</button>
+			<button class="" name="decline" value="y" type="submit">Can't make it</button>
 			{% endif %}
 			{% csrf_token %}
 			</form>
@@ -43,8 +43,8 @@
 				{% endif %}	</h3>
 			<div class="homebeer">
 				<div class="content-1" style="font-size: 120%; color: tomato; font-weight: bold">{{ event.address.description }}</div>
-				<div class="content-3" style="font-size: 100%; font-weight: 400">{{ event.address.address_1 }}</div>
-				<div class="content-3" style="font-size: 100%; font-weight: 400">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
+				<div class="topcontent" style="font-size: 100%; font-weight: 400">{{ event.address.address_1 }}</div>
+				<div class="topcontent" style="font-size: 100%; font-weight: 400">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
@@ -53,7 +53,7 @@
 				<span><a class="w3-right managetool" href='manage/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 				{% endif %}	</h3>
 			<div class="homebeer">
-				<div class="content-base content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top" style="text-align:left;">{{ event.description }}</div>
+				<div class="w3-padding topcontent" style="text-align:left;">{{ event.description }}</div>
 			</div>
 		</div>
 	</div>
@@ -76,7 +76,7 @@
 			<h3 class="beerheading">Not Attending</h3>
 			<div class="homebeer">
 			{% if declined_check == False %}
-			<div class="content-base content-1">No members have declined</div>
+			<div class="content-base">No members have declined</div>
 			{% else %}
 			{% for taster in taster_response %}
 			{% if taster.will_attend == False %}
@@ -92,7 +92,7 @@
 			<h3 class="beerheading">Confirmed Beer</h3>
 			<div class="homebeer">
 			{% if event_beer_check == False %}
-			<ul class="content-base">No beers committed</ul>
+			<div class="content-base">No beers committed</div>
 			{% else %}
 			{% for beer in committed %}
 			<div class="content-base w3-padding-top w3-padding-bottom">
@@ -103,23 +103,23 @@
 				</form>
 				{% endif %}
 				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
-					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
+					<span class="content-3"><b>{{ beer.beer_company }}</b></span></div>
 					{% for su in score_user %}
 					{% if su.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel">My Score</span> <span class="beerstatsvalue">{{ su.1 }}</span></div>
+					<div><span class="beerstatslabel" style="font-size: 85%;">My Score</span> <span class="beerstatsvalue w3-padding-right">{{ su.1 }}</span>
 					{% endif %}
 					{% endfor %}
 					{% for sb in score_beercrowd %}
 					{% if sb.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel">The Beer Crowd</span> <span class="beerstatsvalue">{{ sb.1 }} ({{ sb.2 }})</span></div>
+					<span class="beerstatslabel" style="font-size: 85%;">The Beer Crowd</span> <span class="beerstatsvalue w3-padding-right">{{ sb.1 }} ({{ sb.2 }})</span>
 					{% endif %}
 					{% endfor %}
 					{% for sc in score_club %}
 					{% if sc.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel">{{ club.name }}</span> <span class="beerstatsvalue">{{ sc.1 }} ({{ sc.2 }})</span></div>
+					<span class="beerstatslabel" style="font-size: 85%;">{{ club.name }}</span> <span class="beerstatsvalue w3-padding-right">{{ sc.1 }} ({{ sc.2 }})</span>
 					{% endif %}
 					{% endfor %}
-				</div>
+					</div>
 			</div>
 			{% endfor %}
 			{% endif %}
@@ -129,8 +129,8 @@
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Wanted Beer</h3>
 			<div class="homebeer">	
-			{% if taster_response_check == False %}
-			<ul class="content-base w3-small">No beers wanted</ul>
+			{% if taster_response_attending_check == False %}
+			<div class="content-base">No beers wanted</div>
 			{% endif %}
 			{% for item in suggest_distinct %}
 			<div class="content-base">
@@ -142,18 +142,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="w3-center w3-mobile">
-		<h3 class="beerheadingfull">Notes</h3>
-		{% for note in event_notes %}
-		{% if note.is_active == True %}
-		<div class="homebeerfull">
-		<div class="w3-row w3-padding beernote">
-		<div class="content-1" style="text-align: center;">"{{ note.note }}"</div>
-		<div class="content-2" style="text-align:center; text-shadow:0px 0px 1px #fbfcfc;"><b>{{ note.user.username }}</b></div>
+	<div class="w3-center">
+		<h3 class="beerheading">Notes</h3>
+		<div class="homebeer">
+			{% for note in event_notes %}
+			{% if note.is_active == True %}
+			<div class="content-base">
+				<div class="w3-padding-top w3-padding topcontent" style="text-align: center;">"{{ note.note }}"</div>
+				<div class="w3-center w3-small w3-padding-left" style="text-align:center; color: tomato;"><b>{{ note.user.username }}</b></div>
+			</div>
+			{% endif %}
+			{% endfor %}
 		</div>
-		</div>
-		{% endif %}
-		{% endfor %}
 		<div class="beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
 		<form name="eventnoteForm" class="w3-center" method="Post">
 		<div class="w3-padding-bottom w3-padding-left w3-padding-right"><textarea type="textarea" name="notevalue"></textarea></div>

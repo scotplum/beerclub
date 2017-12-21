@@ -240,14 +240,16 @@ body {
 	
 .beerstatslabel{
 	color: tomato;
-	font-size: 90%;
+	font-size: 95%;
 	font-weight: 700;
+	font-variant: small-caps;
 }
 
 .beerstatsvalue{
 	color: #0c3c73;
-	font-size: 80%;
-	font-weight: 700;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 90%;
 }
 
 .beerstatsvalue-m{
@@ -277,8 +279,8 @@ body {
 .topcontent{
 	color: #0c3c73;
 	font-family: 'Roboto', sans-serif;
-	font-weight: 700;
-	font-size: 95%;
+	font-weight: 400;
+	font-size: 90%;
 	padding-bottom: 2px;
 	padding-left: 3px;
 	padding-right: 3px;
@@ -376,7 +378,7 @@ body {
 .content-base-nobold{
 	color:#082445;
 	background-color:snow;
-	padding: .5%;
+	padding: 1% 2% 1% 2%;
 	text-align: left;
 	border-bottom: .5px solid #cfccd6;
 	text-align: center;
@@ -413,7 +415,7 @@ body {
 	padding: 0 0 0 0;
 	margin-left: 3%;
 	margin-right: 3%;
-	color: #0c3c73;
+	color: tomato;
 	text-decoration: none;
 }
 
@@ -458,8 +460,8 @@ body {
 .content-3{
 	font-size: 80%;
 	color: #0c3c73;
-	padding-left: 1%;
-	padding-right: 1%;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .content-3-tomato{
@@ -800,3 +802,30 @@ a:hover {
 	color: tomato;
 }
 
+button	{
+	background-color: #1569C7;
+	border-radius: 1px;
+	color: snow;
+	padding: 4px 8px 4px 8px;
+	border: solid .5px #1569C7;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+}
+
+button:hover {
+	background-color: tomato;
+}
+
+input[type=submit] {
+	background-color: #1569C7;
+	border-radius: 1px;
+	color: snow;
+	padding: 4px 8px 4px 8px;
+	border: solid .5px #1569C7;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+}
+
+input[type=submit]:hover {
+	background-color: tomato;
+}

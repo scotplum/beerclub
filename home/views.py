@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
 from event.models import Event, Event_Beer
 from club.models import Club, Club_User, Club_Event
-from forms import findbeerForm, ProfileSheetForm
+from forms import findbeerForm, ProfileSheetForm, SignupForm, ProfileForm
 from django.utils import timezone
 import requests
 from django.forms import inlineformset_factory
@@ -280,6 +280,25 @@ def beer(request, bdb_id):
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
 
+@login_required
+def profile(request):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    context['form'] = ProfileForm(instance=user_object)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        post_info = request.POST
+        if form.is_valid():
+            updated_user = user_object
+            updated_user.first_name = post_info['first_name']
+            updated_user.last_name = post_info['last_name']
+            updated_user.email = post_info['email']
+            updated_user.save()
+            return redirect('/home/profile')
+    return render(request, 'home/profile.html', context) 
+	
 @login_required	
 def beerevent(request, bdb_id):
     nav = navigation(request)
@@ -347,10 +366,10 @@ def taster(request, id):
     if beer_notes_check:
 		beer_notes = Beer_Note.objects.filter(user=taster).order_by('-date_added')[:8]
 		context['beer_notes'] = beer_notes    
-    beer_rating_check = UserRating.objects.filter(user=taster).exists()
+    beer_rating_check = Beer_Score.objects.filter(user=taster).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = UserRating.objects.filter(user=taster).order_by('-id')[:10]
+		beer_rating = Beer_Score.objects.filter(user=taster).order_by('-id')[:10]
 		context['beer_rating'] = beer_rating
     if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.filter(user=id)
@@ -502,8 +521,10 @@ def profilesheet(request, bdb_id):
 		ps_attribute = p_s.values_list('beer_attribute', flat=True)
 		context['ps_attribute'] = ps_attribute
     context['p_s'] = p_s
-    beer_info = Beer_Score.objects.get(bdb_id=bdb_id, user=user_object)
-    context['beer_info'] = beer_info
+    beer_info_check = Beer_Score.objects.filter(bdb_id=bdb_id, user=user_object).exists()
+    if beer_info_check:
+		beer_info = Beer_Score.objects.get(bdb_id=bdb_id, user=user_object)
+		context['beer_info'] = beer_info
     profile_section = Beer_Attribute_Section.objects.all().prefetch_related('category')
     context['profile_section'] = profile_section
     profile_category = Beer_Attribute_Category.objects.all()

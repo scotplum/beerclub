@@ -29,13 +29,13 @@
 			{% endif %}
 		</div>
 	</div>
-	<div class="w3-padding-bottom">
-		<h3 class="beerheading">Announcements
+	<div class="w3-padding-bottom w3-padding-top">
 		{% if club_admin_check %}
+		<h3 class="beerheading">Announcements
 			<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 			<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
-		{% endif %}
 		</h3>
+		{% endif %}
 			<div class="homebeer">
 			{% if crowd_announcement_check %}
 			{% for announcement in crowd_announcement %}
@@ -62,7 +62,7 @@
 			</div>
 	</div>
 	<div class="w3-container">
-		<div class="w3-cell w3-half">
+		<div class="w3-cell w3-half w3-left">
 			<h3 class="beerheading">About
 				{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/about/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
@@ -70,22 +70,33 @@
 				{% endif %}			
 			</h3>
 			<div class="homebeer w3-padding-top">
-				<div class="club-content-span2 content-base-nobold content-1-nm">Established: {{ crowd.established }}</div>				
-				<div class="club-content-span2 content-base-nobold content-1-nm">Located in {{ crowd.city }}, {{ crowd.state }}</div>
+				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Established:</b> {{ crowd.established }}</div>				
+				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Location:</b> {{ crowd.city }}, {{ crowd.state }}</div>
 				{% if crowd.is_public %}
-				<div class="club-content-span2 content-base-nobold content-1-nm">Applications open to the public</div>
+				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Applications open to the public</b></div>
 				{% else %}
 				<div class="club-content-span2 content-base-nobold content-1-nm">Invitations by email only</div>
 				{% endif %}
-				<div class="club-content-span2 content-base-nobold content-1-nm">Annual Membership Fee: ${{ crowd.annual_fee }}</div>
-				<div class="club-content-span2 content-base-nobold content-1-nm">Aministered by 
+				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Annual Membership Fee:</b> ${{ crowd.annual_fee }}</div>
+				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Aministered by </b>
 				{% for admin in club_admin %}
 				<span><a class="" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }} {% if not forloop.last %},{% endif %}</span></a>
 				{% endfor %}					
-				</div>					
+				</div>
+				{% if crowd.disp_members == True %}
+				<div class="w3-padding-right w3-margin-left club-content-span2 content-base-nobold content-1-nm"><b>Membership</b><br>			
+				{% if club_user_check %}
+				{% for member in club_user %}
+				<span class="w3-padding-top"><a class="" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}{% if not forloop.last %},{% endif %}</a></span>
+				{% endfor %}
+				{% else %}
+				<div class="content-base emptycontent">No current members</div>
+				{% endif %}
+				</div>
+				{% endif %}				
 			</div>
 		</div>
-		<div class="w3-cell w3-half">
+		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Events
 			{% if club_admin_check %}
 			<span><a class="w3-left managetool" href='manage/event/addevent/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
@@ -104,52 +115,50 @@
 					</div>
 					{% endif %}
 					{% endfor %}
-			</div>
 					{% else %}
 					<div class="content-base emptycontent">There are no events scheduled at this time</div>
 					{% endif %}
+			</div>
 		</div>
-		{% if crowd.disp_members == True %}
-		<div class="w3-cell w3-half">
-			<h3 class="beerheading">Membership
-			{% if club_admin_check %}
-				<span><a class="w3-right managetool" href='manage/membership/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
-			{% endif %}				
-			</h3>
-				<div class="homebeer">
-					<div class="">
-						<div class="">					
-						{% if club_user_check %}
-						{% for member in club_user %}
-						<div class="content-base"><a class="" style="font-size: 85%;" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}</a></div>
-						{% endfor %}
-						{% else %}
-						<div class="content-base emptycontent">No current members</div>
-						{% endif %}
-						</div>
-					</div>
-				</div>
-		</div>
-		{% endif %}
-		<div class="w3-cell w3-half">
-			<h3 class="beerheading">Top Beers <span class="w3-tiny">(Ranked by {{ crowd.display_member_vote }}+ members)</span>
+	</div>
+	<div class="w3-container">
+		<div class="w3-cell w3-half w3-left">
+			<h3 class="beerheading">Top Beers <span class="w3-tiny">({{ crowd.display_member_vote }}+ members)</span>
 			{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/display/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
 			{% endif %}			
 			</h3>
-				<div class="homebeer">
-					<div class="">
-						<div class="">					
-						{% for cs in club_scores %}
-						{% if cs.count >= crowd.display_member_vote %}
-						<div class="content-base"><span><a class="beerstatslabel" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a></span><span class="beerstatsvalue"> {{ cs.average }} ({{ cs.count }})</span></div>
-						{% endif %}
-						{% endfor %}
-						</div>
+			<div class="homebeer">
+				<div class="">
+					<div class="">					
+					{% for cs in club_scores %}
+					{% if cs.count >= crowd.display_member_vote %}
+					<div class="content-base"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span style="color: tomato; font-weight: heavy;">{{ cs.average }} ({{ cs.count }})</span></span></div></div>
+					{% endif %}
+					{% endfor %}
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="w3-cell w3-half w3-right">
+			<h3 class="beerheading">Wanted Beers <span class="w3-tiny">({{ crowd.display_wanted_beer }}+ members)</span>
+			{% if club_admin_check %}
+				<span><a class="w3-right managetool" href='manage/display/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-pencil" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+			{% endif %}			
+			</h3>
+			<div class="homebeer">
+				<div class="">
+					<div class="">					
+					{% for wb in club_wanted_beers %}
+					{% if wb.count >= crowd.display_wanted_beer %}
+					<div class="content-base"><div class="content-1"><a class="" href="/home/findbeer/{{ wb.bdb_id }}/">{{ wb.beer_name }}</a></span><span class="content-3"> {{ wb.beer_company }} <span style="color:tomato;">({{ wb.count }})</span></span></div></div>
+					{% endif %}
+					{% endfor %}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

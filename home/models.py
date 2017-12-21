@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
-from star_ratings.models import Rating
 from django.forms import ModelForm
 
 # Create your models here.
@@ -52,7 +51,6 @@ class Beer_Rating(models.Model):
     beer_company  	= models.CharField(max_length=100) 
     beer_name  		= models.CharField(max_length=500) 
     beer_category 	= models.CharField(max_length=100)
-    ratings 		= GenericRelation(Rating, related_query_name='Beer_Rating')
 	
     def __str__(self):
 		return self.beer_name + ' | ' + self.beer_company

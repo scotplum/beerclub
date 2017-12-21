@@ -75,7 +75,6 @@ INSTALLED_APPS = [
 	'event',
 	'crispy_forms',
 	'localflavor',
-	'star_ratings',
 	'club',
 	'debug_toolbar',
 ]

@@ -14,7 +14,8 @@
 		<form method="post" action="" class="">
 		<div class="homebeer">
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Display Members?</div><div class="content-3" style="text-align:center;">{{ form.disp_members }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Minimum Beer Rankings Required</div><div class="content-3" style="text-align:center;">{{ form.display_member_vote }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Minimum Members Required For Rankings</div><div class="content-3" style="text-align:center;">{{ form.display_member_vote }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Minimum Members Required For Wanted Beers</div><div class="content-3" style="text-align:center;">{{ form.display_wanted_beer }}</div></div>
 		{% csrf_token %}
 		</div>
 		<br><input type="submit" value="Update Display"/>
