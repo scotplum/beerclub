@@ -82,8 +82,6 @@ def index(request):
 			rating.score = ratingvalue
 			rating.save()
 			return redirect('/home/')
-    if request.session['is_mobile']:
-		return render(request, 'home/index_m.html', context)
     return render(request, 'home/index.html', context)  
 	
 @login_required 
@@ -415,13 +413,17 @@ def ratings(request):
     beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('beer_name')
+		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('-score')
 		context['beer_rating'] = beer_rating
     if request.method == "POST": 
 		rp = request.POST.get("sortratings")
 		context['rp'] = rp
 		if rp == 'All':
-			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score', 'beer_name')
+			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score')
+		elif rp == 'Brewery':
+			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
+		elif rp == 'Beer':
+			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_name')
 		else:
 			beer_rating = Beer_Score.objects.filter(user=user_object).filter(score=rp).order_by('beer_name')
 		context['beer_rating'] = beer_rating
@@ -509,7 +511,7 @@ def profilesheet(request, bdb_id):
     context = nav['context']
     profile_sheet_check = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).exists()
     if profile_sheet_check:
-		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
+		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
 		p_s_a = Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object)
 		ps_attribute = p_s.values_list('beer_attribute', flat=True)
 		context['ps_attribute'] = ps_attribute
@@ -517,7 +519,7 @@ def profilesheet(request, bdb_id):
 		new_p_s = Profile_Sheet.objects.create(bdb_id=bdb_id, user=user_object)
 		new_p_s.save()
 		p_s = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
-		p_s_a = Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object).select_related()
+		p_s_a = Profile_Sheet.objects.get(bdb_id=bdb_id, user=user_object)
 		ps_attribute = p_s.values_list('beer_attribute', flat=True)
 		context['ps_attribute'] = ps_attribute
     context['p_s'] = p_s

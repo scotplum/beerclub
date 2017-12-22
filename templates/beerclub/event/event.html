@@ -64,12 +64,14 @@
 				{% if confirmed_check == False %}
 				<div class="content-base">No members have confirmed</div>
 				{% else %}
-				{% for taster in taster_response %}
-				{% if taster.will_attend == True %}
-				<div class="content-base"><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}</a></div>
-				{% endif %}
-				{% endfor %}
-				{% endif %}
+				<div class="w3-padding">
+					{% for taster in taster_response %}
+					{% if taster.will_attend == True %}
+					<span class=""><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}{% if not forloop.last %},{% endif %}</a></span>
+					{% endif %}
+					{% endfor %}
+					{% endif %}
+				</div>
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
@@ -103,23 +105,8 @@
 				</form>
 				{% endif %}
 				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
-					<span class="content-3"><b>{{ beer.beer_company }}</b></span></div>
-					{% for su in score_user %}
-					{% if su.0 == beer.bdb_id %}
-					<div><span class="beerstatslabel" style="font-size: 85%;">My Score</span> <span class="beerstatsvalue w3-padding-right">{{ su.1 }}</span>
-					{% endif %}
-					{% endfor %}
-					{% for sb in score_beercrowd %}
-					{% if sb.0 == beer.bdb_id %}
-					<span class="beerstatslabel" style="font-size: 85%;">The Beer Crowd</span> <span class="beerstatsvalue w3-padding-right">{{ sb.1 }} ({{ sb.2 }})</span>
-					{% endif %}
-					{% endfor %}
-					{% for sc in score_club %}
-					{% if sc.0 == beer.bdb_id %}
-					<span class="beerstatslabel" style="font-size: 85%;">{{ club.name }}</span> <span class="beerstatsvalue w3-padding-right">{{ sc.1 }} ({{ sc.2 }})</span>
-					{% endif %}
-					{% endfor %}
-					</div>
+					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
+				</div>
 			</div>
 			{% endfor %}
 			{% endif %}
@@ -148,8 +135,8 @@
 			{% for note in event_notes %}
 			{% if note.is_active == True %}
 			<div class="content-base">
-				<div class="w3-padding-top w3-padding topcontent" style="text-align: center;">"{{ note.note }}"</div>
-				<div class="w3-center w3-small w3-padding-left" style="text-align:center; color: tomato;"><b>{{ note.user.username }}</b></div>
+				<div class="w3-padding-left" style="text-align:left; color: tomato; font-weight: 400;"><b>{{ note.user.username }}</b><span class="content-3 w3-padding-left w3-right" style="text-align: right; font-size: 70%;">{{ note.date_added }}</span></div>
+				<div class="w3-padding topcontent" style="text-align: left; font-weight: bold;">{{ note.note }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -157,7 +144,7 @@
 		<div class="beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
 		<form name="eventnoteForm" class="w3-center" method="Post">
 		<div class="w3-padding-bottom w3-padding-left w3-padding-right"><textarea type="textarea" name="notevalue"></textarea></div>
-		<button class="w3-btn w3-round w3-small topmenu-negative loginlink" style="text-shadow:1px 0 0" name="eventnote" value="y" type="submit">Add Note</button>
+		<button class="" style="" name="eventnote" value="y" type="submit">Add Note</button>
 		{% csrf_token %}
 		</form>
 	</div>

@@ -3,28 +3,32 @@
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
-{% load ratings %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-container w3-center">
+	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Sortable Ratings</div>
 			<div>
-				<form name="ratingsForm" class="w3-center topcontent" style="font-size=150%;" method="Post">
-				<button class="removesubmit" name="sortratings" value="1" type="submit"><a class="w3-padding-right" {% if rp == '1' %}style="color: tomato; font-weight: 700;"{% endif %}>1</a></button>
-				<button class="removesubmit" name="sortratings" value="2" type="submit"><a class="w3-padding-right" {% if rp == '2' %}style="color: tomato; font-weight: 700;"{% endif %}>2</a></button>
-				<button class="removesubmit" name="sortratings" value="3" type="submit"><a class="w3-padding-right" {% if rp == '3' %}style="color: tomato; font-weight: 700;"{% endif %}>3</a></button>
-				<button class="removesubmit" name="sortratings" value="4" type="submit"><a class="w3-padding-right" {% if rp == '4' %}style="color: tomato; font-weight: 700;"{% endif %}>4</a></button>
-				<button class="removesubmit" name="sortratings" value="5" type="submit"><a class="w3-padding-right" {% if rp == '5' %}style="color: tomato; font-weight: 700;"{% endif %}>5</a></button> 
-				<button class="removesubmit" name="sortratings" value="6" type="submit"><a class="w3-padding-right" {% if rp == '6' %}style="color: tomato; font-weight: 700;"{% endif %}>6</a></button> 
-				<button class="removesubmit" name="sortratings" value="7" type="submit"><a class="w3-padding-right" {% if rp == '7' %}style="color: tomato; font-weight: 700;"{% endif %}>7</a></button> 
-				<button class="removesubmit" name="sortratings" value="8" type="submit"><a class="w3-padding-right" {% if rp == '8' %}style="color: tomato; font-weight: 700;"{% endif %}>8</a></button>
-				<button class="removesubmit" name="sortratings" value="9" type="submit"><a class="w3-padding-right" {% if rp == '9' %}style="color: tomato; font-weight: 700;"{% endif %}>9</a></button>
-				<button class="removesubmit" name="sortratings" value="10" type="submit"><a class="w3-padding-right" {% if rp == '10' %}style="color: tomato; font-weight: 700;"{% endif %}>10</a></button>
-				<button class="removesubmit" name="sortratings" value="All" type="submit"><a class="w3-margin-right" {% if rp == 'All' %}style="color: tomato; font-weight: 700;"{% endif %}>All</a></button>
+				<form name="ratingsForm" class="w3-center topcontent" method="Post">
+				<div>
+					<button class="removesubmit" name="sortratings" value="All" type="submit"><a class="w3-margin-right" {% if rp == 'All' %}style="color: tomato; font-weight: 700;"{% endif %}>All</a></button>
+					<button class="removesubmit" name="sortratings" value="Beer" type="submit"><a class="w3-padding-right w3-padding-top" {% if rp == 'Beer' %}style="color: tomato; font-weight: 700;"{% endif %}>Beer</a></button>
+					<button class="removesubmit" name="sortratings" value="Brewery" type="submit"><a class="w3-padding-right" {% if rp == 'Brewery' %}style="color: tomato; font-weight: 700;"{% endif %}>Brewery</a></button>		
+				</div>
+				<div class="w3-padding-top">
+					<button class="removesubmit" name="sortratings" value="1" type="submit"><a class="w3-padding-right" {% if rp == '1' %}style="color: tomato; font-weight: 700;"{% endif %}>1</a></button>
+					<button class="removesubmit" name="sortratings" value="2" type="submit"><a class="w3-padding-right" {% if rp == '2' %}style="color: tomato; font-weight: 700;"{% endif %}>2</a></button>
+					<button class="removesubmit" name="sortratings" value="3" type="submit"><a class="w3-padding-right" {% if rp == '3' %}style="color: tomato; font-weight: 700;"{% endif %}>3</a></button>
+					<button class="removesubmit" name="sortratings" value="4" type="submit"><a class="w3-padding-right" {% if rp == '4' %}style="color: tomato; font-weight: 700;"{% endif %}>4</a></button>
+					<button class="removesubmit" name="sortratings" value="5" type="submit"><a class="w3-padding-right" {% if rp == '5' %}style="color: tomato; font-weight: 700;"{% endif %}>5</a></button> 
+					<button class="removesubmit" name="sortratings" value="6" type="submit"><a class="w3-padding-right" {% if rp == '6' %}style="color: tomato; font-weight: 700;"{% endif %}>6</a></button> 
+					<button class="removesubmit" name="sortratings" value="7" type="submit"><a class="w3-padding-right" {% if rp == '7' %}style="color: tomato; font-weight: 700;"{% endif %}>7</a></button> 
+					<button class="removesubmit" name="sortratings" value="8" type="submit"><a class="w3-padding-right" {% if rp == '8' %}style="color: tomato; font-weight: 700;"{% endif %}>8</a></button>
+					<button class="removesubmit" name="sortratings" value="9" type="submit"><a class="w3-padding-right" {% if rp == '9' %}style="color: tomato; font-weight: 700;"{% endif %}>9</a></button>
+					<button class="removesubmit" name="sortratings" value="10" type="submit"><a class="w3-padding-right" {% if rp == '10' %}style="color: tomato; font-weight: 700;"{% endif %}>10</a></button>
+				</div>		
 				{% csrf_token %}
 				</form>
-			</div>
 			</div>
 		</div>
 	</div><br>

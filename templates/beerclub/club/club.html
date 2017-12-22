@@ -12,7 +12,7 @@
 				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
 			{% endif %}
 			</h3>
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
+			<div class="topcontent w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
 			{% if not club_db_user_check and not club_application_pending_check %}
 			<div class="">
 				<form name="applyForm" class="w3-center" method="Post">
@@ -70,21 +70,21 @@
 				{% endif %}			
 			</h3>
 			<div class="homebeer w3-padding-top">
-				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Established:</b> {{ crowd.established }}</div>				
-				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Location:</b> {{ crowd.city }}, {{ crowd.state }}</div>
+				<div class="content-base-nobold content-3"><b>Established:</b> {{ crowd.established }}</div>				
+				<div class="content-base-nobold content-3"><b>Location:</b> {{ crowd.city }}, {{ crowd.state }}</div>
 				{% if crowd.is_public %}
-				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Applications open to the public</b></div>
+				<div class="content-base-nobold content-3"><b>Applications open to the public</b></div>
 				{% else %}
-				<div class="club-content-span2 content-base-nobold content-1-nm">Invitations by email only</div>
+				<div class="content-base-nobold content-3">Invitations by email only</div>
 				{% endif %}
-				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Annual Membership Fee:</b> ${{ crowd.annual_fee }}</div>
-				<div class="club-content-span2 content-base-nobold content-1-nm"><b>Aministered by </b>
+				<div class="content-base-nobold content-1-nm content-3"><b>Annual Membership Fee:</b> ${{ crowd.annual_fee }}</div>
+				<div class="content-base-nobold content-1-nm content-3"><b>Aministered by </b>
 				{% for admin in club_admin %}
 				<span><a class="" href="/home/tasters/{{ admin.user.id }}/">{{ admin.user.username }} {% if not forloop.last %},{% endif %}</span></a>
 				{% endfor %}					
 				</div>
 				{% if crowd.disp_members == True %}
-				<div class="w3-padding-right w3-margin-left club-content-span2 content-base-nobold content-1-nm"><b>Membership</b><br>			
+				<div class="w3-padding-right w3-margin-left content-base-nobold content-1-nm content-3"><b>Membership</b><br>			
 				{% if club_user_check %}
 				{% for member in club_user %}
 				<span class="w3-padding-top"><a class="" href="/home/tasters/{{ member.user.id }}/">{{ member.user.username }}{% if not forloop.last %},{% endif %}</a></span>

@@ -38,9 +38,9 @@
 				</div>
 				 {% if request.user.is_authenticated %}
 				
-				<div class="w3-container w3-padding-bottom" style="display: inline-block;">
+				<div class="w3-container w3-padding-bottom" style="display: inline-block; {% if request.session.is_mobile %}margin-left: 6%; {% else %}margin-left: 2.5%;{% endif %}">
 					<form name="beerForm" class="w3-center" style="margin: 0; padding:0;" action="/home/findbeer/" method="Post">
-						<button type="button" onclick="myFunction()" class="w3-round-small w3-btn content-description-bullet" style="text-decoration: none; font-size: 70%;"><i class="fa fa-bookmark content-base-shadow" aria-hidden="true"></i></button>
+						<button type="button" onclick="myFunction()" class="" style="text-decoration: none; font-size: 85%; vertical-align: middle;"><i class="fa fa-bookmark content-base-shadow" aria-hidden="true"></i></button>
 							<div id="Dropclick" class="w3-dropdown-content content-base-shadow">
 								{% for club in clubs %}
 								<a href="/club/{{ club.club.id }}/" class="w3-center dropdown w3-padding-4">{{ club.club.name }}</a>
@@ -48,8 +48,8 @@
 								<a href="/home/notes/" class="w3-center dropdown w3-padding-4">Beer Notes</a>
 								<a href="/home/ratings/" class="w3-center dropdown w3-padding-4">Beer Ratings</a>
 							</div>
-						<input  name="findbeer" type="text" />
-						<button class="w3-round-small w3-btn content-description-bullet content-base-shadow" type="submit">Beer Me</button>
+						<input style="vertical-align: middle;" name="findbeer" type="text" />
+						<button class="" style="text-decoration: none; font-size: 85%; font-weight: 400; font-family: 'Roboto', sans-serif;" type="submit">Beer Me</button>
 						{% csrf_token %}
 					</form>
 				</div>

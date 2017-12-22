@@ -45,6 +45,8 @@ class SignupForm(forms.Form):
 		
 class ProfileForm(forms.ModelForm):
 	
+	email = forms.CharField(max_length=75, required=True)
+	
 	class Meta:
 		model = User
 		fields = ('last_name', 'first_name',  'email',)

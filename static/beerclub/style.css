@@ -437,7 +437,7 @@ body {
 
 .content-1-nm{
 	font-size: 90%;
-	color: navy;
+	color: tomato;
 	text-decoration: none;
 }
 
@@ -680,7 +680,7 @@ textarea.focus {
 }
 
 .beer-star{
-	font-size: 180%;
+	font-size: 150%;
 	color: tomato;
 	margin: 0;
 	padding: 0;
@@ -709,7 +709,7 @@ textarea.focus {
 }
 
 .beer-star-empty{
-	font-size: 180%;
+	font-size: 150%;
 	color: gray;
 	margin: 0;
 	padding: 0;

@@ -87,7 +87,7 @@ def one_event(request, event_id):
     event_note_check = Event_Note.objects.filter(event=event).exists()
     context['event_notes'] = {}
     if event_note_check:
-		context['event_notes'] = Event_Note.objects.filter(event=event).select_related('user')
+		context['event_notes'] = Event_Note.objects.filter(event=event).select_related('user').order_by('-date_added')
     context['declined_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=False).exists()
     context['confirmed_check'] = Event_Attend.objects.filter(event=event).filter(will_attend=True).exists()
     suggest = []

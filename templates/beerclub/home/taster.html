@@ -64,8 +64,8 @@
 			{% if beer_rating_check %}
 			{% for rating in beer_rating %}
 			<div class="content-base">			
-				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.rating.content_object.beer_name }}</a>  
-					<span class="content-2">{{ rating.rating.content_object.beer_company }}</span> 
+				<div class="content-1"><a href="/home/findbeer/{{ rating.rating.content_object.bdb_id }}/">{{ rating.beer_name }}</a>  
+					<span class="content-2">{{ rating.beer_company }}</span> 
 					<span class="content-3">{{ rating.score }} / 10</span>
 				</div>				
 			</div>
