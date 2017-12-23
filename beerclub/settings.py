@@ -20,19 +20,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q)2e!qom&j&wu-yka^pm@o*1g=267n*ak!l5+7dl2cexy3nu(#'
+from decouple import config, Csv
+import dj_database_url
+
+SECRET_KEY = config('SECRET_KEY')
+#SECRET_KEY = 'q)2e!qom&j&wu-yka^pm@o*1g=267n*ak!l5+7dl2cexy3nu(#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
+#DEBUG = True
 
-ALLOWED_HOSTS = [
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+"""ALLOWED_HOSTS = [
     '192.168.0.119',
 	'127.0.0.1',
 	'localhost',
 	'0.0.0.0',
 	'52c5b457.ngrok.io',
 	'10.100.1.185',
-]
+]"""
 
 INTERNAL_IPS = [
 	'127.0.0.1',
@@ -114,13 +122,18 @@ WSGI_APPLICATION = 'beerclub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
 DATABASES = {
+	'default': dj_database_url.config(
+		default=config('DATABASE_URL')
+	)
+}
+
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}
+}"""
 
 CACHES = {
     'default': {

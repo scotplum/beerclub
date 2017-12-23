@@ -10,11 +10,12 @@ from django.utils import timezone
 import requests
 from django.forms import inlineformset_factory
 from beerclub.utils import navigation, beerscore
+from decouple import config
 
 # Create your views here.
 
 context = {}
-secret = '4896533a04534eff709518ee74c57d94' 
+secret = config('BREWERYDB')
 
 @login_required 
 def index(request): 
