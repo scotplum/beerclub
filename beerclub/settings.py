@@ -24,23 +24,12 @@ from decouple import config, Csv
 import dj_database_url
 
 SECRET_KEY = config('SECRET_KEY')
-#SECRET_KEY = 'q)2e!qom&j&wu-yka^pm@o*1g=267n*ak!l5+7dl2cexy3nu(#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
-#DEBUG = True
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
-"""ALLOWED_HOSTS = [
-    '192.168.0.119',
-	'127.0.0.1',
-	'localhost',
-	'0.0.0.0',
-	'52c5b457.ngrok.io',
-	'10.100.1.185',
-]"""
 
 INTERNAL_IPS = [
 	'127.0.0.1',
@@ -128,12 +117,6 @@ DATABASES = {
 	)
 }
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}"""
 
 CACHES = {
     'default': {
