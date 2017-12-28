@@ -29,6 +29,9 @@ class Event(models.Model):
 	is_active			= models.BooleanField(default=True)
 	address				= models.ForeignKey(Event_Address, on_delete=models.CASCADE)
 	description			= models.TextField(max_length=1000)
+
+	class Meta:
+		ordering = ['event_date']	
 	
 	def __str__(self):
 		return self.event_name + " | Is Active: " + str(self.is_active)
@@ -51,6 +54,9 @@ class Event_Attend(models.Model):
 	event			= models.ForeignKey(Event, on_delete=models.CASCADE)
 	will_attend		= models.BooleanField(default=True)
 	date_added	 	= models.DateTimeField(auto_now_add=True)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.event) + ' | ' + str(self.will_attend)
 	
 class Event_Note(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)

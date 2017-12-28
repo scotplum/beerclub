@@ -10,6 +10,7 @@ from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
 from beerclub.decorators import user_is_admin, event_is_active
 from beerclub.utils import navigation
+import operator
 
 # Create your views here.
 
@@ -23,20 +24,18 @@ def event(request):
     context = nav['context']
     club_check = nav['club_check']
     now = timezone.now()
+    event_attend_check = Event_Attend.objects.filter(user=user_object).exists()
+    context['event_attend_check'] = event_attend_check
+    if event_attend_check:
+		context['attending'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).filter(will_attend=True).order_by('event__event_date').select_related()
+		context['attended'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).filter(will_attend=True).order_by('-event__event_date').select_related()
+		context['declining'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).filter(will_attend=False).order_by('event__event_date').select_related()
+		context['declined'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).filter(will_attend=False).order_by('-event__event_date').select_related()
     if club_check:
-		clubs = Club_User.objects.filter(user=user_object).select_related()
-		club_events = []
-		club_past_events = []
-		for club in clubs:
-			club_object = Club.objects.get(id=club.club.id)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).exists():
-				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).select_related()
-				club_events.append(events)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).exists():
-				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).select_related()
-				club_past_events.append(past_events)
-		context['events'] = club_events
-		context['past_events'] = club_past_events
+		clubs = Club_User.objects.filter(user=user_object).values('club_id')
+		context['clubs'] = clubs
+		context['events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).order_by('event__event_date').select_related()
+		context['past_events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).order_by('-event__event_date').select_related()
     return render(request, 'event/index.html', context)  
 	
 
@@ -175,20 +174,20 @@ def manage(request, event_id):
     context['club_admin_check'] = club_admin_check
     context['form'] = EventForm(instance=event, club=club_event.club.id)
     if request.method == 'POST':
-        form = EventEditForm(request.POST)
-        post_info = request.POST
+        form = EventEditForm(request.POST, instance=event)
+        post_info = form.save()
         if form.is_valid():
             updated_event = event
-            updated_event.description = post_info['description']
-            updated_event.event_name = post_info['event_name']
-            updated_event.event_date = post_info['event_date']
-            updated_address = post_info['address']
-            address = Event_Address.objects.get(id=updated_address)
+            updated_event.description = post_info.description
+            updated_event.event_name = post_info.event_name
+            updated_event.event_date = post_info.event_date
+            updated_address = post_info.address
+            address = Event_Address.objects.get(id=updated_address.id)
             updated_event.address = address
-            if 'is_active' in post_info:
-				updated_event.is_active = True
-            else:
-				updated_event.is_active = False
+            updated_event.is_active = post_info.is_active
             updated_event.save()
-            return redirect('/event/' + event_id + '/')
+            if post_info.is_active == True:
+				return redirect('/event/' + event_id + '/')
+            else:
+				return redirect('/club/' + str(club_event.club.id) + '/')
     return render(request, 'event/manage.html', context)

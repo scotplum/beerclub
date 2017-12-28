@@ -21,6 +21,10 @@ body {
 	margin: 0 1% 0 1%;
 }
 
+.middle-margin{
+	margin: 0 1.5% 0 1.5%;
+}
+
 
 .topmenu-links {
 	color: snow;
@@ -91,6 +95,8 @@ body {
 	font-size: 85%;
 	text-decoration: none;
 	text-align: center;
+	border-bottom: 1px solid #1569C7;	
+	border-top: 1px solid #1569C7;	
 }
 
 .state_group {
@@ -149,8 +155,8 @@ body {
 	font-size: 115%;
 	padding: 0 0 0 0;
 	background-color: snow;
-	margin-left: 2%;
-	margin-right: 2%;
+	margin-left: 1%;
+	margin-right: 1%;
 	color: navy;
 	border-left: 1px solid #1569C7;
 	border-right: 1px solid #1569C7;
@@ -213,10 +219,22 @@ body {
 	background-color: #1569C7;
 	letter-spacing: 2px;
 	margin-bottom: 0;
-	margin-left: 2%;
-	margin-right: 2%;
+	margin-left: 1%;
+	margin-right: 1%;
 	padding-bottom: 1%;
 	padding-top: 1%;
+	font-size: 120%;
+	border-left: 1px solid #1569C7;
+	border-right: 1px solid #1569C7;
+	line-height: 30px;
+	}	
+	
+.beerheading-nomargin{
+	font-family: 'Roboto Slab', serif;
+	color: snow;
+	background-color: #1569C7;
+	letter-spacing: 2px;
+	margin-bottom: 0;
 	font-size: 120%;
 	border-left: 1px solid #1569C7;
 	border-right: 1px solid #1569C7;
@@ -279,6 +297,15 @@ body {
 .topcontent{
 	color: #0c3c73;
 	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 90%;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.middlecontent{
+	color: #0c3c73;
 	font-weight: 400;
 	font-size: 90%;
 	padding-bottom: 2px;
@@ -639,7 +666,7 @@ input[id^='id_'].focus {
 
 
 textarea {
-	width: 96%;
+	width: 98%;
 	height: 60px;
 	padding: 5px;
     border: solid 2px lightgray;
@@ -828,4 +855,9 @@ input[type=submit] {
 
 input[type=submit]:hover {
 	background-color: tomato;
+}
+
+.mobile-text {
+	font-size: 90%;
+	text-align: left;
 }

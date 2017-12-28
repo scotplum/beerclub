@@ -4,51 +4,115 @@
 
 {% block content %}
 
-<div class="w3-container w3-mobile w3-center">
-	<div class="w3-center">
+<div class="w3-mobile w3-center">
+	<div class="topmenu-margin w3-center">
 		<div class="content-base">
-			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Getting Started</div>
-			<div class="topcontent">Type a beer in the box above and click Beer Me.</div>
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Events</div>
+			<div class="topcontent"></div>
 		</div>
 	</div>
-	<div class="w3-container w3-cell w3-half w3-left w3-padding-bottom">
-		<h3 class="beerheading">Upcoming</h3>
-		<div class="w3-center homebeer w3-padding-top">
-		{% if events %}
-		{% for event in events %}
-		{% for e in event %}
-		{% if e.event.is_active == True %}
-		<div class="content-base">
-			<div class="content-1"><a href="/event/{{ e.event.id }}/">{{ e.event.event_name }}</a></div>
-			<div class="content-3">{{ e.event.address }}</div>
-			<div class="content-2">{{ e.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+	<div class="w3-container">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 class="beerheading">Attending</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if attending %}
+			{% for event in attending %}
+			<div class="content-base">
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">You have no upcoming events</div>
+			{% endif %}
+			</div>
 		</div>
-		{% endif %}
-		{% endfor %}
-		{% endfor %}
-		{% else %}
-		<div class="content-base emptycontent">You have no upcoming events</div>
-		{% endif %}
+		<div class="w3-cell w3-half w3-right">
+			<h3 class="beerheading">Attended</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if attended %}
+			{% for event in attended %}
+			<div class="content-base">
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">You have no past events</div>
+			{% endif %}
+			</div>
 		</div>
 	</div>
-	<div class="w3-container w3-cell w3-half w3-right">
-		<h3 class="beerheading">Past</h3>
-		<div class="w3-center homebeer w3-padding-top">
-		{% if past_events %}
-		{% for event in past_events %}
-		{% for pe in event %}
-		{% if pe.event.is_active == True %}
-		<div class="content-base">
-			<div class="content-1"><a href="/event/{{ pe.event.id }}/">{{ pe.event.event_name }}</a></div>
-			<div class="content-3">{{ pe.event.address }}</div>
-			<div class="content-2">{{ pe.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+	<div class="w3-container">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 class="beerheading">Not Attending</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if declining %}
+			{% for event in declining %}
+			<div class="content-base">
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">There are no upcoming events that you declined to attend</div>
+			{% endif %}
+			</div>
 		</div>
-		{% endif %}
-		{% endfor %}
-		{% endfor %}
-		{% else %}
-		<div class="content-base emptycontent">You have no past events</div>
-		{% endif %}
+		<div class="w3-cell w3-half w3-right">
+			<h3 class="beerheading">Not Attended</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if declined %}
+			{% for event in declined %}
+			<div class="content-base">
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">You have no past events that you declined to attend</div>
+			{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="w3-container">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 class="beerheading">Available Upcoming</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if events %}
+			{% for event in events %}
+			<div class="content-base">
+				<div class="content-1">{{ event.club.name }}</div>
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">There are no upcoming events</div>
+			{% endif %}
+			</div>
+		</div>
+		<div class="w3-cell w3-half w3-right">
+			<h3 class="beerheading">Available Past</h3>
+			<div class="w3-center homebeer w3-padding-top">
+			{% if past_events %}
+			{% for event in past_events %}
+			<div class="content-base">
+				<div class="content-1">{{ event.club.name }}</div>
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-2">{{ event.event.event_date|date:'n/j/y g:i A'|lower }}</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="content-base emptycontent">You have no past events</div>
+			{% endif %}
+			</div>
 		</div>
 	</div>
 </div><br>

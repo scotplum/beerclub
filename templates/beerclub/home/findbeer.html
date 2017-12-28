@@ -7,16 +7,16 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
+			{% if beersearch == 'No Beer' %}
+			<div class="w3-padding-bottom w3-padding-top topheading">No Beers or Breweries Found</div>
+			{% else %}
 			<div class="w3-padding-bottom w3-padding-top topheading">Select Your Beer</div>
+			{% endif %}
 		</div>
 	</div>
-	<div class="w3-padding-top"><a class="w3-small">Can't Find What You Are Looking For?</a></div>
-	<div class="w3-container">
+	<div class="w3-container w3-padding-top">
 		<div class="w3-center">
 		{% if beersearch == 'No Beer' %}
-		<div>No beers were found that match that search.</div>
-		<div>Why might that be?</div><br>
-		<div>We use data from BreweryDB...</div>
 		{% else %}
 		<h3 class="beerheading">Available Beers</h3>
 			<div class="homebeer w3-padding-top">	
@@ -31,10 +31,22 @@
 						{% endfor %}
 					{% endif %}
 				{% endfor %}
-			{% endif %}
 			</div>
+		{% endif %}
+		</div>
+			<div>
+		<h3 class="beerheading">Can't Find It?</h3>
+		<div class="homebeer">
+			<div class="content-base-nobold topcontent" style="text-align: left;">The Beer Crowd data is retrieved from the <a target="_blank" href="http://www.brewerydb.com">BreweryDB</a>.  The BreweryDB is an incredibly useful crowdsourced set of beer data updated and maintained by beer lovers just like yourself.  Their mission is to make
+			 BreweryDB the best, most comprehensive collection of data surrounding the beer and brewing comunity, then make that data available for free to developers all over the world.
+			 Unfortunately, there are times when a beer or a brewery has not yet been added by the community.</div>
+		</div>
+		<h3 class="beerheading">What We Can Do?</h3>
+		<div class="homebeer">
+			<div class="content-base-nobold topcontent" style="text-align: left;">The Beer Crowd has yet to build a method for adding to the BreweryDB dataset.  
+			While we work on providing that option so that you do not have to leave our site, please consider visiting the <a target="_blank" href="http://www.brewerydb.com/add">BreweryDB</a> and adding this beer and or brewery to the BreweryDB database.  You'll be doing beer drinkers everywhere a favor!</div>
 		</div>
 	</div>
-	<div class="w3-padding-top"><a class="w3-small">Can't Find What You Are Looking For?</a></div>
+	</div>
 </div>
 {% endblock content %}

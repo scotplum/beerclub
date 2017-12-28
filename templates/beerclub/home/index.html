@@ -10,7 +10,7 @@
 		<div class="content-base">
 			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">{% if fav_beer_check or want_beer_check %}{{ user_object }}, your beer..{% else %}Getting Started{% endif %}</div>
 			<div class="topcontent">{% if fav_beer_check or want_beer_check %}{% else %}Put a beer in the box above and select Beer Me{% endif %}</div>
-			<div class="topcontent w3-tiny"><a href="/home/profile/">Edit Profile</a></div>
+			<div class="topcontent w3-padding-top w3-small"><a href="/home/profile/">Edit Profile</a></div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
@@ -27,7 +27,7 @@
 				<button class="removesubmit" name="removefav" value="{{ beer.bdb_id }}" type="submit"><a class="w3-right w3-tiny"><i class="fa fa-times" aria-hidden="true"></i></a></button>
 				{% csrf_token %}
 				</form>
-				<div class="content-1" {% if request.session.is_mobile %}style="text-align: left;"{% endif %}>
+				<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}">
 				<a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span>
 				{% for trophy in trophy_beers %}
 				{% if beer.bdb_id in trophy and 333 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
@@ -56,7 +56,7 @@
 					<button class="removesubmit" name="removewant" value="{{ beer.bdb_id }}" type="submit"><a class="w3-right w3-tiny"><i class="fa fa-times" aria-hidden="true"></i></a></button>
 					{% csrf_token %}
 					</form>
-					<div class="content-1" {% if request.session.is_mobile %}style="text-align: left;"{% endif %}><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> {{ beer.beer_company }}</span>
 					{% for trophy in trophy_beers %}
 					{% if beer.bdb_id in trophy and 333 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 					{% if beer.bdb_id in trophy and 340 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -78,16 +78,14 @@
 			<div class="w3-center homebeer w3-padding-top">
 			{% if events %}
 			{% for event in events %}
-			{% for e in event %}
 			<div class="content-base">
-				<div class="content-1"><a href="/event/{{ e.event.id }}/">{{ e.event.event_name }}</a></div>
-				<div class="content-3">{{ e.event.address }}</div>
-				<div class="content-3 w3-tiny">{{ e.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
-			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">You have no upcoming events</div>			
+			<div class="content-base emptycontent">Events marked as attending will display here</div>			
 			{% endif %}
 			</div>
 		</div>
@@ -96,16 +94,14 @@
 			<div class="w3-center homebeer w3-padding-top">
 			{% if past_events %}
 			{% for event in past_events %}
-			{% for pe in event %}
 			<div class="content-base">
-				<div class="content-1"><a href="/event/{{ pe.event.id }}/">{{ pe.event.event_name }}</a></div>
-				<div class="content-3">{{ pe.event.address }}</div>
-				<div class="content-3 w3-tiny">{{ pe.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3">{{ event.event.address }}</div>
+				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
-			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">You have no past events</div>			
+			<div class="content-base emptycontent">Past events you attended will display here</div>			
 			{% endif %}
 			</div>
 		</div>
@@ -118,7 +114,7 @@
 				{% for note in beer_notes %}
 				<div class="content-base">	
 					<a href="/home/notes/{{ note.id }}/" class="w3-right"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-					<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-3">{{ note.beer_company }}</span>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-3">{{ note.beer_company }}</span>
 					{% for trophy in trophy_beers %}
 					{% if note.bdb_id in trophy and 333 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 					{% if note.bdb_id in trophy and 340 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -128,11 +124,11 @@
 					{% if note.bdb_id in trophy and 342 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#whale" /></svg></span>{% endif %}	
 					{% endfor %}					
 					</div>
-					<div class="content-wrapper w3-margin-0"><div class="content-3-black">{{ note.note }}</div></div>
+					<div class="content-wrapper w3-margin-0"><div class="content-3-black" style="font-size: 90%;">{{ note.note }}</div></div>
 				</div>
 				{% endfor %}
 				{% else %}
-				<div class="content-base emptycontent">Add notes at bottom of a beer page</div>
+				<div class="content-base emptycontent">Add notes at the bottom of a beer page</div>
 				{% endif %}
 			</div>
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Notes</a></div>
@@ -143,7 +139,7 @@
 				{% if beer_rating_check %}
 				{% for rating in beer_rating %}
 				<div class="content-base">			
-					<div class="content-1"><a href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3">{{ rating.beer_company }}</span>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3">{{ rating.beer_company }}</span>
 						{% for trophy in trophy_beers %}
 						{% if rating.bdb_id in trophy and 333 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 						{% if rating.bdb_id in trophy and 340 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -169,7 +165,7 @@
 				</div>
 				{% endfor %}
 				{% else %}
-				<div class="content-base emptycontent">Add ratings on a beer page</div>
+				<div class="content-base emptycontent">Add star ratings on a beer page</div>
 				{% endif %}
 			</div>
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Ratings</a></div>

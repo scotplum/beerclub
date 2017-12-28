@@ -12,9 +12,9 @@
 				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
 			{% endif %}
 			</h3>
-			<div class="topcontent w3-padding-bottom w3-padding-top">{{ crowd.bio }}</div>
+			<div class="topcontent w3-padding-bottom w3-padding-top" style="{% if request.session.is_mobile %}text-align: left; padding-left: 3.5%; padding-right: 2%;{% endif %}">{{ crowd.bio }}</div>
 			{% if not club_db_user_check and not club_application_pending_check %}
-			<div class="">
+			<div class="w3-padding-top">
 				<form name="applyForm" class="w3-center" method="Post">
 				<button class="removesubmit" name="apply" value="" type="submit"><a class="w3-center w3-small">Apply For Membership</a></button>
 				{% csrf_token %}
@@ -29,14 +29,14 @@
 			{% endif %}
 		</div>
 	</div>
-	<div class="w3-padding-bottom w3-padding-top">
+	<div class="w3-padding-bottom topmenu-margin">
 		{% if club_admin_check %}
-		<h3 class="beerheading">Announcements
-			<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-			<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
-		</h3>
+		<div class="beerheading-nomargin">Announcements
+			<span><a class="w3-right managetool w3-small" href='manage/announcement/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+			<span><a class="w3-left managetool w3-small" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
+		</div>
 		{% endif %}
-			<div class="homebeer">
+			<div class="">
 			{% if crowd_announcement_check %}
 			{% for announcement in crowd_announcement %}
 			{% if announcement.is_active %}
@@ -52,7 +52,7 @@
 					{% endif %}
 				</div>
 				<div class="">
-					<div class="content-wrapper content-1 club-content-span-text w3-padding-bottom w3-padding-top">{{ announcement.announcement }}</div>
+					<div class="topcontent w3-padding" style="text-align: left;">{{ announcement.announcement }}</div>
 				</div>
 			{% endif %}
 			{% endfor %}
@@ -134,7 +134,7 @@
 					<div class="">					
 					{% for cs in club_scores %}
 					{% if cs.count >= crowd.display_member_vote %}
-					<div class="content-base"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span style="color: tomato; font-weight: heavy;">{{ cs.average }} ({{ cs.count }})</span></span></div></div>
+					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span style="color: tomato; font-weight: heavy;">{{ cs.average }} ({{ cs.count }})</span></span></div></div>
 					{% endif %}
 					{% endfor %}
 					</div>
@@ -153,7 +153,7 @@
 					<div class="">					
 					{% for wb in club_wanted_beers %}
 					{% if wb.count >= crowd.display_wanted_beer %}
-					<div class="content-base"><div class="content-1"><a class="" href="/home/findbeer/{{ wb.bdb_id }}/">{{ wb.beer_name }}</a></span><span class="content-3"> {{ wb.beer_company }} <span style="color:tomato;">({{ wb.count }})</span></span></div></div>
+					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ wb.bdb_id }}/">{{ wb.beer_name }}</a></span><span class="content-3"> {{ wb.beer_company }} <span style="color:tomato;">({{ wb.count }})</span></span></div></div>
 					{% endif %}
 					{% endfor %}
 					</div>

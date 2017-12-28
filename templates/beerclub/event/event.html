@@ -8,12 +8,12 @@
 	<div class="w3-center">
 		<div class="content-base-navyborder topmenu-margin">
 			<h3 class="w3-center">
-				<div class="content-tomato"><b>{{ club_event.club.name }}</b></div>
-				<div class="">{{ event.event_name }}
+				<div class="topheading" style="font-size: 100%;">{{ club_event.club.name }}</div>
+				<div class="topheading" style="color:#0c3c73; font-size: 100%;">{{ event.event_name }}
 					<div class="w3-large beerpaddingthin">{{ event.event_date|date:'F d, Y' }}<br>{{ event.event_date|time:'g:iA'|lower }}</div>
 				</div>
 			</h3>
-			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center;">
+			<div class="content-1 club-content-span w3-padding-bottom w3-padding-top" style="text-align: center; color: tomato; font-weight: 700;">
 			{% if event_attendance.will_attend%}
 			You are currently attending this event
 			{% else %}
@@ -42,9 +42,9 @@
 				<span><a class="w3-right managetool" href='manage/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 				{% endif %}	</h3>
 			<div class="homebeer">
-				<div class="content-1" style="font-size: 120%; color: tomato; font-weight: bold">{{ event.address.description }}</div>
-				<div class="topcontent" style="font-size: 100%; font-weight: 400">{{ event.address.address_1 }}</div>
-				<div class="topcontent" style="font-size: 100%; font-weight: 400">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
+				<div class="content-1" style="font-size: 120%; color: tomato; font-weight: bold;">{{ event.address.description }}</div>
+				<div class="middlecontent" style="font-size: 100%; font-weight: 700;">{{ event.address.address_1 }}</div>
+				<div class="middlecontent" style="font-size: 100%; font-weight: 700;">{{ event.address.city }}, {{ event.address.state }} {{ event.address.zip_code }}</div>
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
@@ -53,7 +53,7 @@
 				<span><a class="w3-right managetool" href='manage/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 				{% endif %}	</h3>
 			<div class="homebeer">
-				<div class="w3-padding topcontent" style="text-align:left;">{{ event.description }}</div>
+				<div class="w3-padding content-3" style="text-align:left; font-weight: 700;">{{ event.description }}</div>
 			</div>
 		</div>
 	</div>
@@ -62,49 +62,49 @@
 			<h3 class="beerheading">Attending</h3>
 			<div class="homebeer">
 				{% if confirmed_check == False %}
-				<div class="content-base">No members have confirmed</div>
+				<div class="w3-padding content-2">No members have confirmed</div>
 				{% else %}
 				<div class="w3-padding">
 					{% for taster in taster_response %}
 					{% if taster.will_attend == True %}
-					<span class=""><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}{% if not forloop.last %},{% endif %}</a></span>
+					<span class="content-2"><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}{% if not forloop.last %},{% endif %}</a></span>
 					{% endif %}
 					{% endfor %}
-					{% endif %}
 				</div>
+				{% endif %}
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Not Attending</h3>
 			<div class="homebeer">
-			{% if declined_check == False %}
-			<div class="content-base">No members have declined</div>
-			{% else %}
-			{% for taster in taster_response %}
-			{% if taster.will_attend == False %}
-			<div class="content-base"><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}</a></div>
-			{% endif %}
-			{% endfor %}
-			{% endif %}
+				{% if declined_check == False %}
+				<div class="w3-padding content-2">No members have declined</div>
+				{% else %}
+				{% for taster in taster_response %}
+				{% if taster.will_attend == False %}
+				<div class="w3-padding content-2"><a href="/home/tasters/{{ taster.user_id }}/">{{ taster.user.username }}</a></div>
+				{% endif %}
+				{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
-			<h3 class="beerheading">Confirmed Beer</h3>
+			<h3 class="beerheading w3-center">Confirmed Beer</h3>
 			<div class="homebeer">
 			{% if event_beer_check == False %}
-			<div class="content-base">No beers committed</div>
+			<div class="content-base content-2">No beers committed</div>
 			{% else %}
 			{% for beer in committed %}
-			<div class="content-base w3-padding-top w3-padding-bottom">
+			<div class="content-base">
 				{% if club_admin_check %}
 				<form name="confirmedbeerForm" class="w3-right" method="Post">
 				<button class="removesubmit" name="removeconfirmed" value="{{ beer.bdb_id }}" type="submit"><a class="w3-right w3-tiny"><i class="fa fa-times" aria-hidden="true"></i></a></button>
 				{% csrf_token %}
 				</form>
 				{% endif %}
-				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
+				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
 					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
 				</div>
 			</div>
@@ -114,14 +114,14 @@
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">Wanted Beer</h3>
+			<h3 class="beerheading w3-center">Wanted Beer</h3>
 			<div class="homebeer">	
 			{% if taster_response_attending_check == False %}
-			<div class="content-base">No beers wanted</div>
+			<div class="content-base content-2">No beers wanted</div>
 			{% endif %}
 			{% for item in suggest_distinct %}
 			<div class="content-base">
-				<div class="w3-margin-right content-1"><a href="/home/findbeer/{{ item.0 }}/">{{ item.2 }}</a>
+				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ item.0 }}/">{{ item.2 }}</a>
 					<span class="content-3">{{ item.1 }}</span>
 				</div>
 			</div>
@@ -129,23 +129,23 @@
 			</div>
 		</div>
 	</div>
-	<div class="w3-center">
+	<div class="w3-center w3-container">
 		<h3 class="beerheading">Notes</h3>
 		<div class="homebeer">
 			{% for note in event_notes %}
 			{% if note.is_active == True %}
 			<div class="content-base">
-				<div class="w3-padding-left" style="text-align:left; color: tomato; font-weight: 400;"><b>{{ note.user.username }}</b><span class="content-3 w3-padding-left w3-right" style="text-align: right; font-size: 70%;">{{ note.date_added }}</span></div>
-				<div class="w3-padding topcontent" style="text-align: left; font-weight: bold;">{{ note.note }}</div>
+				<div class="w3-padding-left" style="text-align:left; color: tomato; font-weight: 400;{% if request.session.is_mobile %}font-size: 80%;{% endif %}"><b>{{ note.user.username }}</b><span class="content-3 w3-padding-left w3-right" style="text-align: right; font-size: 70%;">{{ note.date_added }}</span></div>
+				<div class="w3-padding topcontent" style="text-align: left; font-weight: bold;{% if request.session.is_mobile %}font-size: 80%;{% endif %}">{{ note.note }}</div>
 			</div>
 			{% endif %}
 			{% endfor %}
 		</div>
 		<div class="beerpaddingthin w3-padding-bottom w3-margin-bottom"></div>
 		<form name="eventnoteForm" class="w3-center" method="Post">
-		<div class="w3-padding-bottom w3-padding-left w3-padding-right"><textarea type="textarea" name="notevalue"></textarea></div>
-		<button class="" style="" name="eventnote" value="y" type="submit">Add Note</button>
-		{% csrf_token %}
+			<div class="w3-padding-bottom"><textarea type="textarea" name="notevalue"></textarea></div>
+			<button class="" style="" name="eventnote" value="y" type="submit">Add Note</button>
+			{% csrf_token %}
 		</form>
 	</div>
 	<br>

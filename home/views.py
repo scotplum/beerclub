@@ -3,7 +3,7 @@ from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
-from event.models import Event, Event_Beer
+from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm, SignupForm, ProfileForm
 from django.utils import timezone
@@ -44,24 +44,15 @@ def index(request):
     now = timezone.now()
     attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
+    event_attend_check = Event_Attend.objects.filter(user=user_object).exists()
+    context['event_attend_check'] = event_attend_check
     if attribute_trophy_check:
 		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
 		context['attribute_trophy'] = attribute_trophy
 		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
-    if club_check:
-		clubs = Club_User.objects.filter(user=user_object).select_related()
-		club_events = []
-		club_past_events = []
-		for club in clubs:
-			club_object = Club.objects.get(id=club.club.id)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).filter(event__is_active=True).exists():
-				events = Club_Event.objects.filter(club=club_object).filter(event__event_date__gte=timezone.now()).filter(event__is_active=True).select_related()
-				club_events.append(events)
-			if Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).filter(event__is_active=True).exists():
-				past_events = Club_Event.objects.filter(club=club_object).filter(event__event_date__lt=timezone.now()).filter(event__is_active=True).select_related()
-				club_past_events.append(past_events)
-		context['events'] = club_events
-		context['past_events'] = club_past_events
+    if event_attend_check:
+		context['events'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).filter(will_attend=True).order_by('event__event_date').select_related()
+		context['past_events'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).filter(will_attend=True).order_by('-event__event_date').select_related()
     if request.method == "POST": 
 		rp = request.POST
 		if 'removefav' in rp:
@@ -98,7 +89,7 @@ def findbeer(request):
          
             #Search BreweryDB api for results from user's findbeerForm submission 
             formdata = request.POST.get("findbeer")
-            search = formdata #? Need to figure out how to get the value from the search 
+            search = formdata
             beersearch_url = 'http://api.brewerydb.com/v2/search/?withBreweries=Y&key=' + secret + '&q=' + search 
              
             #Retrieve Search Result From BreweryDB 
@@ -120,14 +111,16 @@ def beer(request, bdb_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    if context['club_check']:
-		clubs = context['clubs']
-		club_score = beerscore(request, user_object, clubs, bdb_id)
-		context['club_score'] = club_score
+    beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).exists()
+    if beercrowd_score_check:
 		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Avg('score'))
 		context['beercrowd_score'] = beercrowd_score['score__avg']
 		beercrowd_count = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Count('score'))
 		context['beercrowd_count'] = beercrowd_count['score__count']
+    if context['club_check']:
+		clubs = context['clubs']
+		club_score = beerscore(request, user_object, clubs, bdb_id)
+		context['club_score'] = club_score
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
     urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'
     context['urlprofilesheet'] = urlprofilesheet

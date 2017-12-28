@@ -11,6 +11,8 @@ from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from crispy_forms.bootstrap import TabHolder, Tab 
 
 class EventForm(forms.ModelForm):
+	event_date = forms.DateTimeField(widget=forms.DateTimeInput(format = '%m/%d/%Y %H:%M'),input_formats=('%m/%d/%Y %H:%M',))
+
 	def __init__(self, club=None, **kwargs):
 		super(EventForm, self).__init__(**kwargs)
 		self.fields['address'].queryset = Event_Address.objects.filter(club=club)
@@ -19,6 +21,8 @@ class EventForm(forms.ModelForm):
 		exclude = ('date_created',)
 		
 class EventEditForm(forms.ModelForm):
+	event_date = forms.DateTimeField(widget=forms.DateTimeInput(format = '%m/%d/%Y %H:%M'),input_formats=('%m/%d/%Y %H:%M',))
+
 	class Meta:
 		model = Event
 		exclude = ('date_created',)

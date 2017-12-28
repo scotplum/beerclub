@@ -25,6 +25,7 @@ def index(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    context['club_user_check'] = Club_User.objects.filter(user=user_object).exists()
     return render(request, 'club/index.html', context)  
 
 @login_required	
@@ -56,7 +57,7 @@ def club(request, id):
 		crowd_announcement = Club_Announcement.objects.filter(club=crowd).select_related('club')
 		context['crowd_announcement'] = crowd_announcement
     if club_event_check:
-		club_event = Club_Event.objects.filter(club=crowd).select_related('club', 'event')
+		club_event = Club_Event.objects.filter(club=crowd).order_by('-event__event_date').select_related('club', 'event')
 		context['club_event'] = club_event
     user_beer_rating = []    
     if club_user_check:
@@ -133,7 +134,8 @@ def editannouncement(request, id, announcement_id):
         if form.is_valid():
 			updated_announcement = crowd_announcement
 			updated_announcement.announcement = post_info['announcement']
-			updated_announcement.date_added = post_info['date_added']
+			date_added = post_info['date_added']
+			updated_announcement.date_added = datetime.datetime.strptime(date_added, '%m/%d/%Y')
 			if 'is_active' in post_info:
 				updated_announcement.is_active = True
 			else:

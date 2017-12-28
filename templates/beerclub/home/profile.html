@@ -5,10 +5,10 @@
 {% block content %}
 
 <div class="w3-mobile w3-center">
-	<div class="w3-container w3-center">
+	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Profile for {{ user_object }} </div>
-			<div class="topcontent">Some crowds require a first and last name before an application can be submitted.  The Beer Crowd <b>does not</b> use your personal data in any way external to this website.</div>
+			<div class="topcontent"style="{% if request.session.is_mobile %}text-align: left; margin-left: 2px; margin-right: 2px;{% endif %}">Some crowds require a first and last name before an application can be submitted.  The Beer Crowd <b>does not</b> use your personal data in any way external to this website.</div>
 		</div>
 	</div>
 	<h3 class="w3-center beerheading">Your Profile</h3>

@@ -6,18 +6,16 @@
 
 
 <div class="w3-mobile w3-center">
-	<div class="w3-center">
-		<div class="content-base-navyborder topmenu-margin">
-			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Sortable Notes</div>
-			<div class="w3-padding-bottom w3-padding-top">
-				<form name="notesortForm" class="w3-center topcontent" style="font-size=150%;" method="Post">
-				<button class="removesubmit" name="sortnotes" value="Most Recent" type="submit"><a class="w3-padding-right" {% if sort_type == 'Most Recent' %}style="color: tomato; font-weight: 700;"{% endif %}>Most Recent</a></button>
-				<button class="removesubmit" name="sortnotes" value="Oldest" type="submit"><a class="w3-padding-right" {% if sort_type == 'Oldest' %}style="color: tomato; font-weight: 700;"{% endif %}>Oldest</a></button>
-				<button class="removesubmit" name="sortnotes" value="Beer" type="submit"><a class="w3-padding-right" {% if sort_type == 'Beer' %}style="color: tomato; font-weight: 700;"{% endif %}>Beer</a></button>
-				<button class="removesubmit" name="sortnotes" value="Brewery" type="submit"><a class="w3-padding-right" {% if sort_type == 'Brewery' %}style="color: tomato; font-weight: 700;"{% endif %}>Brewery</a></button>
-				{% csrf_token %}
-				</form>
-			</div>
+	<div class="content-base-navyborder topmenu-margin">
+		<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Sortable Notes</div>
+		<div class="w3-padding-bottom w3-padding-top">
+			<form name="notesortForm" class="w3-center topcontent" style="font-size=150%;" method="Post">
+			<button class="removesubmit" name="sortnotes" value="Most Recent" type="submit"><a class="w3-padding-right" {% if sort_type == 'Most Recent' %}style="color: tomato; font-weight: 700;"{% endif %}>Most Recent</a></button>
+			<button class="removesubmit" name="sortnotes" value="Oldest" type="submit"><a class="w3-padding-right" {% if sort_type == 'Oldest' %}style="color: tomato; font-weight: 700;"{% endif %}>Oldest</a></button>
+			<button class="removesubmit" name="sortnotes" value="Beer" type="submit"><a class="w3-padding-right" {% if sort_type == 'Beer' %}style="color: tomato; font-weight: 700;"{% endif %}>Beer</a></button>
+			<button class="removesubmit" name="sortnotes" value="Brewery" type="submit"><a class="w3-padding-right" {% if sort_type == 'Brewery' %}style="color: tomato; font-weight: 700;"{% endif %}>Brewery</a></button>
+			{% csrf_token %}
+			</form>
 		</div>
 	</div>
 	<div class="w3-center w3-padding-bottom"><br>
@@ -44,7 +42,9 @@
 		{% endfor %}
 		</div>
 		{% else %}
-		<div class="content-blankstate content-1">Enter notes at the bottom of a selected beer page</div>
+		<div class="w3-center homebeer w3-padding-top">
+			<div class="content-base emptycontent">Add notes at the bottom of a beer page</div>
+		</div>
 		{% endif %}
 	</div><br><br>
 </div>
