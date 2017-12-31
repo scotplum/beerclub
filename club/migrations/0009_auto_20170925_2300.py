@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='club',
             name='annual_fee',
-            field=models.DecimalField(decimal_places=2, default=0.00),
+            field=models.DecimalField(max_digits=6, decimal_places=2, default=0.00),
             preserve_default=False,
         ),
         migrations.AddField(
