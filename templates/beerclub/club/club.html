@@ -12,7 +12,7 @@
 				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
 			{% endif %}
 			</h3>
-			<div class="topcontent w3-padding-bottom w3-padding-top" style="{% if request.session.is_mobile %}text-align: left; padding-left: 3.5%; padding-right: 2%;{% endif %}">{{ crowd.bio }}</div>
+			<div class="topcontent w3-padding-bottom w3-padding-top" style="{% if request.session.is_mobile %}text-align: left; padding-left: 3.5%; padding-right: 2%;{% elif crowd.bio|length > 225 %}text-align: left;{% endif %}">{{ crowd.bio }}</div>
 			{% if not club_db_user_check and not club_application_pending_check %}
 			<div class="w3-padding-top">
 				<form name="applyForm" class="w3-center" method="Post">
