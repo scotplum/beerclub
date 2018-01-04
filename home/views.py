@@ -42,12 +42,12 @@ def index(request):
     context['fav_beer_check'] = fav_beer_check
     context['want_beer_check'] = want_beer_check	
     now = timezone.now()
-    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
     event_attend_check = Event_Attend.objects.filter(user=user_object).exists()
     context['event_attend_check'] = event_attend_check
     if attribute_trophy_check:
-		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).select_related()
 		context['attribute_trophy'] = attribute_trophy
 		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
     if event_attend_check:
@@ -161,10 +161,10 @@ def beer(request, bdb_id):
     context['style'] = style
     beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
     context['beer_attribute_check'] = beer_attribute_check
-    attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).exists()
+    attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
     context['attribute_overrall_check'] = attribute_overrall_check
     if attribute_overrall_check:
-		attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).select_related()
+		attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
 		context['attribute_overrall'] = attribute_overrall
     if beer_attribute_check:
 		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
@@ -398,10 +398,10 @@ def ratings(request):
     user_object = nav['user_object']
     context = nav['context']
     context['rp'] = 'All'
-    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
     if attribute_trophy_check:
-		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).select_related()
 		context['attribute_trophy'] = attribute_trophy
 		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
     beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
@@ -430,10 +430,10 @@ def notes(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).exists()
+    attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
     if attribute_trophy_check:
-		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=25).select_related()
+		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).select_related()
 		context['attribute_trophy'] = attribute_trophy
 		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
     beer_notes_check = Beer_Note.objects.filter(user=user_object).exists()
