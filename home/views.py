@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
-from forms import findbeerForm, ProfileSheetForm, SignupForm, ProfileForm
+from forms import findbeerForm, ProfileSheetForm, ProfileForm
 from django.utils import timezone
 import requests
 from django.forms import inlineformset_factory
