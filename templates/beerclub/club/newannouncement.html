@@ -17,7 +17,7 @@
 		<form method="post" action="" class="">
 		<div class="homebeer">
 		<div class="w3-container w3-padding-bottom content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom manage-descriptor" style="text-align:center;">Announcement</div><div class="content-3" style="text-align:center;">{{ form.announcement }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom manage-descriptor" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div></div>
+		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom manage-descriptor" style="text-align:center;">Announcement Date</div><div class="content-3" style="text-align:center;">{{ form.date_added }}</div><div><i style="color: tomato; font-size: .7em;">Format: 03/05/2017</i></div></div>
 		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom manage-descriptor" style="text-align:center;">Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
 		{% csrf_token %}
 		</div>
