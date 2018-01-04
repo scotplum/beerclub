@@ -22,12 +22,12 @@
 				{% csrf_token %}
 			</form>
 			{% for attr in ps_attribute %}
-			{% if 333 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
-			{% if 340 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
-			{% if 339 in attr %}<span><svg class="icon-beer"><use xlink:href="#localhero" /></svg></span>{% endif %}
-			{% if 332 in attr %}<span><svg class="icon-beer"><use xlink:href="#sessionable" /></svg></span>{% endif %}
-			{% if 341 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
-			{% if 342 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
+			{% if 23 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+			{% if 96 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+			{% if 174 in attr %}<span><svg class="icon-beer"><use xlink:href="#localhero" /></svg></span>{% endif %}
+			{% if 112 in attr %}<span><svg class="icon-beer"><use xlink:href="#sessionable" /></svg></span>{% endif %}
+			{% if 246 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
+			{% if 293 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
 			{% endfor %}
 		{% if data.description %}
 		{% if data.description|length < 225 %}
@@ -73,7 +73,7 @@
 	<div class="beerstatslabel w3-padding-top w3-padding-bottom">
 		<i class="fa fa-quote-left" style="line-height: 1; top: -5px; position: relative;"></i> 
 		{% for attribute in ps_attribute_objects %}
-		{% if attribute.section.id == 24 %}
+		{% if attribute.section.id == 20 %}
 		<span style="font-weight: 700; font-size: 120%;">{{ attribute.attribute }}. </span>
 		{% endif %}
 		{% endfor %}
