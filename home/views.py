@@ -90,15 +90,19 @@ def findbeer(request):
             #Search BreweryDB api for results from user's findbeerForm submission 
             formdata = request.POST.get("findbeer")
             search = formdata
-            beersearch_url = 'http://api.brewerydb.com/v2/search/?withBreweries=Y&key=' + secret + '&q=' + search 
-             
+            beersearch_url 		= 'https://api.brewerydb.com/v2/search/?withBreweries=Y&key=' + secret + '&q=' + search 
+            brewerysearch_url 	= 'https://api.brewerydb.com/v2/search?q=' + search + '&type=brewery&key=' + secret
             #Retrieve Search Result From BreweryDB 
-             
-            beersearch = requests.get(beersearch_url).json()
+            beersearch 		= requests.get(beersearch_url).json()
+            brewerysearch 	= requests.get(brewerysearch_url).json()
             if 'data' in beersearch:
 				context['beersearch'] = beersearch['data']
             else:
 				context['beersearch'] = 'No Beer'
+            if 'data' in brewerysearch:
+				context['brewerysearch'] = brewerysearch['data']
+            else:
+				context['brewerysearch'] = 'No Brewery'
             return render(request, 'home/findbeer.html', context) 
     else: 
         form = findbeerForm() 
@@ -272,6 +276,20 @@ def beer(request, bdb_id):
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
 
+@login_required
+def brewery(request, brew_id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    urlbrewery = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/?key=' + secret
+    urlbrewery_beers = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/beers?key=' + secret
+    brewery = requests.get(urlbrewery).json()
+    context['brewery'] = brewery
+    brewery_beers = requests.get(urlbrewery_beers).json()
+    context['brewery_beers'] = brewery_beers
+    return render(request, 'home/brewery.html', context)
+	
 @login_required
 def profile(request):
     context = {}

@@ -7,7 +7,7 @@
 {% load home_extras %}
 <div class="w3-mobile w3-center">
 	<div class="content-base topmenu-margin">
-		<div class="topheading">{{ data.name }} by {% if brewery.nameShortDisplay %}{{ brewery.nameShortDisplay }}{% else %}{{ brewery.name }}{% endif %}</div>
+		<div class="topheading">{{ data.name }} by {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;">{{ brewery.nameShortDisplay }}</a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;">{{ brewery.name }}</a>{% endif %}</div>
 			<form name="ratingForm" method="Post">
 				<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 				<button class="removesubmit" title="2" value="2" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
@@ -126,9 +126,9 @@
 			<div class="homebeer">
 				{% if brewery.description %}
 				{% if brewery.description|length < 100 %}
-				<div class="content-base-nobold topcontent" style="text-align: center;">{{ brewery.description }}</div>
+				<div class="content-base-nobold topcontent" style="text-align: center; font-size: 90%;">{{ brewery.description }}</div>
 				{% else %}
-				<div class="content-base-nobold topcontent" style="text-align: left;">{{ brewery.description }}</div>
+				<div class="content-base-nobold topcontent" style="text-align: left; font-size: 90%;">{{ brewery.description }}</div>
 				{% endif %}
 				{% endif %}
 				<div class="w3-padding-top">

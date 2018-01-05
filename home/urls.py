@@ -15,6 +15,8 @@ urlpatterns = [
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/profilesheet/$', views.profilesheet, name='profilesheet'),
 	#ex: /findbeer/ID9EJ3/event/
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/event/$', views.beerevent, name='beerevent'),
+	#ex: /brewery/TqC06u/
+	url(r'^brewery/(?P<brew_id>[A-Za-z0-9]+)/$', views.brewery, name='brewery'),
 	#ex: /ratings/
 	url(r'^ratings/$', views.ratings, name='ratings'),
 	#ex: /notes/

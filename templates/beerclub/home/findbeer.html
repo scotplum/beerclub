@@ -8,14 +8,14 @@
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			{% if beersearch == 'No Beer' %}
-			<div class="w3-padding-bottom w3-padding-top topheading">No Beers or Breweries Found</div>
+			<div class="w3-padding-bottom w3-padding-top topheading">No Beer or Brewery Found</div>
 			{% else %}
-			<div class="w3-padding-bottom w3-padding-top topheading">Select Your Beer</div>
+			<div class="w3-padding-bottom w3-padding-top topheading">Select Beer or Brewery</div>
 			{% endif %}
 		</div>
 	</div>
 	<div class="w3-container w3-padding-top">
-		<div class="w3-center">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom" style="padding-left: .5%;">
 		{% if beersearch == 'No Beer' %}
 		{% else %}
 		<h3 class="beerheading">Available Beers</h3>
@@ -23,30 +23,39 @@
 				{% for beer in beersearch %}
 					{% if beer.nameDisplay %}
 						{% for brewitems in beer.breweries %}
-							{% for k, v in brewitems.items %}
-								{% if k == "nameShortDisplay" %}
-								<div class="content-base w3-padding-top" style="font-weight: bold; {% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% endif %}"><a href="/home/findbeer/{{ beer.id }}/">{{ beer.nameDisplay }} </a><span class="content-3">{{ v }}</span></div>
-								{% endif %}
-							{% endfor %}
+								<div class="content-base w3-padding-top" style="font-weight: bold; {% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% endif %}"><a href="/home/findbeer/{{ beer.id }}/">{{ beer.nameDisplay }} </a><span><a class="content-3" href="/home/brewery/{{ brewitems.id }}/">{{ brewitems.nameShortDisplay }}</a></span></div>
 						{% endfor %}
 					{% endif %}
 				{% endfor %}
 			</div>
 		{% endif %}
 		</div>
-			<div>
-		<h3 class="beerheading">Can't Find It?</h3>
+		<div class="w3-cell w3-half w3-right w3-padding-bottom" style="padding-right: .5%;">
+		{% if beersearch == 'No Beer' %}
+		{% else %}
+		<h3 class="beerheading">Available Breweries</h3>
+			<div class="homebeer w3-padding-top">	
+				{% for brewery in brewerysearch %}
+					{% if brewery.name %}
+					<div class="content-base w3-padding-top" style="font-weight: bold; {% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% endif %}"><a href="/home/brewery/{{ brewery.id }}/">{{ brewery.name }}</a></div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+		</div>
+	</div>
+	<div class="w3-container">
+		<h3 class="beerheading">I Can't Find It?</h3>
 		<div class="homebeer">
 			<div class="content-base-nobold topcontent" style="text-align: left;">The Beer Crowd data is retrieved from the <a target="_blank" href="http://www.brewerydb.com">BreweryDB</a>.  The BreweryDB is an incredibly useful crowdsourced set of beer data updated and maintained by beer lovers just like yourself.  Their mission is to make
 			 BreweryDB the best, most comprehensive collection of data surrounding the beer and brewing comunity, then make that data available for free to developers all over the world.
 			 Unfortunately, there are times when a beer or a brewery has not yet been added by the community.</div>
 		</div>
-		<h3 class="beerheading">What We Can Do?</h3>
+		<h3 class="beerheading">What Can I Do?</h3>
 		<div class="homebeer">
 			<div class="content-base-nobold topcontent" style="text-align: left;">The Beer Crowd has yet to build a method for adding to the BreweryDB dataset.  
 			While we work on providing that option so that you do not have to leave our site, please consider visiting the <a target="_blank" href="http://www.brewerydb.com/add">BreweryDB</a> and adding this beer and or brewery to the BreweryDB database.  You'll be doing beer drinkers everywhere a favor!</div>
 		</div>
-	</div>
 	</div>
 </div>
 {% endblock content %}
