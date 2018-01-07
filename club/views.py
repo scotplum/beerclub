@@ -142,6 +142,8 @@ def editannouncement(request, id, announcement_id):
 				updated_announcement.is_active = False
 			updated_announcement.save()
 			return redirect('/club/' + id + '/')
+        else:
+			context['form_errors'] = form
     return render(request, 'club/editannouncement.html', context)
 	
 @login_required
@@ -163,6 +165,8 @@ def newannouncement(request, id):
             announcement.club = crowd
             announcement.save()
             return redirect('/club/' + str(crowd.id) + '/')
+        else:
+			context['form_errors'] = form
     return render(request, 'club/newannouncement.html', context)
 
 @login_required
@@ -196,6 +200,8 @@ def about(request, id):
             updated_crowd.save()
             context['form'] = ClubForm(instance=crowd)
             return redirect('/club/' + id + '/')
+        else:
+			context['form'] = form
     return render(request, 'club/about.html', context)  
 
 @login_required
@@ -319,6 +325,7 @@ def add(request):
     context['form'] = ClubForm()
     if request.method == 'POST':
         form = ClubForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             crowd = form.save()
             crowd.is_active = True

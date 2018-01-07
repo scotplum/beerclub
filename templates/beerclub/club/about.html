@@ -11,22 +11,26 @@
 			<div class="topcontent w3-padding-bottom w3-padding-top" style="text-align: center;">Changes made to the About managed section will be made when you click the "Update About" button near the bottom of the page.</div>
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">About</h3>
+	<div>
+		{% for field in form.visible_fields %}
+		<div class="w3-margin-right w3-margin-left" style="color: snow; background-color: tomato; padding-right: 2%; margin-top: .5%;"><b>{{ field.errors }}</b></div>
+		{% endfor %}
+		<h3 class="w3-center beerheading">About</h3>
 		<form method="post" action="" class="">
-		<div class="homebeer">
-		<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Description <span class="w3-small">(appears top of the crowd page)</span></div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Established</div><div class="content-3" style="text-align:center;">{{ form.established }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Annual Fee ($)</div><div class="content-3" style="text-align:center;">{{ form.annual_fee }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Crowd is public</div><div class="content-3" style="text-align:center;">{{ form.is_public }}</div></div>
-		<div class="w3-padding-top w3-small content-base"><a href="/club/{{ crowd.id }}/manage/membership/">Manage Membership</a></div>
-		{% csrf_token %}
-		</div>
-		<br><input type="submit" value="Update About"/>
+			<div class="homebeer">
+				<div class="w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Description <span class="w3-small">(appears top of the crowd page)</span></div><div class="content-3" style="text-align:center;">{{ form.bio }}</div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">Name</div><div class="content-3" style="text-align:center;">{{ form.name }}</div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">City</div><div class="content-3" style="text-align:center;">{{ form.city }}</div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">State</div><div class="content-3" style="text-align:center;">{{ form.state }}</div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">Established</div><div class="content-3" style="text-align:center;">{{ form.established }}</div><div><i style="color: tomato; font-size: .7em;">Format: 03/05/2017</i></div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">Annual Fee ($)</div><div class="content-3" style="text-align:center;">{{ form.annual_fee }}</div></div>
+				<div class="w3-padding-bottom w3-container content-base"><div class="manage-descriptor" style="text-align:center;">Crowd is public</div><div class="content-3" style="text-align:center;">{{ form.is_public }}</div></div>
+				<div class="w3-padding-top w3-small content-base"><a href="/club/{{ crowd.id }}/manage/membership/">Manage Membership</a></div>
+				{% csrf_token %}
+			</div>
+			<div class="w3-padding-top"><input type="submit" value="Update About"/></div>
 		</form>
-	<br>
-	<div><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+	</div>
+	<div class="w3-padding-top"><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
 </div>
 {% endblock content %}
