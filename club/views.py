@@ -367,6 +367,8 @@ def addevent(request, id):
             crowd_event = Club_Event(club=crowd, event=event_object)
             crowd_event.save()
             return redirect('/club/' + str(crowd.id) + '/')
+        else:
+			context['form'] = form
     return render(request, 'club/addevent.html', context)
 	
 @login_required

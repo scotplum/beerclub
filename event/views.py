@@ -175,8 +175,8 @@ def manage(request, event_id):
     context['form'] = EventForm(instance=event, club=club_event.club.id)
     if request.method == 'POST':
         form = EventEditForm(request.POST, instance=event)
-        post_info = form.save()
         if form.is_valid():
+            post_info = form.save()
             updated_event = event
             updated_event.description = post_info.description
             updated_event.event_name = post_info.event_name
@@ -190,4 +190,6 @@ def manage(request, event_id):
 				return redirect('/event/' + event_id + '/')
             else:
 				return redirect('/club/' + str(club_event.club.id) + '/')
+        else:
+			context['form'] = form
     return render(request, 'event/manage.html', context)

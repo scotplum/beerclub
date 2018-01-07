@@ -12,20 +12,23 @@
 		</div>
 	</div>
 	<div class="w3-container w3-margin w3-padding-bottom">
+		{% for field in form.visible_fields %}
+		<div class="w3-margin-right w3-margin-left" style="color: snow; background-color: tomato; padding-right: 2%; margin-top: .5%;"><b>{{ field.errors }}</b></div>
+		{% endfor %}
 		<h3 class="w3-center beerheading">New Event Setup</h3>
 		<div class="w3-center w3-padding-bottom">
-		<form method="post" action="" class="">
-		<div class="homebeer">
-		<div class="w3-container w3-padding-bottom content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Address (<a href="/club/{{ crowd.id }}/manage/event/newaddress/">new address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div></div>				
-		<div class="w3-container w3-padding-bottom w3-padding-top content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
-		<div class="w3-container w3-padding-bottom content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
-		<div class="w3-container w3-padding-bottom content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Date (Format: 10/31/2018 16:00)</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div></div>
-		<div class="w3-container w3-padding-bottom content-base"><div class="w3-padding-right content-1-profile w3-padding-bottom" style="text-align:center;">Event Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
-		{% csrf_token %}
+			<form method="post" action="" class="">
+				<div class="homebeer">
+					<div class="w3-container w3-padding-bottom content-base"><div class="manage-descriptor" style="text-align:center;">Address (<a href="/club/{{ crowd.id }}/manage/event/newaddress/">new address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div></div>				
+					<div class="w3-container w3-padding-bottom w3-padding-top content-base"><div class="manage-descriptor" style="text-align:center;">Description</div><div class="content-3" style="text-align:center;">{{ form.description }}</div></div>
+					<div class="w3-container w3-padding-bottom content-base"><div class="manage-descriptor" style="text-align:center;">Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
+					<div class="w3-container w3-padding-bottom content-base"><div class="manage-descriptor" style="text-align:center;">Date and Time</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div><div><i style="color: tomato; font-size: .7em;">Format: 03/05/2017 16:00</i></div></div>
+					<div class="w3-container w3-padding-bottom content-base"><div class="manage-descriptor" style="text-align:center;">Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
+					{% csrf_token %}
+				</div>
+				<br><input type="submit" value="Create"/>
+			</form>
 		</div>
-		<br><input type="submit" value="Create"/>
-		</form>
-		</div><br>
 	</div>
 </div>
 {% endblock content %}
