@@ -90,34 +90,42 @@
 			{% endif %}
 			<div class="homebeer">
 				{% if category.name %}
-					<div class="content-base"><span class="beerstatslabel">Category </span><span class="beerstatsvalue">{{ category.name }}</span></div>
-					{% endif %}
-					{% if style.name %}
-					<div class="content-base"><span class="beerstatslabel">Style </span><span class="beerstatsvalue">{{ style.name }}</span></div>
-					{% endif %}
-					{% if data.srm.hex %}
-					<div class="content-base"><span class="beerstatslabel">SRM </span><span class="beerstatsvalue" style="padding-left: 2px; padding-right: 2px;">{{ data.srm.id }}</span><span style="background-color: #{{ data.srm.hex }}; padding-right: 10%;"></span></div>
-					{% endif %}
-					{% if data.abv %}
-					<div class="content-base"><span class="beerstatslabel">ABV </span><span class="beerstatsvalue">{{ data.abv }}%</span></div>
-					{% endif %}
-					{% if data.ibu %}
-					<div class="content-base"><span class="beerstatslabel">IBUs </span><span class="beerstatsvalue">{{ data.ibu }}</span></div>
-					{% endif %}
-					{% if data.glass.name %}
-					<div class="content-base"><span class="beerstatslabel">Glass </span><span class="beerstatsvalue">{{ data.glass.name }}</span></div>
-					{% endif %}
-					{% if data.foodPairings %}
-					<div class="content-base"><span class="beerstatslabel">Food Pairings </span><span class="beerstatsvalue">{{ data.foodPairings }}</span></div>
-					{% endif %}
-					{% if data.servingTemperatureDisplay %}
-					<div class="content-base"><span class="beerstatslabel">Serving Temperature </span><span class="beerstatsvalue">{{ data.servingTemperatureDisplay }}</span></div>
-					{% endif %}
-					{% if data.available.description %}
-					<div class="content-base"><span class="beerstatslabel">Availability </span><span class="beerstatsvalue">{{ data.available.description }}</span></div>
-					{% endif %}
+				<div class="content-base"><span class="beerstatslabel">Category </span><span class="beerstatsvalue">{{ category.name }}</span></div>
+				{% endif %}
+				{% if style.name %}
+				<div class="content-base"><span class="beerstatslabel">Style </span><span class="beerstatsvalue">{{ style.name }}</span></div>
+				{% endif %}
+				{% if data.srm.hex %}
+				<div class="content-base"><span class="beerstatslabel">SRM </span><span class="beerstatsvalue" style="padding-left: 2px; padding-right: 2px;">{{ data.srm.id }}</span><span style="background-color: #{{ data.srm.hex }}; padding-right: 10%;"></span></div>
+				{% endif %}
+				{% if data.abv %}
+				<div class="content-base"><span class="beerstatslabel">ABV </span><span class="beerstatsvalue">{{ data.abv }}%</span></div>
+				{% endif %}
+				{% if data.ibu %}
+				<div class="content-base"><span class="beerstatslabel">IBUs </span><span class="beerstatsvalue">{{ data.ibu }}</span></div>
+				{% endif %}
+				{% if data.glass.name %}
+				<div class="content-base"><span class="beerstatslabel">Glass </span><span class="beerstatsvalue">{{ data.glass.name }}</span></div>
+				{% endif %}
+				{% if data.foodPairings %}
+				<div class="content-base"><span class="beerstatslabel">Food Pairings </span><span class="beerstatsvalue">{{ data.foodPairings }}</span></div>
+				{% endif %}
+				{% if data.servingTemperatureDisplay %}
+				<div class="content-base"><span class="beerstatslabel">Serving Temperature </span><span class="beerstatsvalue">{{ data.servingTemperatureDisplay }}</span></div>
+				{% endif %}
+				{% if data.available.description %}
+				<div class="content-base"><span class="beerstatslabel">Availability </span><span class="beerstatsvalue">{{ data.available.description }}</span></div>
+				{% endif %}
+				{% if data.ingredients.hops %}
+				<div class="content-base"><span class="beerstatslabel">Hops </span><span class="beerstatsvalue">{% for i in data.ingredients.hops %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></div>
+				{% endif %}
+				{% if data.ingredients.malt %}
+				<div class="content-base"><span class="beerstatslabel">Malt </span><span class="beerstatsvalue">{% for i in data.ingredients.malt %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></div>
+				{% endif %}
+				{% if data.ingredients.yeast %}
+				<div class="content-base"><span class="beerstatslabel">Yeast </span><span class="beerstatsvalue">{% for i in data.ingredients.yeast %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></div>
+				{% endif %}
 			</div>
-
 			{% if brewery.nameShortDisplay %}
 			<h3 class="beerheading">{{ brewery.nameShortDisplay }}</h3>
 			{% else %}

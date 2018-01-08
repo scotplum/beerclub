@@ -125,7 +125,7 @@ def beer(request, bdb_id):
 		clubs = context['clubs']
 		club_score = beerscore(request, user_object, clubs, bdb_id)
 		context['club_score'] = club_score
-    urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
+    urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&withIngredients=Y&key=' + secret
     urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'
     context['urlprofilesheet'] = urlprofilesheet
 	#Retrieve Beer Using ID From BreweryDB
