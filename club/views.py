@@ -71,8 +71,15 @@ def club(request, id):
     if request.method == "POST": 
 		rp = request.POST
 		if 'apply' in rp:
-			club_member = Club_Application(user=user_object, club=crowd)
-			club_member.save()
+			if crowd.auto_approve == True:
+				club_member = Club_Application(user=user_object, club=crowd, status='accepted')
+				club_member.date_completed = datetime.datetime.now()
+				club_member.save()
+				club_user_add = Club_User(user=user_object, club=crowd, is_active=True)
+				club_user_add.save()
+			else:
+				club_member = Club_Application(user=user_object, club=crowd)
+				club_member.save()
 			return redirect('/club/' + id + '/')
 		if 'removeannouncement' in rp:
 			announcement_id = request.POST.get("removeannouncement")
@@ -309,6 +316,10 @@ def display(request, id):
 				updated_crowd.disp_members = True
             else:
 				updated_crowd.disp_members = False
+            if 'auto_approve' in post_info:
+				updated_crowd.auto_approve = True
+            else:
+				updated_crowd.auto_approve = False
             updated_crowd.display_member_vote = post_info['display_member_vote']
             updated_crowd.display_wanted_beer = post_info['display_wanted_beer']
             updated_crowd.save()
@@ -344,7 +355,7 @@ def search(request):
     context = nav['context']
     public_crowds = Club.objects.filter(is_public=True).filter(is_active=True).select_related()
     context['public_crowds'] = public_crowds
-    context['state_index'] = {"AL":"Alabama","AK":"Alaska","AS":"American Samoa","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District Of Columbia","FM":"Federated States Of Micronesia","FL":"Florida","GA":"Georgia","GU":"Guam","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MH":"Marshall Islands","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","MP":"Northern Mariana Islands","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PW":"Palau","PA":"Pennsylvania","PR":"Puerto Rico","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VI":"Virgin Islands","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"}
+    context['state_index'] = {"ZZ":"Website Only", "AL":"Alabama","AK":"Alaska","AS":"American Samoa","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District Of Columbia","FM":"Federated States Of Micronesia","FL":"Florida","GA":"Georgia","GU":"Guam","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MH":"Marshall Islands","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","MP":"Northern Mariana Islands","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PW":"Palau","PA":"Pennsylvania","PR":"Puerto Rico","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VI":"Virgin Islands","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"}
     return render(request, 'club/search.html', context)
 	
 @login_required

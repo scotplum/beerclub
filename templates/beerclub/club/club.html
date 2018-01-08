@@ -71,7 +71,11 @@
 			</h3>
 			<div class="homebeer w3-padding-top">
 				<div class="content-base-nobold content-3"><b>Established:</b> {{ crowd.established }}</div>				
+				{% if crowd.state == 'ZZ' %}
+				<div class="content-base-nobold content-3"><b>Location:</b> The Beer Crowd only</div>
+				{% else %}
 				<div class="content-base-nobold content-3"><b>Location:</b> {{ crowd.city }}, {{ crowd.state }}</div>
+				{% endif %}
 				{% if crowd.is_public %}
 				<div class="content-base-nobold content-3"><b>Applications open to the public</b></div>
 				{% else %}
