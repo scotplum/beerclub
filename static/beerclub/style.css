@@ -84,19 +84,18 @@ body {
 }
 
 .topmenu-announcement {
-	background-color: tomato;
+	background-color: #1569C7;
+	font-family: 'Roboto Slab', serif;
 	color: white;
-	font-weight: bold;
+	letter-spacing: 2px;
 	margin: 0;
-	padding-top: .25%;
-	padding-bottom: .25%;
+	padding-top: .35%;
+	padding-bottom: .35%;
 	padding-left: 0;
 	padding-right: 0;
-	font-size: 85%;
+	font-size: 90%;
 	text-decoration: none;
 	text-align: center;
-	border-bottom: 1px solid #1569C7;	
-	border-top: 1px solid #1569C7;	
 }
 
 .state_group {
@@ -292,6 +291,13 @@ body {
 	font-family: 'Roboto Slab', serif;
 	font-weight: 700;
 	font-size: 180%;
+}
+
+.topheading-content{
+	color: #1569C7;
+	font-family: 'Roboto Slab', serif;
+	font-weight: 400;
+	font-size: 120%;
 }
 
 .topcontent{

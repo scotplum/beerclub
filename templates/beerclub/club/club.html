@@ -12,35 +12,51 @@
 				<span class="w3-tiny"><a class="" href="manage/">manage</a></span>
 			{% endif %}
 			</h3>
-			<div class="topcontent w3-padding-bottom w3-padding-top" style="{% if request.session.is_mobile %}text-align: left; padding-left: 3.5%; padding-right: 2%;{% elif crowd.bio|length > 215 %}text-align: left;{% endif %}">{{ crowd.bio }}</div>
-			{% if not club_db_user_check and not club_application_pending_check %}
-			<div class="w3-padding-top">
-				<form name="applyForm" class="w3-center" method="Post">
-				<button class="removesubmit" name="apply" value="" type="submit"><a class="w3-center w3-small">Apply For Membership</a></button>
-				{% csrf_token %}
-				</form>
+			<div class="topheading-content w3-padding-bottom w3-padding-top" style="margin-left: 3%; margin-right: 3%; font-size: 110%; {% if request.session.is_mobile %}text-align: left; font-size: 85%;{% elif crowd.bio|length > 200 %}text-align: left;{% endif %}">{{ crowd.bio }}</div>
+			<div class="content-1">
+				{% if not club_db_user_check and not club_application_pending_check and crowd.require_real_name == True %}
+					{% if user_object.first_name and user_object.last_name %}
+				<div class="w3-padding-top">
+					<form name="applyForm" class="w3-center" method="Post">
+					<button class="removesubmit" name="apply" value="" type="submit"><a class="w3-center w3-small">Apply For Membership</a></button>
+					{% csrf_token %}
+					</form>
+				</div>
+					{% else %}
+				<div class="w3-padding-top">This crowd requires your <a href="/home/profile/">real name</a> to apply</div>
+					{% endif %}
+				{% elif not club_db_user_check and not club_application_pending_check %}
+				<div class="w3-padding-top">
+					<form name="applyForm" class="w3-center" method="Post">
+					<button class="removesubmit" name="apply" value="" type="submit"><a class="w3-center w3-small">Apply For Membership</a></button>
+					{% csrf_token %}
+					</form>
+				</div>
+				{% endif %}	
+				{% if club_application_pending_check %}
+				<div class="w3-small w3-padding-top">Your Application Is Pending</div>
+				{% endif %}
+				{% if club_admin_check and club_admin_pending_check %}
+				<div class="w3-small w3-padding-top"><a href='manage/membership/'>Applications Currently Pending</a></div>
+				{% endif %}
+				{% if club_db_user_check %}
+				<div class="w3-small w3-padding-top">You are a member</div>
+				{% endif %}
 			</div>
-			{% endif %}
-			{% if club_application_pending_check %}
-			<div class="w3-small">Your Application Is Pending</div>
-			{% endif %}
-			{% if club_admin_check and club_admin_pending_check %}
-			<div class="w3-small"><a href='manage/membership/'>Applications Currently Pending</a></div>
-			{% endif %}
 		</div>
 	</div>
-	<div class="w3-padding-bottom topmenu-margin">
+	<div class="w3-padding-bottom w3-padding-top topmenu-margin">
 		{% if club_admin_check %}
 		<div class="beerheading-nomargin">Announcements
 			<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
 			<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
 		</div>
 		{% endif %}
-			<div class="">
 			{% if crowd_announcement_check %}
 			{% for announcement in crowd_announcement %}
 			{% if announcement.is_active %}
-				<div class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
+			<div class="" style="">
+				<h3 class="topmenu-announcement">{{ announcement.date_added|date:'F d, Y' }}
 					{% if club_admin_check %}
 					<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
 					<span class="managetooltomato">
@@ -50,16 +66,15 @@
 						</form>
 					</span>
 					{% endif %}
+				</h3>
+				<div class="" style="border-bottom: 2px solid #d9e9fb; ">
+					<div class="topcontent w3-padding" style="font-size: 100%; text-align: left; margin: 0 5% 0 5%;">{{ announcement.announcement }}</div>
 				</div>
-				<div class="">
-					<div class="topcontent w3-padding" style="text-align: left;">{{ announcement.announcement }}</div>
-				</div>
+			</div>
 			{% endif %}
 			{% endfor %}
-			{% else %}
-			<div class="content-base emptycontent">There are not currently any announcements</div>
 			{% endif %}
-			</div>
+
 	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">

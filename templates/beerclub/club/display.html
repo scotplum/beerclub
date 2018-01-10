@@ -10,15 +10,19 @@
 			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Manage {{ crowd }}</div>
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">Display Options</h3>
 		<form method="post" action="" class="">
+		<h3 class="w3-center beerheading">Display Options</h3>
 		<div class="homebeer">
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Display Active Members?</div><div class="content-3" style="text-align:center;">{{ form.disp_members }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Minimum Ranked Members</div><div class="content-3" style="text-align:center;">{{ form.display_member_vote }}</div></div>
-		<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Minimum Wanted Members</div><div class="content-3" style="text-align:center;">{{ form.display_wanted_beer }}</div></div>
-<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Auto Approve Member Applications</div><div class="content-3" style="text-align:center;">{{ form.auto_approve }}</div></div>
-		{% csrf_token %}
+			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Display Active Members?</div><div class="content-3" style="text-align:center;">{{ form.disp_members }}</div></div>
+			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Require at least this many members to have ranked a beer before displaying</div><div class="content-3" style="text-align:center;">{{ form.display_member_vote }}</div></div>
+			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Require at least this many members to have wanted a beer before displaying</div><div class="content-3" style="text-align:center;">{{ form.display_wanted_beer }}</div></div>
 		</div>
+		<h3 class="w3-center beerheading">Crowd Options</h3>
+		<div class="homebeer">
+			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Auto Approve Member Applications</div><div class="content-3" style="text-align:center;">{{ form.auto_approve }}</div></div>
+			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Require Real Member Names</div><div class="content-3" style="text-align:center;">{{ form.require_real_name }}</div></div>
+		</div>
+		{% csrf_token %}
 		<br><input type="submit" value="Update Display"/>
 		</form>
 	<br>

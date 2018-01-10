@@ -320,6 +320,10 @@ def display(request, id):
 				updated_crowd.auto_approve = True
             else:
 				updated_crowd.auto_approve = False
+            if 'require_real_name' in post_info:
+				updated_crowd.require_real_name = True
+            else:
+				updated_crowd.require_real_name = False
             updated_crowd.display_member_vote = post_info['display_member_vote']
             updated_crowd.display_wanted_beer = post_info['display_wanted_beer']
             updated_crowd.save()

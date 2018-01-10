@@ -22,6 +22,7 @@ class Club(models.Model):
     bio					= models.TextField(max_length=1000)
     disp_members   		= models.BooleanField(default=True)
     auto_approve		= models.BooleanField(default=False)
+    require_real_name	= models.BooleanField(default=False)
     display_member_vote = models.PositiveSmallIntegerField(default=1)
     display_wanted_beer = models.PositiveSmallIntegerField(default=1)
 
