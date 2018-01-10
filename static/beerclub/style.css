@@ -293,6 +293,12 @@ body {
 	font-size: 180%;
 }
 
+.gobacklink{
+	font-family: 'Roboto Slab', serif;
+	font-weight: 700;
+	font-size: 80%;
+}
+
 .topheading-content{
 	color: #1569C7;
 	font-family: 'Roboto Slab', serif;

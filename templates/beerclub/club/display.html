@@ -23,9 +23,9 @@
 			<div class="w3-padding-bottom w3-container content-base"><div class="w3-padding-right w3-padding-bottom content-1-profile manage-descriptor" style="text-align:center;">Require Real Member Names</div><div class="content-3" style="text-align:center;">{{ form.require_real_name }}</div></div>
 		</div>
 		{% csrf_token %}
-		<br><input type="submit" value="Update Display"/>
+		<br><input type="submit" value="Update Options"/>
 		</form>
 	<br>
-	<div><a class="w3-padding" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
+	<div><a class="w3-padding gobacklink" href="/club/{{ crowd.id }}/">Back to {{ crowd }}</a></div>
 </div>
 {% endblock content %}
