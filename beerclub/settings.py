@@ -172,7 +172,7 @@ STATICFILES_DIRS = [
 #    '/var/www/static/',
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
