@@ -8,7 +8,7 @@ from home.models import Wanted_Beers, Beer_Banner, Beer_Score
 from django.utils import timezone
 from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
-from beerclub.decorators import user_is_admin, event_is_active
+from beerclub.decorators import user_is_admin, event_is_active, user_is_member
 from beerclub.utils import navigation
 import operator
 
@@ -41,6 +41,7 @@ def event(request):
 
 @login_required
 @event_is_active
+@user_is_member
 def one_event(request, event_id):
     context = {}
     nav = navigation(request)
