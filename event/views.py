@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.timezone import datetime
 from forms import EventForm, EventEditForm
 from beerclub.decorators import user_is_admin, event_is_active, user_is_member
-from beerclub.utils import navigation
+from beerclub.utils import navigation, mobile
 import operator
 
 # Create your views here.
@@ -33,7 +33,6 @@ def event(request):
 		context['declined'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).filter(will_attend=False).order_by('-event__event_date').select_related()
     if club_check:
 		clubs = Club_User.objects.filter(user=user_object).values('club_id')
-		context['clubs'] = clubs
 		context['events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).order_by('event__event_date').select_related()
 		context['past_events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).order_by('-event__event_date').select_related()
     return render(request, 'event/index.html', context)  
