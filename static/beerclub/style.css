@@ -720,7 +720,7 @@ textarea.focus {
 
 .beer-star{
 	font-size: 150%;
-	color: tomato;
+	color: #1569C7;
 	margin: 0;
 	padding: 0;
 	letter-spacing: 4px;
@@ -728,7 +728,7 @@ textarea.focus {
 
 .beer-star-m{
 	font-size: 150%;
-	color: tomato;
+	color: #1569C7;
 	margin: 0;
 	padding: 0;
 	letter-spacing: 4px;
@@ -736,7 +736,7 @@ textarea.focus {
 
 .beer-star:hover{
 	font-weight: 900;
-	color: #1569C7;
+	color: #0c3c73;
 }
 
 .home-star-empty{
@@ -765,7 +765,7 @@ textarea.focus {
 
 .beer-star-empty:hover{
 	font-weight: 900;
-	color: #1569C7;
+	color: #0c3c73;
 }
 
 
