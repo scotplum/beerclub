@@ -238,7 +238,7 @@ def beer(request, bdb_id):
 				rating.save()
 				return redirect('/home/findbeer/' + bdb_id + '/')
 			else:
-				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company)
+				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company, brewery_id = brewery_id)
 				new_rating.save()
 				return redirect('/home/findbeer/' + bdb_id + '/')
 		if 'fav' in rp:
@@ -246,7 +246,7 @@ def beer(request, bdb_id):
 			favorite_beer.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'want' in rp:
-			want_beer = Wanted_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
+			want_beer = Wanted_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 			want_beer.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'removefav' in rp:
@@ -268,7 +268,7 @@ def beer(request, bdb_id):
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'beernote' in rp:
 			note = rp['beernotevalue']
-			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note, beer_name = beer_name, beer_company = beer_company, beer_category = beer_category,)
+			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note, beer_name = beer_name, beer_company = beer_company, beer_category = beer_category, brewery_id = brewery_id)
 			beer_note.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'event' in rp:

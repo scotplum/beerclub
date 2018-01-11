@@ -39,6 +39,7 @@ class Wanted_Beers(models.Model):
     date_added   	= models.DateTimeField(auto_now_add=True) 
     is_active   	= models.BooleanField(default=True) 
     bdb_id          = models.CharField(max_length=20) 
+    brewery_id		= models.CharField(max_length=20)
     
     class Meta:
 		ordering = ['beer_name']
@@ -73,6 +74,7 @@ class Beer_Note(models.Model):
 	beer_name		= models.CharField(max_length=500)
 	beer_company	= models.CharField(max_length=500)
 	beer_category	= models.CharField(max_length=100)
+	brewery_id		= models.CharField(max_length=20)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id) + ' | ' + str(self.note)
@@ -127,6 +129,7 @@ class Beer_Score(models.Model):
 	beer_company  	= models.CharField(max_length=100) 
 	beer_name  		= models.CharField(max_length=500) 
 	beer_category 	= models.CharField(max_length=100)
+	brewery_id		= models.CharField(max_length=20)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id)
