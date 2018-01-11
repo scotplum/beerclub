@@ -148,6 +148,7 @@ def beer(request, bdb_id):
 			brewery = data['breweries']
 			for brew in brewery:
 				context['brewery'] = brew
+				brewery_id = brew['id']
 				if brew['nameShortDisplay']:
 					beer_company = brew['nameShortDisplay']
 				else: 
@@ -241,7 +242,7 @@ def beer(request, bdb_id):
 				new_rating.save()
 				return redirect('/home/findbeer/' + bdb_id + '/')
 		if 'fav' in rp:
-			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
+			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 			favorite_beer.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
 		elif 'want' in rp:
