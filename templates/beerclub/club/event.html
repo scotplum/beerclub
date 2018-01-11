@@ -16,7 +16,7 @@
 		<div class="w3-center homebeer">
 			{% for event in club_event %}
 			{% if event.event.is_active %}
-			<div class="w3-padding-top content-base"><a href="/event/{{ event.event.id }}/manage/">{{ event.event.event_name }}</a></div>
+			<div class="w3-padding-top content-base"><a href="/event/{{ event.event.id }}/manage/">{{ event.event.event_name }}</a> <span class="" style="font-size: 80%;">({{ event.event.event_date|date:'n/j/y' }})</span></div>
 			{% endif %}
 			{% endfor %}
 		</div>
@@ -26,7 +26,7 @@
 		<div class="w3-center homebeer">
 			{% for event in club_event %}
 			{% if not event.event.is_active %}
-			<div class="w3-padding-top content-base"><a href="/event/{{ event.event.id }}/manage/">{{ event.event.event_name }}</a></div>
+			<div class="w3-padding-top content-base"><a href="/event/{{ event.event.id }}/manage/">{{ event.event.event_name }}</a> <span class="" style="font-size: 80%;">({{ event.event.event_date|date:'n/j/y' }})</span></div>
 			{% endif %}
 			{% endfor %}
 		</div><br>

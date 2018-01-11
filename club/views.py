@@ -291,7 +291,7 @@ def event(request, id):
     context['crowd'] = crowd
     club_event_check = Club_Event.objects.filter(club=crowd).exists()
     if club_event_check:
-		club_event = Club_Event.objects.filter(club=crowd)
+		club_event = Club_Event.objects.filter(club=crowd).order_by('-event__event_date').select_related()
 		context['club_event'] = club_event
     club_admin_check = Club_User.objects.filter(club=crowd).filter(user=user_object).filter(is_admin=True).exists()
     context['club_admin_check'] = club_admin_check

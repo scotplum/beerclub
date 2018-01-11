@@ -43,8 +43,9 @@ def beerscore(request, user_object, clubs, bdb_id):
 		club_users = Club_User.objects.filter(club=club.club_id).values_list('user')
 		score = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).aggregate(Avg('score'))
 		count = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).aggregate(Count('score'))
-		club = club.club.name
-		club_score_list = [club, score['score__avg'], count['score__count']]
+		club_name = club.club.name
+		club_id = club.club.id
+		club_score_list = [club_name, score['score__avg'], count['score__count'], club_id]
 		club_score.append(club_score_list)
     return club_score
 

@@ -19,16 +19,6 @@
 	<div class="w3-container w3-center">
 		<div class="w3-cell w3-half w3-left">
 			{% if brewery.data.name %}
-			<h3 class="beerheading">Beers by {{ brewery.data.nameShortDisplay }}</h3>
-			{% endif %}
-			<div class="homebeer">
-				{% for b in brewery_beers.data %}
-				<div class="content-base" style="{% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% else %}font-size: 85%;{% endif %}"><a href="/home/findbeer/{{ b.id }}/">{{ b.nameDisplay }}</a></div>
-				{% endfor %}
-			</div>
-		</div>
-		<div class="w3-cell w3-half w3-right">
-			{% if brewery.data.name %}
 			<h3 class="beerheading">About {{ brewery.data.nameShortDisplay }}</h3>
 			{% endif %}
 			<div class="homebeer">
@@ -44,6 +34,54 @@
 				{% if brewery.data.website %}
 				<div class="content-base"><a href="{{ brewer.data.website }}" class="beerstatsvalue">{{ brewery.data.website }}</a></div>
 				{% endif %}
+				{% if brewery.data.locations %}
+					{% for b in brewery.data.locations %}
+						{% if b.status == "verified" %}
+				<div class="content-base"><span class="beerstatslabel" style="color: #1569C7;"><b>{{ b.name }}</b></span>
+					{% if b.locationTypeDisplay %}
+					<div class=""><span class="beerstatslabel">Type </span><span class="beerstatsvalue">{{ b.locationTypeDisplay }}</span></div>
+					{% endif %}
+					{% if b.openToPublic == 'Y' %}
+					<div class=""><span class="beerstatslabel">Open to the Public</div>
+					{% endif %}
+					{% if b.yearOpened %}
+					<div class=""><span class="beerstatslabel">Opened </span><span class="beerstatsvalue">{{ b.yearOpened }}</span></div>
+					{% endif %}
+					{% if b.locality %}
+					<div class=""><span class="beerstatslabel">Locality </span><span class="beerstatsvalue">{{ b.locality }}</span></div>
+					{% endif %}
+					{% if b.region %}
+					<div class=""><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ b.region }}</span></div>
+					{% endif %}
+					{% if b.streetAddress %}
+					<div class=""><span class="beerstatslabel">Street </span><span class="beerstatsvalue">{{ b.streetAddress }}</span></div>
+					{% endif %}
+					{% if b.postalCode %}
+					<div class=""><span class="beerstatslabel">Postal Code </span><span class="beerstatsvalue">{{ b.postalCode }}</span></div>
+					{% endif %}
+					{% if b.country.displayName %}
+					<div class=""><span class="beerstatslabel">Country </span><span class="beerstatsvalue">{{ b.country.displayName }}</span></div>
+					{% endif %}
+					{% if b.phone %}
+					<div class=""><span class="beerstatslabel">Phone </span><span class="beerstatsvalue">{{ b.phone }}</span></div>
+					{% endif %}
+					{% if b.website %}
+					<div class=""><span class="beerstatslabel"></span><span class="beerstatsvalue">{{ b.website }}</span></div>
+					{% endif %}
+				</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="w3-cell w3-half w3-right">
+			{% if brewery.data.name %}
+			<h3 class="beerheading">Beers by {{ brewery.data.nameShortDisplay }}</h3>
+			{% endif %}
+			<div class="homebeer">
+				{% for b in brewery_beers.data %}
+				<div class="content-base" style="{% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% else %}font-size: 85%;{% endif %}"><a href="/home/findbeer/{{ b.id }}/">{{ b.nameDisplay }}</a></div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
