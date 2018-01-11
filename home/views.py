@@ -282,7 +282,7 @@ def brewery(request, brew_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    urlbrewery = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/?withLocations=Y&key=' + secret
+    urlbrewery = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/?withLocations=Y&withSocialAccounts=Y&key=' + secret
     urlbrewery_beers = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/beers?key=' + secret
     brewery = requests.get(urlbrewery).json()
     context['brewery'] = brewery

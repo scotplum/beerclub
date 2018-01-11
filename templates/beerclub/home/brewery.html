@@ -34,10 +34,15 @@
 				{% if brewery.data.website %}
 				<div class="content-base"><a href="{{ brewer.data.website }}" class="beerstatsvalue">{{ brewery.data.website }}</a></div>
 				{% endif %}
+				{% if brewery.data.socialAccounts %}
+				{% for social in brewery.data.socialAccounts %}
+				<div class="content-base"><span class="beerstatslabel"><a href="{{ social.link }}" target="_blank">{{ social.socialMedia.name }}</a></span></div>
+				{% endfor %}
+				{% endif %}
 				{% if brewery.data.locations %}
 					{% for b in brewery.data.locations %}
 						{% if b.status == "verified" %}
-				<div class="content-base"><span class="beerstatslabel" style="color: #1569C7;"><b>{{ b.name }}</b></span>
+				<div class="content-base"><span class="beerstatslabel" style="color: #1569C7;"><b>{{ b.name|upper }}</b></span>
 					{% if b.locationTypeDisplay %}
 					<div class=""><span class="beerstatslabel">Type </span><span class="beerstatsvalue">{{ b.locationTypeDisplay }}</span></div>
 					{% endif %}
