@@ -306,9 +306,11 @@ def brewery(request, brew_id):
 			if beer_score_check:
 				rating.score = rating_value
 				rating.save()
+				return redirect('/home/brewery/' + brew_id + '/')
 			else:
 				new_rating = Brewery_Score(user=user_object, score = rating_value, beer_company = beer_company, brewery_id = brew_id)
 				new_rating.save()
+				return redirect('/home/brewery/' + brew_id + '/')
     return render(request, 'home/brewery.html', context)
 	
 @login_required
