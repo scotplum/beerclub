@@ -142,3 +142,14 @@ class Brewery_Score(models.Model):
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.brewery_id)
+		
+class Brewery_Note(models.Model):
+	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
+	is_active		= models.BooleanField(default=True)
+	date_added		= models.DateTimeField(auto_now_add=True)
+	note			= models.TextField(max_length=1000)
+	beer_company	= models.CharField(max_length=500)
+	brewery_id		= models.CharField(max_length=20)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.brewery_id) + ' | ' + str(self.note)

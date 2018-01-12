@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score
+from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm, ProfileForm
@@ -298,6 +298,10 @@ def brewery(request, brew_id):
 		context['rating'] = 0
     data = brewery['data']
     beer_company = data['nameShortDisplay']
+    brewery_note_check = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object).exists()
+    context['brewery_notes'] = {}
+    if brewery_note_check:
+		context['brewery_notes'] = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object)
     if request.method == "POST": 
 		rp = request.POST
 		if 'assignratings' in rp:
@@ -311,6 +315,11 @@ def brewery(request, brew_id):
 				new_rating = Brewery_Score(user=user_object, score = rating_value, beer_company = beer_company, brewery_id = brew_id)
 				new_rating.save()
 				return redirect('/home/brewery/' + brew_id + '/')
+		elif 'brewerynote' in rp:
+			note = rp['brewerynotevalue']
+			beer_note = Brewery_Note(user=user_object, is_active=True, date_added=timezone.now(), note=note, beer_company = beer_company, brewery_id = brew_id)
+			beer_note.save()
+			return redirect('/home/brewery/' + brew_id + '/')
     return render(request, 'home/brewery.html', context)
 	
 @login_required

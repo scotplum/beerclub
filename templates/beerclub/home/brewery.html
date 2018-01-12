@@ -103,5 +103,25 @@
 			</div>
 		</div>
 	</div>
+	<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
+		<h3 class="beerheading">Notes</h3>
+		<div class="homebeer">
+		{% for note in brewery_notes %}
+		{% if note.is_active == True %}
+			<div class="content-base">
+				<div class="w3-padding-top w3-padding topcontent" style="text-align: left;">{{ note.note }}</div>
+				<div class="w3-center w3-small w3-padding-left w3-padding-bottom">{{ note.date_added }}<span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
+			</div>
+		{% endif %}
+		{% endfor %}
+		</div>
+		<div class="w3-padding-top w3-margin-top">
+			<form name="brewerynoteForm" class="w3-center" method="Post">
+			<div class="w3-padding-bottom w3-padding-left w3-padding-right"><textarea type="textarea" name="brewerynotevalue" id="brewerynoteinput"></textarea></div>
+			<button class="" name="brewerynote" value="y" type="submit">Add Note</button>
+			{% csrf_token %}
+			</form>
+		</div>
+	</div>	
 </div>
 {% endblock content %}
