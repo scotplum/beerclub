@@ -359,7 +359,7 @@ def detail(request, bdb_id, club_id):
     clubs = Club_User.objects.filter(user=user_object, club=club_id)
     context['aggregate_score'] = beerscore(request, user_object, clubs, bdb_id)
     club_users = Club_User.objects.filter(club=club_id).values_list('user')
-    context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).select_related()
+    context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).order_by('-score').select_related()
     context['beer_name'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).values('beer_name').distinct()
     return render(request, 'home/detail.html', context)
 	
