@@ -115,6 +115,7 @@ def beer(request, bdb_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    context['bdb_id'] = bdb_id
     beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).exists()
     if beercrowd_score_check:
 		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Avg('score'))
@@ -350,6 +351,18 @@ def beerevent(request, bdb_id):
 				return redirect('/event/' + str(event.id) + '/')
     return render(request, 'home/beerevent.html', context)
 
+def detail(request, bdb_id, club_id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    clubs = Club_User.objects.filter(user=user_object, club=club_id)
+    context['aggregate_score'] = beerscore(request, user_object, clubs, bdb_id)
+    club_users = Club_User.objects.filter(club=club_id).values_list('user')
+    context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).select_related()
+    context['beer_name'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).values('beer_name').distinct()
+    return render(request, 'home/detail.html', context)
+	
 @login_required	
 def tasters(request):
     context = {}
