@@ -7,11 +7,12 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
-			<div class="w3-padding-top topheading" style="text-align: center;"><div>{% for beer in beer_name %}{{ beer.beer_name }}{% endfor %}</div><div style="font-size: 75%;">{% for agg in aggregate_score %}{{ agg.0 }}</div></div>
+			<div class="w3-padding-top topheading" style="text-align: center;"><div>{% for beer in beer_name %}<a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a>{% endfor %}</div><div style="font-size: 75%;">{% for agg in aggregate_score %}{{ agg.0 }}</div></div>
 			<div class="topcontent"style="">Average score of {{ agg.1 }}<br>Scored by {{ agg.2 }} {% if agg.2 == 1 %}user{% else %}users{% endif %}</div>{% endfor %}
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">Rankings by User</h3>
+	{% if user_scores_check %}
+	<h3 class="w3-center beerheading">Rankings by Member</h3>
 	<div class="homebeer">
 		{% regroup user_scores by score as score_list %}
 		{% for score in score_list %}
@@ -24,6 +25,17 @@
 		</div>
 		{% endfor %}
 	</div>
+	{% endif %}
+	{% if wanted_beer_check %}
+	<h3 class="w3-center beerheading">Wanted by Member</h3>
+	<div class="homebeer">
+		<div class="beerstatslabel content-base">
+		{% for user in wanted_beer %}
+			<span class="beerstatsvalue" style="padding: 0 5px 0 5px;"><a href="/home/tasters/{{ user.user.id }}/">{{ user.user }}</a>{% if not forloop.last %}, {% endif %} </span>
+		{% endfor %}
+		</div>
+	</div>
+	{% endif %}
 	<br>
 </div>
 {% endblock content %}
