@@ -133,3 +133,12 @@ class Beer_Score(models.Model):
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id)
+		
+class Brewery_Score(models.Model):
+	user			= models.ForeignKey(User, on_delete=models.CASCADE)	
+	score			= models.PositiveSmallIntegerField()
+	beer_company  	= models.CharField(max_length=100) 
+	brewery_id		= models.CharField(max_length=20)
+	
+	def __str__(self):
+		return str(self.user) + ' | ' + str(self.brewery_id)
