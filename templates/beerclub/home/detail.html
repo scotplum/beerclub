@@ -8,7 +8,7 @@
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			<div class="w3-padding-top topheading" style="text-align: center;"><div>{% for beer in beer_name %}<a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a>{% endfor %}</div><div style="font-size: 75%;">{% for agg in aggregate_score %}{{ agg.0 }}</div></div>
-			<div class="topcontent"style="">Average score of {{ agg.1 }}<br>Scored by {{ agg.2 }} {% if agg.2 == 1 %}user{% else %}users{% endif %}</div>{% endfor %}
+			<div class="topcontent"style="">Average score of {{ agg.1|floatformat:2 }}<br>Scored by {{ agg.2 }} {% if agg.2 == 1 %}user{% else %}users{% endif %}</div>{% endfor %}
 		</div>
 	</div>
 	{% if user_scores_check %}

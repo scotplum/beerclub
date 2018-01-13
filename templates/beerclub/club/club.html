@@ -157,7 +157,7 @@
 					<div class="">					
 					{% for cs in club_scores %}
 					{% if cs.count >= crowd.display_member_vote %}
-					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span><a href="/home/findbeer/{{ cs.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">{{ cs.average }} ({{ cs.count }})</a></span></span></div></div>
+					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span><a href="/home/findbeer/{{ cs.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">{{ cs.average|floatformat:2 }} ({{ cs.count }})</a></span></span></div></div>
 					{% endif %}
 					{% endfor %}
 					</div>
