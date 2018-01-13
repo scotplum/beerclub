@@ -588,7 +588,7 @@ def brewerynoteedit(request, id):
 			updated_brewery_note = brewery_note
 			updated_brewery_note.is_active = False
 			updated_brewery_note.save()
-			return redirect('/home/')
+			return redirect('/home/brewery/' + brewery_note.brewery_id + '/')
         if form.is_valid():
             updated_brewery_note = brewery_note
             updated_brewery_note.note = update_note
