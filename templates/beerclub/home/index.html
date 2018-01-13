@@ -108,7 +108,7 @@
 	</div>
 	<div class="w3-container w3-padding">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">Recent Notes</h3>
+			<h3 class="beerheading">Recent Beer Notes</h3>
 			<div class="w3-center homebeer w3-padding-top">
 				{% if beer_notes_check %}
 				{% for note in beer_notes %}
@@ -131,10 +131,10 @@
 				<div class="content-base emptycontent">Add notes at the bottom of a beer page</div>
 				{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Notes</a></div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Beer Notes</a></div>
 		</div>
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">Recent Ratings</h3>
+			<h3 class="beerheading">Recent Beer Scores</h3>
 			<div class="homebeer w3-padding-top">
 				{% if beer_rating_check %}
 				{% for rating in beer_rating %}
@@ -165,10 +165,10 @@
 				</div>
 				{% endfor %}
 				{% else %}
-				<div class="content-base emptycontent">Add star ratings on a beer page</div>
+				<div class="content-base emptycontent">Add scores on a beer page by clicking on a start at the top of the page</div>
 				{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Ratings</a></div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Beer Scores</a></div>
 		</div>
 	</div>
 	<br>

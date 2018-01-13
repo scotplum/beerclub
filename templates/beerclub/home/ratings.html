@@ -7,7 +7,7 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
-			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Sortable Ratings</div>
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Sortable Scores</div>
 			<div>
 				<form name="ratingsForm" class="w3-center topcontent" method="Post">
 				<div>
@@ -37,7 +37,7 @@
 		<div class="homebeer w3-padding-top">
 				{% for rating in beer_rating %}
 				<div class="content-base">			
-					<div class="content-1 w3-padding-bottom w3-padding-top"><a class="w3-large" href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3">{{ rating.beer_company }}</span>
+					<div class="content-1 w3-padding-bottom w3-padding-top"><a class="w3-large" href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3" style="color: tomato;">{{ rating.beer_company }}</span>
 						{% for trophy in trophy_beers %}
 						{% if rating.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 						{% if rating.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}

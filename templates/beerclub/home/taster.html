@@ -30,7 +30,7 @@
 			<h3 class="beerheading">Wanted</h3>
 			<div class="w3-center homebeer w3-padding-top">
 			{% if want_beer_check == False %}
-			<div class="content-base emptycontent">User does not want</div>
+			<div class="content-base emptycontent">{{ taster.username }} does not want</div>
 			{% endif %}
 			{% for beer in want_beer|dictsort:"beer_name"|dictsort:"beer_company" %}
 			{% if beer.is_active == True %}
@@ -44,7 +44,7 @@
 	</div>
 	<div class="w3-container w3-padding">
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
-			<h3 class="beerheading">Recent Notes</h3>
+			<h3 class="beerheading">Recent Beer Notes</h3>
 			<div class="w3-center homebeer w3-padding-top">
 			{% if beer_notes_check %}
 			{% for note in beer_notes %}
@@ -54,12 +54,12 @@
 			</div>
 			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">User has no notes</div>
+			<div class="content-base emptycontent">{{ taster.username }} has no beer notes</div>
 			{% endif %}
 			</div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
-			<h3 class="beerheading">Recent Ratings</h3>
+			<h3 class="beerheading">Recent Beer Scores</h3>
 			<div class="w3-center homebeer w3-padding-top">
 			{% if beer_rating_check %}
 			{% for rating in beer_rating %}
@@ -71,7 +71,7 @@
 			</div>
 			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">User has no ratings</div>
+			<div class="content-base emptycontent">{{ taster.username }} has no beer scores</div>
 			{% endif %}
 			</div>
 		</div>
