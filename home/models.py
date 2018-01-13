@@ -153,3 +153,8 @@ class Brewery_Note(models.Model):
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.brewery_id) + ' | ' + str(self.note)
+		
+class BreweryNoteForm(ModelForm):
+    class Meta:
+        model = Brewery_Note
+        fields = ['note']

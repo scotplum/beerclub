@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note
+from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm, ProfileForm
@@ -570,6 +570,38 @@ def noteedit(request, id):
         form = BeerNoteForm()
     return render(request, 'home/noteedit.html',context)
 
+@login_required	
+def brewerynoteedit(request, id):
+    context = {}
+    context['update'] = False
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    brewery_note = Brewery_Note.objects.get(id=id)
+    context['form'] = BreweryNoteForm(instance=brewery_note)
+    context['brewery_note'] = brewery_note
+    if request.method == 'POST':
+        form = BreweryNoteForm(request.POST)
+        update_note = request.POST.get("note")
+        post_info = request.POST
+        if 'removenote' in post_info:
+			updated_brewery_note = brewery_note
+			updated_brewery_note.is_active = False
+			updated_brewery_note.save()
+			return redirect('/home/')
+        if form.is_valid():
+            updated_brewery_note = brewery_note
+            updated_brewery_note.note = update_note
+            updated_brewery_note.save()
+            context['update'] = True
+            brewery_note = Brewery_Note.objects.get(id=id)
+            context['brewery_note'] = brewery_note
+            context['form'] = BreweryNoteForm(instance=brewery_note)
+            return redirect('/home/brewery/' + brewery_note.brewery_id + '/')
+    else:
+        form = BreweryNoteForm()
+    return render(request, 'home/brewerynoteedit.html',context)
+	
 @login_required	
 def profilesheet(request, bdb_id):
     context = {}
