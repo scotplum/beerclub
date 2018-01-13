@@ -350,7 +350,10 @@ def beerevent(request, bdb_id):
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
     context['events'] = events
-	
+    clubs = Club_User.objects.filter(user=user_object).values_list('club')
+    club_events = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).select_related()
+    context['club_events'] = club_events
+    context['clubs'] = clubs
 	#Retrieve Beer Using ID From BreweryDB
     
     beer = requests.get(urlbeer).json()
@@ -373,12 +376,13 @@ def beerevent(request, bdb_id):
 		context['data'] = 'We could not locate your beer'
     if request.method == "POST": 
 		rp = request.POST
-		for event in events:
-			eid = str(event.id)
+		for event in club_events:
+			eid = str(event.event.id)
+			context['eid'] = eid
 			if eid in rp:
-				event_beer = Event_Beer(user=user_object, event = event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
+				event_beer = Event_Beer(user=user_object, event = event.event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
 				event_beer.save()
-				return redirect('/event/' + str(event.id) + '/')
+				return redirect('/event/' + str(event.event.id) + '/')
     return render(request, 'home/beerevent.html', context)
 
 def detail(request, bdb_id, club_id):
