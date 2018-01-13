@@ -49,8 +49,8 @@
 			{% if beer_notes_check %}
 			{% for note in beer_notes %}
 			<div class="content-base">				
-				<div class="content-1" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-2">{{ note.beer_company }}</span></div>
-				<div class="content-wrapper w3-margin-0"><div class="content-3">{{ note.note }}</div></div>			
+				<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}" style="text-align: left;"><a href="/home/findbeer/{{ note.bdb_id }}/">{{ note.beer_name }}</a> <span class="content-3">{{ note.beer_company }}</span></div>
+				<div class="content-wrapper w3-margin-0"><div class="content-3-black" style="font-size: 90%;">{{ note.note }}</div></div>			
 			</div>
 			{% endfor %}
 			{% else %}

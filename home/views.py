@@ -350,10 +350,9 @@ def beerevent(request, bdb_id):
     now = timezone.now()
     events = Event.objects.filter(event_date__gte=timezone.now())
     context['events'] = events
-    clubs = Club_User.objects.filter(user=user_object).values_list('club')
-    club_events = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).select_related()
+    user_clubs = Club_User.objects.filter(user=user_object).values_list('club')
+    club_events = Club_Event.objects.filter(club__in=user_clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).select_related()
     context['club_events'] = club_events
-    context['clubs'] = clubs
 	#Retrieve Beer Using ID From BreweryDB
     
     beer = requests.get(urlbeer).json()
