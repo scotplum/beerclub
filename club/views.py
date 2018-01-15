@@ -102,11 +102,11 @@ def club(request, id):
 					#admin = Club_User.objects.filter(club=crowd).filter(is_admin=True).values_list('user__email')
 					email_to = []
 					for email in Club_User.objects.filter(club=crowd).filter(is_admin=True):
-						email_to.append(email.user.email)
-					email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
-					email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Submitted for ' + user_object.username
-					email_body = user_object.username + ',\n\n' + 'An application to the crowd ' + crowd.name + ' was submitted for ' + user_object.username +'. Please review at your earliest convenience. \n\nTheBeerCrowd' 
-					send_mail(email_subject, email_body, email_from, [email_to])
+						email_to.append(str(email.user.email))
+					#email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
+					#email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Submitted for ' + user_object.username
+					#email_body = user_object.username + ',\n\n' + 'An application to the crowd ' + crowd.name + ' was submitted for ' + user_object.username +'. Please review at your earliest convenience. \n\nTheBeerCrowd' 
+					#send_mail(email_subject, email_body, email_from, email_to)
 			return redirect('/club/' + id + '/')
 		if 'removeannouncement' in rp:
 			announcement_id = request.POST.get("removeannouncement")
