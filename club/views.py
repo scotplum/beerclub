@@ -45,6 +45,7 @@ def club(request, id):
     club_db_user_check = Club_User.objects.filter(club=crowd).filter(user=user_object).exists()
     club_application_pending_check = Club_Application.objects.filter(club=crowd).filter(user=user_object).filter(status='pending').exists()
     club_admin_pending_check = Club_Application.objects.filter(club=crowd).filter(status='pending').exists()
+    context['admin'] = Club_User.objects.filter(club=crowd).filter(is_admin=True).values_list('user__email')
     context['club_admin'] = club_admin
     context['club_admin_check'] = club_admin_check
     context['crowd_announcement_check'] = crowd_announcement_check
@@ -72,6 +73,7 @@ def club(request, id):
     if request.method == "POST": 
 		rp = request.POST
 		if 'apply' in rp:
+			#If the applicant already has an application for this crowd in pending status then skip this step (used in case of a refresh issue)
 			if club_application_pending_check:
 				pass
 			else:
@@ -83,7 +85,7 @@ def club(request, id):
 					club_user_add.save()
 					#Email to applicant / new member
 					email_to = user_object.email
-					email_from = 'noreply@thebeercrowd.com'
+					email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
 					email_subject = '[The Beer Crowd]' + crowd.name + 'Application Accepted'
 					email_body = 'Congratulations, your application to ' + crowd.name + ' has been accepted.\n\nTheBeerCrowd' 
 					send_mail(email_subject, email_body, email_from, [email_to]) 
@@ -92,10 +94,19 @@ def club(request, id):
 					club_member.save()
 					#Email to applicant
 					email_to = user_object.email
-					email_from = 'noreply@thebeercrowd.com'
+					email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
 					email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Submitted'
 					email_body = user_object.username + ',\n\n' + 'Your application to the crowd ' + crowd.name + ' was submitted successfully.  You will receive another email once your application status has changed.  You may also check your membership status at the top of the ' + crowd.name + ' crowd page.\n\nTheBeerCrowd' 
-					send_mail(email_subject, email_body, email_from, [email_to]) 
+					send_mail(email_subject, email_body, email_from, [email_to])
+					#Email to administrators notifying them of a new applicant
+					#admin = Club_User.objects.filter(club=crowd).filter(is_admin=True).values_list('user__email')
+					email_to = []
+					for email in Club_User.objects.filter(club=crowd).filter(is_admin=True):
+						email_to.append(email.user.email)
+					email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
+					email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Submitted for ' + user_object.username
+					email_body = user_object.username + ',\n\n' + 'An application to the crowd ' + crowd.name + ' was submitted for ' + user_object.username +'. Please review at your earliest convenience. \n\nTheBeerCrowd' 
+					send_mail(email_subject, email_body, email_from, [email_to])
 			return redirect('/club/' + id + '/')
 		if 'removeannouncement' in rp:
 			announcement_id = request.POST.get("removeannouncement")
