@@ -36,6 +36,19 @@
 		</div>
 	</div>
 	{% endif %}
+	{% if beer_note_check %}
+	<h3 class="w3-center beerheading">Notes by Member</h3>
+	<div class="homebeer">
+		{% for note in beer_note %}
+		{% if note.is_active %}
+		<div class="beerstatslabel content-base">				
+			<div class="content-3-black" style="text-align: left; padding-left: 3%; font-size: 100%;">{{ note.note }}</div>				
+			<div class="content-1 w3-padding-top w3-small" style="text-align:center;"><b><span class="beerstatsvalue" style="font-size: 125%;"><a href="/home/tasters/{{note.user.id }}/">{{ note.user.username }}</a></span> ({{ note.date_added }})</b></div>
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}
 	<br>
 </div>
 {% endblock content %}

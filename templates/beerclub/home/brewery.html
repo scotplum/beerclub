@@ -32,65 +32,66 @@
 	<div class="w3-container w3-center">
 		<div class="w3-cell w3-half w3-left">
 			{% if brewery.data.name %}
-			<h3 class="beerheading">About {{ brewery.data.nameShortDisplay }}</h3>
+			<h3 class="beerheading">{{ brewery.data.name }}</h3>
 			{% endif %}
 			<div class="homebeer">
 				{% if brewery.data.images.medium %}
-				<div id="" class="w3-padding-bottom content-base"><a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ brewery.data.images.medium }}"></a></div>
+				<div id="" class="w3-padding-bottom content-base" style="background-color: white"><a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ brewery.data.images.medium }}"></a></div>
 				{% endif %}	
 				{% if brewery.data.brandClassification %}
-				<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.data.brandClassification }}</span></div>
+				<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.data.brandClassification|title }}</span></div>
 				{% endif %}
 				{% if brewery.data.established %}
 				<div class="content-base"><span class="beerstatslabel">Established </span><span class="beerstatsvalue">{{ brewery.data.established }}</span></div>
 				{% endif %}
 				{% if brewery.data.website %}
-				<div class="content-base"><a href="{{ brewer.data.website }}" class="beerstatsvalue">{{ brewery.data.website }}</a></div>
+				<div class="content-base beerstatslabel"><a href="{{ brewery.data.website }}" class="">{{ brewery.data.website }}</a></div>
 				{% endif %}
 				{% if brewery.data.socialAccounts %}
 				{% for social in brewery.data.socialAccounts %}
 				<div class="content-base"><span class="beerstatslabel"><a href="{{ social.link }}" target="_blank">{{ social.socialMedia.name }}</a></span></div>
 				{% endfor %}
 				{% endif %}
-				{% if brewery.data.locations %}
-					{% for b in brewery.data.locations %}
-						{% if b.status == "verified" %}
-				<div class="content-base"><span class="beerstatslabel" style="color: #1569C7;"><b>{{ b.name|upper }}</b></span>
-					{% if b.locationTypeDisplay %}
-					<div class=""><span class="beerstatslabel">Type </span><span class="beerstatsvalue">{{ b.locationTypeDisplay }}</span></div>
-					{% endif %}
-					{% if b.openToPublic == 'Y' %}
-					<div class=""><span class="beerstatslabel">Open to the Public</div>
-					{% endif %}
-					{% if b.yearOpened %}
-					<div class=""><span class="beerstatslabel">Opened </span><span class="beerstatsvalue">{{ b.yearOpened }}</span></div>
-					{% endif %}
-					{% if b.locality %}
-					<div class=""><span class="beerstatslabel">Locality </span><span class="beerstatsvalue">{{ b.locality }}</span></div>
-					{% endif %}
-					{% if b.region %}
-					<div class=""><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ b.region }}</span></div>
-					{% endif %}
-					{% if b.streetAddress %}
-					<div class=""><span class="beerstatslabel">Street </span><span class="beerstatsvalue">{{ b.streetAddress }}</span></div>
-					{% endif %}
-					{% if b.postalCode %}
-					<div class=""><span class="beerstatslabel">Postal Code </span><span class="beerstatsvalue">{{ b.postalCode }}</span></div>
-					{% endif %}
-					{% if b.country.displayName %}
-					<div class=""><span class="beerstatslabel">Country </span><span class="beerstatsvalue">{{ b.country.displayName }}</span></div>
-					{% endif %}
-					{% if b.phone %}
-					<div class=""><span class="beerstatslabel">Phone </span><span class="beerstatsvalue">{{ b.phone }}</span></div>
-					{% endif %}
-					{% if b.website %}
-					<div class=""><span class="beerstatslabel"></span><span class="beerstatsvalue">{{ b.website }}</span></div>
-					{% endif %}
-				</div>
-						{% endif %}
-					{% endfor %}
+			</div>
+			{% if brewery.data.locations %}
+				{% for b in brewery.data.locations %}
+					{% if b.status == "verified" %}
+			<h3 class="beerheading">{{ b.name|title }}</h3>
+			<div class="homebeer" style="">
+				{% if b.locationTypeDisplay %}
+				<div class="content-base"><span class="beerstatslabel">Type </span><span class="beerstatsvalue">{{ b.locationTypeDisplay }}</span></div>
+				{% endif %}
+				{% if b.openToPublic == 'Y' %}
+				<div class="content-base"><span class="beerstatslabel">Open to the Public</div>
+				{% endif %}
+				{% if b.yearOpened %}
+				<div class="content-base"><span class="beerstatslabel">Opened </span><span class="beerstatsvalue">{{ b.yearOpened }}</span></div>
+				{% endif %}
+				{% if b.locality %}
+				<div class="content-base"><span class="beerstatslabel">Locality </span><span class="beerstatsvalue">{{ b.locality }}</span></div>
+				{% endif %}
+				{% if b.region %}
+				<div class="content-base"><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ b.region }}</span></div>
+				{% endif %}
+				{% if b.streetAddress %}
+				<div class="content-base"><span class="beerstatslabel">Street </span><span class="beerstatsvalue">{{ b.streetAddress }}</span></div>
+				{% endif %}
+				{% if b.postalCode %}
+				<div class="content-base"><span class="beerstatslabel">Postal Code </span><span class="beerstatsvalue">{{ b.postalCode }}</span></div>
+				{% endif %}
+				{% if b.country.displayName %}
+				<div class="content-base"><span class="beerstatslabel">Country </span><span class="beerstatsvalue">{{ b.country.displayName }}</span></div>
+				{% endif %}
+				{% if b.phone %}
+				<div class="content-base"><span class="beerstatslabel">Phone </span><span class="beerstatsvalue">{{ b.phone }}</span></div>
+				{% endif %}
+				{% if b.website %}
+				<div class="content-base beerstatslabel"><span class=""><a href="{{ b.website }}" target="_blank">{{ b.website }}</a></span></div>
 				{% endif %}
 			</div>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			{% if brewery.data.name %}

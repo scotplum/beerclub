@@ -10,7 +10,7 @@
 		<div class="content-base">
 			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">{% if fav_beer_check or want_beer_check %}{{ user_object }}, your beer..{% else %}Getting Started{% endif %}</div>
 			<div class="topcontent">{% if fav_beer_check or want_beer_check %}{% else %}Put a beer in the box above and select Beer Me{% endif %}</div>
-			<div class="topcontent w3-padding-top w3-small"><a href="/home/profile/">Edit Profile</a></div>
+			<div class="topcontent w3-padding-top w3-small gobacklink"><a href="/home/profile/">Edit Profile</a></div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
@@ -131,7 +131,7 @@
 				<div class="content-base emptycontent">Add notes at the bottom of a beer page</div>
 				{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/notes/">See All Beer Notes</a></div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/home/notes/">See All Beer Notes</a></div>
 		</div>
 		<div class="w3-cell w3-half w3-left w3-padding-bottom">
 			<h3 class="beerheading">Recent Beer Scores</h3>
@@ -168,7 +168,7 @@
 				<div class="content-base emptycontent">Add scores on a beer page by clicking on a start at the top of the page</div>
 				{% endif %}
 			</div>
-		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top"><a href="/home/ratings/">See All Beer Scores</a></div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/home/ratings/">See All Beer Scores</a></div>
 		</div>
 	</div>
 	<br>

@@ -66,7 +66,7 @@ def club(request, id):
 		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club').order_by(Lower('user__username'))
 		context['club_user'] = club_user
 		club_users = Club_User.objects.filter(club=crowd).values_list('user')
-		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-average', 'beer_name')[:20]
+		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name', 'brewery_id').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-average', 'beer_name')[:20]
 		context['club_scores'] = club_scores
 		club_wanted_beers = Wanted_Beers.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).order_by('-count','beer_name')[:15]
 		context['club_wanted_beers'] = club_wanted_beers
@@ -297,7 +297,7 @@ def membership(request, id):
 			club_user_add = Club_User(user=member_object, club=crowd, is_active=True)
 			club_user_add.save()
 			email_to = member_object.email
-			email_from = 'noreply@thebeercrowd.com'
+			email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
 			email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Accepted'
 			email_body = member_object.username + ',\n\n' + 'Congratulations, your application to the crowd ' + crowd.name + ' has been accepted.  Now back to the beer!\n\nTheBeerCrowd' 
 			send_mail(email_subject, email_body, email_from, [email_to]) 
@@ -310,7 +310,7 @@ def membership(request, id):
 			club_member.date_completed = datetime.datetime.now()
 			club_member.save()
 			email_to = member_object.email
-			email_from = 'noreply@thebeercrowd.com'
+			email_from = 'The Beer Crowd <noreply@thebeercrowd.com>'
 			email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Declined'
 			email_body = member_object.username + ',\n\n' + 'Your application to the crowd ' + crowd.name + ' has been declined.  The usual reason for this is simply that the crowd is not accepting new members.  Not to worry, there are plenty of crowds that would appreciate your membership.\n\nTheBeerCrowd' 
 			send_mail(email_subject, email_body, email_from, [email_to]) 

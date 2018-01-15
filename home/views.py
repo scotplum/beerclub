@@ -11,6 +11,7 @@ import requests
 from django.forms import inlineformset_factory
 from beerclub.utils import navigation, beerscore
 from decouple import config
+from allauth.account.models import EmailAddress
 
 # Create your views here.
 
@@ -329,6 +330,7 @@ def profile(request):
     user_object = nav['user_object']
     context = nav['context']
     context['form'] = ProfileForm(instance=user_object)
+    context['user_email'] = EmailAddress.objects.filter(verified=False)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         post_info = request.POST
@@ -401,6 +403,10 @@ def detail(request, bdb_id, club_id):
     context['wanted_beer_check'] = wanted_check
     if wanted_check:
 		context['wanted_beer'] = Wanted_Beers.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).select_related()
+    beer_note_check = Beer_Note.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).exists()
+    context['beer_note_check'] = beer_note_check
+    if beer_note_check:
+		context['beer_note'] = Beer_Note.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).select_related()
     return render(request, 'home/detail.html', context)
 	
 @login_required	
