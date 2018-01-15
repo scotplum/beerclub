@@ -15,6 +15,7 @@ import datetime
 from operator import itemgetter
 from beerclub.decorators import user_is_admin
 from beerclub.utils import navigation, mobile
+from django.core.mail import send_mail
 
 # Create your views here.
 context = {}
@@ -71,15 +72,30 @@ def club(request, id):
     if request.method == "POST": 
 		rp = request.POST
 		if 'apply' in rp:
-			if crowd.auto_approve == True:
-				club_member = Club_Application(user=user_object, club=crowd, status='accepted')
-				club_member.date_completed = datetime.datetime.now()
-				club_member.save()
-				club_user_add = Club_User(user=user_object, club=crowd, is_active=True)
-				club_user_add.save()
+			if club_application_pending_check:
+				pass
 			else:
-				club_member = Club_Application(user=user_object, club=crowd)
-				club_member.save()
+				if crowd.auto_approve == True:
+					club_member = Club_Application(user=user_object, club=crowd, status='accepted')
+					club_member.date_completed = datetime.datetime.now()
+					club_member.save()
+					club_user_add = Club_User(user=user_object, club=crowd, is_active=True)
+					club_user_add.save()
+					#Email to applicant / new member
+					email_to = user_object.email
+					email_from = 'noreply@thebeercrowd.com'
+					email_subject = '[The Beer Crowd]' + crowd.name + 'Application Accepted'
+					email_body = 'Congratulations, your application to ' + crowd.name + ' has been accepted.\n\nTheBeerCrowd' 
+					send_mail(email_subject, email_body, email_from, [email_to]) 
+				else:
+					club_member = Club_Application(user=user_object, club=crowd)
+					club_member.save()
+					#Email to applicant
+					email_to = user_object.email
+					email_from = 'noreply@thebeercrowd.com'
+					email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Submitted'
+					email_body = user_object.username + ',\n\n' + 'Your application to the crowd ' + crowd.name + ' was submitted successfully.  You will receive another email once your application status has changed.  You may also check your membership status at the top of the ' + crowd.name + ' crowd page.\n\nTheBeerCrowd' 
+					send_mail(email_subject, email_body, email_from, [email_to]) 
 			return redirect('/club/' + id + '/')
 		if 'removeannouncement' in rp:
 			announcement_id = request.POST.get("removeannouncement")
@@ -269,6 +285,11 @@ def membership(request, id):
 			club_member.save()
 			club_user_add = Club_User(user=member_object, club=crowd, is_active=True)
 			club_user_add.save()
+			email_to = member_object.email
+			email_from = 'noreply@thebeercrowd.com'
+			email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Accepted'
+			email_body = member_object.username + ',\n\n' + 'Congratulations, your application to the crowd ' + crowd.name + ' has been accepted.  Now back to the beer!\n\nTheBeerCrowd' 
+			send_mail(email_subject, email_body, email_from, [email_to]) 
 			return redirect('/club/' + id + '/manage/membership/')
 		elif 'rejectpending' in rp:
 			member_id = request.POST.get("rejectpending")
@@ -277,6 +298,11 @@ def membership(request, id):
 			club_member.status = 'rejected'
 			club_member.date_completed = datetime.datetime.now()
 			club_member.save()
+			email_to = member_object.email
+			email_from = 'noreply@thebeercrowd.com'
+			email_subject = '[The Beer Crowd] ' + crowd.name + ' Application Declined'
+			email_body = member_object.username + ',\n\n' + 'Your application to the crowd ' + crowd.name + ' has been declined.  The usual reason for this is simply that the crowd is not accepting new members.  Not to worry, there are plenty of crowds that would appreciate your membership.\n\nTheBeerCrowd' 
+			send_mail(email_subject, email_body, email_from, [email_to]) 
 			return redirect('/club/' + id + '/manage/membership/')
     return render(request, 'club/membership.html', context)  
 

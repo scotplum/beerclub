@@ -9,7 +9,7 @@
 <div class="content-base-navyborder topmenu-margin">
 <h1 class="w3-center content-tomato w3-padding-bottom">{% trans "Sign Out" %}</h1>
 </div>
-<p class="w3-padding-top w3-margin-top">{% trans 'Are you sure you want to sign out?' %}</p>
+<p class="w3-padding-top w3-margin-top">{{ user.username|title }},{% trans ' are you sure you want to sign out?' %}</p>
 
 <form class="w3-padding-bottom w3-margin-bottom" method="post" action="{% url 'account_logout' %}">
   {% csrf_token %}
