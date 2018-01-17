@@ -177,3 +177,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+ADMINS = [('Scott', 'Scott.Plumbtree@thebeercrowd.com')]
+SERVER_EMAIL = 'support@thebeercrowd.com'

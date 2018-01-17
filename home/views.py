@@ -174,7 +174,7 @@ def beer(request, bdb_id):
 		attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
 		context['attribute_overrall'] = attribute_overrall
     if beer_attribute_check:
-		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object)
+		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
 		ps_attribute = profile_sheet.values_list('beer_attribute')
 		ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).prefetch_related('section').order_by('section')
 		context['profile_sheet'] = profile_sheet
