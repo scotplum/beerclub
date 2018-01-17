@@ -77,7 +77,7 @@ class Beer_Note(models.Model):
 	brewery_id		= models.CharField(max_length=20)
 	
 	def __str__(self):
-		return str(self.user) + ' | ' + str(self.bdb_id) + ' | ' + str(self.note)
+		return unicode(self.user) + ' | ' + unicode(self.bdb_id) + ' | ' + unicode(self.note)
 		
 class BeerNoteForm(ModelForm):
     class Meta:
