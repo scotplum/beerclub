@@ -57,12 +57,22 @@ def one_event(request, event_id):
     committed_beer_check = Event_Beer.objects.filter(event=event).exists()
     club_users = Club_User.objects.filter(club=club).values_list('user')
     if committed_beer_check:
-        committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name').distinct()
+        committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name', 'brewery_id', 'beer_category').distinct()
+        committed_bdb_id = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id').distinct()
+        beer_score = []
         score_beercrowd = []
         score_club = []
         score_user = []
         for sb in committed:
 			score_bdb_id = sb['bdb_id']
+			beer_score_check = Beer_Score.objects.filter(bdb_id=score_bdb_id).filter(user=user_object).exists()
+			if beer_score_check:
+				rating = Beer_Score.objects.get(user=user_object, bdb_id=score_bdb_id)
+				beer_score.append(rating)
+			else:
+				beer_score.append({'bdb_id': sb['bdb_id'], 'brewery_id':sb['brewery_id'], 'user':user_object, 'beer_name':sb['beer_name'], 'beer_category':sb['beer_category'], 'score':0})
+			context['beer_score'] = beer_score
+			"""
 			score_bc_average = Beer_Score.objects.filter(bdb_id=score_bdb_id).aggregate(Avg('score'))
 			score_bc_count = Beer_Score.objects.filter(bdb_id=score_bdb_id).aggregate(Count('score'))
 			score_beercrowd.append([score_bdb_id, score_bc_average['score__avg'], score_bc_count['score__count']])
@@ -74,8 +84,9 @@ def one_event(request, event_id):
 			score_user.append([score_bdb_id, score_user_average['score__avg'], score_user_count['score__count']])
         context['score_beercrowd'] = score_beercrowd
         context['score_club'] = score_club
+		"""
         context['committed'] = committed
-        context['score_user'] = score_user
+        #context['score_user'] = score_user
     desired = []
     event_beer_check = Event_Beer.objects.filter(event=event).filter(is_active=True).exists()
     event_attendance_check = Event_Attend.objects.filter(event=event).filter(user=user_object).exists()
@@ -151,13 +162,31 @@ def one_event(request, event_id):
 			event_note = Event_Note(user=user_object, event=event, is_active=True, date_added=timezone.now(), note=note,)
 			event_note.save()
 			return redirect(redirect_url)
-		if 'removeconfirmed' in rp:
+		elif 'removeconfirmed' in rp:
 			event_beer_id = request.POST.get("removeconfirmed")
 			confirmed_beer = Event_Beer.objects.filter(bdb_id=event_beer_id)
 			for beer_obj in confirmed_beer:
 				beer_obj.is_active = False
 				beer_obj.save()
 			return redirect(redirect_url)
+		elif 'assignratings' in rp:
+			rating_value = rp['assignratings']
+			context['rating_value'] = rating_value
+			bdb_id = rp['bdb_id']
+			beer_name = rp['beer_name']
+			beer_company = rp['beer_company']
+			brewery_id = rp['brewery_id']
+			beer_category = rp['beer_category']
+			beer_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+			if beer_score_check:
+				rating = Beer_Score.objects.get(bdb_id=bdb_id, user=user_object)
+				rating.score = rating_value
+				rating.save()
+				return redirect(redirect_url)
+			else:
+				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company, brewery_id = brewery_id)
+				new_rating.save()
+				return redirect(redirect_url)
     return render(request, 'event/event.html', context)  
 
 @login_required	

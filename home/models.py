@@ -45,7 +45,7 @@ class Wanted_Beers(models.Model):
 		ordering = ['beer_name']
 	
     def __str__(self): 
-		return "beer_name: " + self.beer_name + " | beer_company: " + self.beer_company + " | user: " + str(self.user)
+		return "beer_name: " + unicode(self.beer_name) + " | beer_company: " + unicode(self.beer_company) + " | user: " + unicode(self.user)
 		
 class Beer_Rating(models.Model):
     bdb_id          = models.CharField(max_length=20) 

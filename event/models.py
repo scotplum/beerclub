@@ -45,6 +45,7 @@ class Event_Beer(models.Model):
 	date_added	 	= models.DateTimeField(auto_now_add=True)
 	is_active 		= models.BooleanField(default=True)
 	bdb_id          = models.CharField(max_length=20)
+	brewery_id		= models.CharField(max_length=20)
 	
 	def __str__(self):
 		return self.beer_name + ' | ' + str(self.user) + ' | ' + str(self.event)

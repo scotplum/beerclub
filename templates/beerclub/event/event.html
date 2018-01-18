@@ -106,6 +106,28 @@
 				{% endif %}
 				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
 					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
+					{% for rating in beer_score %}
+					{% if rating.bdb_id in beer.bdb_id %}
+					<form name="ratingForm" method="Post">
+						<input type="hidden" name="bdb_id" value="{{ beer.bdb_id }}" />
+						<input type="hidden" name="beer_name" value="{{ beer.beer_name }}" />
+						<input type="hidden" name="beer_company" value="{{ beer.beer_company }}" />
+						<input type="hidden" name="brewery_id" value="{{ beer.brewery_id }}" />
+						<input type="hidden" name="beer_category" value="{{ beer.beer_category }}" />
+						<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="2" value="2" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="3" value="3" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="4" value="4" type="submit" name="assignratings">{% if rating.score > 3 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="5" value="5" type="submit" name="assignratings">{% if rating.score > 4 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="6" value="6" type="submit" name="assignratings">{% if rating.score > 5 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="7" value="7" type="submit" name="assignratings">{% if rating.score > 6 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="8" value="8" type="submit" name="assignratings">{% if rating.score > 7 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="9" value="9" type="submit" name="assignratings">{% if rating.score > 8 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+						{% csrf_token %}
+					</form>
+					{% endif %}
+					{% endfor %}
 				</div>
 			</div>
 			{% endfor %}

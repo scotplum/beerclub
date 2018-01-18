@@ -363,6 +363,7 @@ def beerevent(request, bdb_id):
     brewery = data['breweries']
     for brew in brewery:
 		context['brewery'] = brew
+		brewery_id = brew['id']
 		if brew['nameShortDisplay']:
 			beer_company = brew['nameShortDisplay']
 		else: 
@@ -381,7 +382,7 @@ def beerevent(request, bdb_id):
 			eid = str(event.event.id)
 			context['eid'] = eid
 			if eid in rp:
-				event_beer = Event_Beer(user=user_object, event = event.event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id)
+				event_beer = Event_Beer(user=user_object, event = event.event, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 				event_beer.save()
 				return redirect('/event/' + str(event.event.id) + '/')
     return render(request, 'home/beerevent.html', context)
@@ -475,7 +476,6 @@ def ratings(request):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    context['rp'] = 'All'
     attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
     if attribute_trophy_check:
@@ -488,17 +488,40 @@ def ratings(request):
 		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('-score')
 		context['beer_rating'] = beer_rating
     if request.method == "POST": 
-		rp = request.POST.get("sortratings")
+		rp = request.POST
 		context['rp'] = rp
-		if rp == 'All':
-			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score')
-		elif rp == 'Brewery':
-			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
-		elif rp == 'Beer':
-			beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_name')
-		else:
-			beer_rating = Beer_Score.objects.filter(user=user_object).filter(score=rp).order_by('beer_name')
-		context['beer_rating'] = beer_rating
+		if 'assignratings' in rp:
+			sort = rp['sort']
+			if not sort:
+				sort = 'All'
+			context['sort'] = sort
+			rating_value = rp['assignratings']
+			context['rating_value'] = rating_value
+			bdb_id = rp['bdb_id']
+			rating = Beer_Score.objects.get(user=user_object, bdb_id = bdb_id)	
+			rating.score = rating_value
+			rating.save()
+			if sort == 'All':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score')
+			elif sort == 'Brewery':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
+			elif sort == 'Beer':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_name')
+			else:
+				beer_rating = Beer_Score.objects.filter(user=user_object).filter(score=sort).order_by('beer_name')
+			context['beer_rating'] = beer_rating
+		elif 'sortratings' in rp:
+			sortratings = rp['sortratings']
+			context['sort'] = sortratings
+			if sortratings == 'All':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('-score')
+			elif sortratings == 'Brewery':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
+			elif sortratings == 'Beer':
+				beer_rating = Beer_Score.objects.filter(user=user_object).order_by('beer_name')
+			else:
+				beer_rating = Beer_Score.objects.filter(user=user_object).filter(score=sortratings).order_by('beer_name')
+			context['beer_rating'] = beer_rating
 		return render(request, 'home/ratings.html', context)
     return render(request, 'home/ratings.html', context)
 
