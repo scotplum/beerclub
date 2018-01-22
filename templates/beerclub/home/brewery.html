@@ -9,16 +9,19 @@
 	<div class="content-base topmenu-margin">
 		<div class="topheading">{{ brewery.data.name }}</div>
 		<form name="ratingForm" method="Post">
-			<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="2" value="2" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="3" value="3" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="4" value="4" type="submit" name="assignratings">{% if rating.score > 3 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="5" value="5" type="submit" name="assignratings">{% if rating.score > 4 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="6" value="6" type="submit" name="assignratings">{% if rating.score > 5 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="7" value="7" type="submit" name="assignratings">{% if rating.score > 6 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="8" value="8" type="submit" name="assignratings">{% if rating.score > 7 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="9" value="9" type="submit" name="assignratings">{% if rating.score > 8 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
-			<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			{% if rating.is_active %}
+			<button class="removesubmit" style="{% if request.session.is_mobile == False %}vertical-align: 7.25%;{% else %}vertical-align: -1px;{% endif %}color: #1569C7; background-color: snow; padding-right: 7px; {% if request.session.is_mobile %}font-size: 150%;{% else %}font-size: 105%;{% endif %}" title="Remove Score" value="inactivate" type="submit" name="assignratings"><i class="fa fa-ban" aria-hidden="true"></i></button>
+			{% endif %}
+			<button class="removesubmit" title="1" value="1" type="submit" name="assignratings">{% if rating.score > 0 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="2" value="2" type="submit" name="assignratings">{% if rating.score > 1 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="3" value="3" type="submit" name="assignratings">{% if rating.score > 2 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="4" value="4" type="submit" name="assignratings">{% if rating.score > 3 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="5" value="5" type="submit" name="assignratings">{% if rating.score > 4 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="6" value="6" type="submit" name="assignratings">{% if rating.score > 5 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="7" value="7" type="submit" name="assignratings">{% if rating.score > 6 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="8" value="8" type="submit" name="assignratings">{% if rating.score > 7 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="9" value="9" type="submit" name="assignratings">{% if rating.score > 8 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+			<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 			{% csrf_token %}
 		</form>
 		{% if brewery.data.description %}

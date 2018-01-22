@@ -117,11 +117,11 @@ def beer(request, bdb_id):
     user_object = nav['user_object']
     context = nav['context']
     context['bdb_id'] = bdb_id
-    beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).exists()
+    beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).exists()
     if beercrowd_score_check:
-		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Avg('score'))
+		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).aggregate(Avg('score'))
 		context['beercrowd_score'] = beercrowd_score['score__avg']
-		beercrowd_count = Beer_Score.objects.filter(bdb_id=bdb_id).aggregate(Count('score'))
+		beercrowd_count = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).aggregate(Count('score'))
 		context['beercrowd_count'] = beercrowd_count['score__count']
     if context['club_check']:
 		clubs = context['clubs']
@@ -184,9 +184,9 @@ def beer(request, bdb_id):
     context['beer_notes'] = {}
     if beer_note_check:
 		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
-    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
+    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id, is_active=True).exists()
     if beer_score_check:
-		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
+		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id, is_active=True)
 		context['rating'] = rating
     else:
 		context['rating'] = 0
@@ -314,8 +314,13 @@ def brewery(request, brew_id):
 			rating_value = rp['assignratings']
 			context['rating_value'] = rating_value
 			if beer_score_check:
-				rating.score = rating_value
-				rating.save()
+				if rating_value =='inactivate':
+					rating.is_active = False
+					rating.save()
+				else:
+					rating.score = rating_value
+					rating.is_active = True
+					rating.save()
 				return redirect('/home/brewery/' + brew_id + '/')
 			else:
 				new_rating = Brewery_Score(user=user_object, score = rating_value, beer_company = beer_company, brewery_id = brew_id)
@@ -400,10 +405,10 @@ def detail(request, bdb_id, club_id):
     clubs = Club_User.objects.filter(user=user_object, club=club_id)
     context['aggregate_score'] = beerscore(request, user_object, clubs, bdb_id)
     club_users = Club_User.objects.filter(club=club_id).values_list('user')
-    user_scores_check = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).exists()
+    user_scores_check = Beer_Score.objects.filter(user__in=club_users).filter(is_active=True).filter(bdb_id=bdb_id).exists()
     context['user_scores_check'] = user_scores_check
     if user_scores_check:
-		context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).order_by('-score').select_related()
+		context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).filter(is_active=True).order_by('-score').select_related()
     context['beer_name'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).values('beer_name', 'bdb_id').distinct()
     wanted_check = Wanted_Beers.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).exists()
     context['wanted_beer_check'] = wanted_check

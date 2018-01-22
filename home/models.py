@@ -140,6 +140,7 @@ class Brewery_Score(models.Model):
 	score			= models.PositiveSmallIntegerField()
 	beer_company  	= models.CharField(max_length=100) 
 	brewery_id		= models.CharField(max_length=20)
+	is_active       = models.BooleanField(default=True)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.brewery_id)
