@@ -57,7 +57,7 @@ def one_event(request, event_id):
     committed_beer_check = Event_Beer.objects.filter(event=event).exists()
     club_users = Club_User.objects.filter(club=club).values_list('user')
     if committed_beer_check:
-        committed = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id', 'beer_company', 'beer_name', 'brewery_id', 'beer_category').distinct()
+        committed = Event_Beer.objects.filter(event=event, is_active=True).order_by('beer_company').values('bdb_id', 'beer_company', 'beer_name', 'brewery_id', 'beer_category').distinct()
         committed_bdb_id = Event_Beer.objects.filter(event=event, is_active=True).values('bdb_id').distinct()
         beer_score = []
         score_beercrowd = []
@@ -181,6 +181,7 @@ def one_event(request, event_id):
 			if beer_score_check:
 				rating = Beer_Score.objects.get(bdb_id=bdb_id, user=user_object)
 				rating.score = rating_value
+				rating.is_active = True
 				rating.save()
 				return redirect(redirect_url)
 			else:

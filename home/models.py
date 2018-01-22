@@ -130,6 +130,7 @@ class Beer_Score(models.Model):
 	beer_name  		= models.CharField(max_length=500) 
 	beer_category 	= models.CharField(max_length=100)
 	brewery_id		= models.CharField(max_length=20)
+	is_active 		= models.BooleanField(default=True)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id)

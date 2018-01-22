@@ -36,6 +36,7 @@
 		<div class="beerheading">{{ sort }}</div>
 		<div class="homebeer w3-padding-top">
 				{% for rating in beer_rating %}
+				{% if rating.is_active %}
 				<div class="content-base">			
 					<div class="content-1 w3-padding-bottom w3-padding-top"><a class="w3-large" href="/home/findbeer/{{ rating.bdb_id }}/">{{ rating.beer_name }}</a> <span class="content-3" style="color: tomato;">{{ rating.beer_company }}</span>
 						{% for trophy in trophy_beers %}
@@ -63,6 +64,7 @@
 						</form>
 					</div>				
 				</div>
+				{% endif %}
 				{% endfor %}
 		</div><br><br>
 	</div>

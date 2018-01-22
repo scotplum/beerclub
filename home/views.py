@@ -33,7 +33,7 @@ def index(request):
     beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = Beer_Score.objects.filter(user=user_object).select_related().order_by('-id')[:12]
+		beer_rating = Beer_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-id')[:12]
 		context['beer_rating'] = beer_rating
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id).select_related()
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id).select_related()
@@ -236,8 +236,13 @@ def beer(request, bdb_id):
 			rating_value = rp['assignratings']
 			context['rating_value'] = rating_value
 			if beer_score_check:
-				rating.score = rating_value
-				rating.save()
+				if rating_value == 'inactivate':
+					rating.is_active = False
+					rating.save()
+				else:
+					rating.score = rating_value
+					rating.is_active = True
+					rating.save()
 				return redirect('/home/findbeer/' + bdb_id + '/')
 			else:
 				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company, brewery_id = brewery_id)
@@ -440,7 +445,7 @@ def taster(request, id):
     beer_rating_check = Beer_Score.objects.filter(user=taster).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = Beer_Score.objects.filter(user=taster).order_by('-id')[:10]
+		beer_rating = Beer_Score.objects.filter(user=taster).filter(is_active=True).order_by('-id')[:10]
 		context['beer_rating'] = beer_rating
     if fav_beer_check is True:
 		fav_beer = Favorite_Beers.objects.filter(user=id)

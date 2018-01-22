@@ -66,9 +66,9 @@ def club(request, id):
 		club_user = Club_User.objects.filter(club=crowd).filter(is_active=True).select_related('user','club').order_by(Lower('user__username'))
 		context['club_user'] = club_user
 		club_users = Club_User.objects.filter(club=crowd).values_list('user')
-		club_scores = Beer_Score.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name', 'brewery_id').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-average', 'beer_name')[:20]
+		club_scores = Beer_Score.objects.filter(user__in=club_users, is_active=True).values('bdb_id', 'beer_company', 'beer_name', 'brewery_id').annotate(count=Count('bdb_id')).annotate(average=Avg('score')).order_by('-average', 'beer_name')[:20]
 		context['club_scores'] = club_scores
-		club_wanted_beers = Wanted_Beers.objects.filter(user__in=club_users).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).order_by('-count','beer_name')[:15]
+		club_wanted_beers = Wanted_Beers.objects.filter(user__in=club_users, is_active=True).values('bdb_id', 'beer_company', 'beer_name').annotate(count=Count('bdb_id')).order_by('-count','beer_name')[:15]
 		context['club_wanted_beers'] = club_wanted_beers
     if request.method == "POST": 
 		rp = request.POST
