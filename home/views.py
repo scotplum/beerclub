@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Avg, Count
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm
 from event.models import Event, Event_Beer, Event_Attend
@@ -12,6 +12,7 @@ from django.forms import inlineformset_factory
 from beerclub.utils import navigation, beerscore
 from decouple import config
 from allauth.account.models import EmailAddress
+from beerclub.decorators import beernote_is_user, brewerynote_is_user
 
 # Create your views here.
 
@@ -45,15 +46,19 @@ def index(request):
     now = timezone.now()
     attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).exists()
     context['attribute_trophy_check'] = attribute_trophy_check
-    event_attend_check = Event_Attend.objects.filter(user=user_object).exists()
-    context['event_attend_check'] = event_attend_check
+    if club_check:
+		clubs = Club_User.objects.filter(user=user_object).values('club_id')
+		context['events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).order_by('event__event_date').select_related()[:5]
+		context['past_events'] = Club_Event.objects.filter(club__in=clubs).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).order_by('-event__event_date').select_related()[:5]
     if attribute_trophy_check:
 		attribute_trophy = Profile_Sheet.objects.filter(user=user_object).filter(beer_attribute__section_id=21).select_related()
 		context['attribute_trophy'] = attribute_trophy
 		context['trophy_beers'] = attribute_trophy.values_list('bdb_id', 'beer_attribute')
-    if event_attend_check:
+    """Old Events context
+		if event_attend_check:
 		context['events'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).filter(will_attend=True).order_by('event__event_date').select_related()
 		context['past_events'] = Event_Attend.objects.filter(user=user_object).filter(event__is_active=True).filter(event__event_date__lt=timezone.now()).filter(will_attend=True).order_by('-event__event_date').select_related()
+    """
     if request.method == "POST": 
 		rp = request.POST
 		if 'removefav' in rp:
@@ -397,6 +402,7 @@ def beerevent(request, bdb_id):
 				return redirect('/event/' + str(event.event.id) + '/')
     return render(request, 'home/beerevent.html', context)
 
+@login_required	
 def detail(request, bdb_id, club_id):
     context = {}
     nav = navigation(request)
@@ -577,6 +583,7 @@ def notes(request):
     return render(request, 'home/notes.html', context)
 
 @login_required	
+@beernote_is_user
 def noteedit(request, id):
     context = {}
     context['update'] = False
@@ -609,6 +616,7 @@ def noteedit(request, id):
     return render(request, 'home/noteedit.html',context)
 
 @login_required	
+@brewerynote_is_user
 def brewerynoteedit(request, id):
     context = {}
     context['update'] = False

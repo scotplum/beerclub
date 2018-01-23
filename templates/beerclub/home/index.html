@@ -79,6 +79,7 @@
 			{% if events %}
 			{% for event in events %}
 			<div class="content-base">
+				<div class="content-1">{{ event.club }}</div>
 				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
 				<div class="content-3">{{ event.event.address }}</div>
 				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
@@ -88,6 +89,7 @@
 			<div class="content-base emptycontent">Events marked as attending will display here</div>			
 			{% endif %}
 			</div>
+			<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/event/">See All Events</a></div>
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Past Events</h3>
@@ -95,6 +97,7 @@
 			{% if past_events %}
 			{% for event in past_events %}
 			<div class="content-base">
+				<div class="content-1">{{ event.club }}</div>
 				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
 				<div class="content-3">{{ event.event.address }}</div>
 				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
@@ -104,6 +107,7 @@
 			<div class="content-base emptycontent">Past events you attended will display here</div>			
 			{% endif %}
 			</div>
+			<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/event/">See All Events</a></div>
 		</div>
 	</div>
 	<div class="w3-container w3-padding">
