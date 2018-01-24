@@ -438,8 +438,14 @@ def newaddress(request, id):
     if request.method == 'POST':
         form = EventAddressForm(request.POST)
         if form.is_valid():
+            data = form.cleaned_data
             address = form.save(commit=False)
             address.club = crowd
+            street = str(data['address_1']).replace(" ", "+").replace(".", "").replace("'", "")
+            city = str(data['city']).replace(" ", "+")
+            state = str(data['state'])
+            postal_code = str(data['zip_code'])
+            address.google_maps = 'https://www.google.com/maps/place/' + street + ',+' + city + ',+' + state + '+' + postal_code + '/'
             address.save()
             return redirect('/club/' + str(crowd.id) + '/manage/event/')
     return render(request, 'club/newaddress.html', context)
@@ -475,6 +481,13 @@ def editaddress(request, id, address_id):
     if request.method == 'POST':
         form = EventAddressEditForm(request.POST, instance=event_address)
         if form.is_valid():
-            form.save()
+            address = form.save(commit=False)
+            data = form.cleaned_data
+            street = str(data['address_1']).replace(" ", "+").replace(".", "").replace("'", "")
+            city = str(data['city']).replace(" ", "+")
+            state = str(data['state'])
+            postal_code = str(data['zip_code'])
+            address.google_maps = 'https://www.google.com/maps/place/' + street + ',+' + city + ',+' + state + '+' + postal_code + '/'
+            address.save()
             return redirect('/club/' + str(crowd.id) + '/manage/event/')
     return render(request, 'club/editaddress.html', context)

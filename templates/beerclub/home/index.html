@@ -80,9 +80,9 @@
 			{% for event in events %}
 			<div class="content-base">
 				<div class="content-1" style="font-size: 100%;"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
-				<div class="content-3-black" style="font-size: 95%;"><a class="" style="color: tomato;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
-				<div class="content-3">{{ event.event.address }}</div>
-				<div class="content-3" style="font-size: 75%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-3" style="font-size: 90%;"><a class="" style="color: #0c3c73;;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
+				<div class="content-3" style="font-size: 70%;">{{ event.event.address }}</div>
+				<div class="content-3" style="font-size: 70%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
 			{% else %}
@@ -98,9 +98,9 @@
 			{% for event in past_events %}
 			<div class="content-base">
 				<div class="content-1" style="font-size: 100%;"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
-				<div class="content-3-black" style="font-size: 95%;"><a class="" style="color: tomato;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
-				<div class="content-3">{{ event.event.address }}</div>
-				<div class="content-3" style="font-size: 75%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-3" style="font-size: 90%;"><a class="" style="color: #0c3c73;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
+				<div class="content-3" style="font-size: 70%;">{{ event.event.address }}</div>
+				<div class="content-3" style="font-size: 70%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
 			{% else %}

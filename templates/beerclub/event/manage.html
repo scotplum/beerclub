@@ -24,12 +24,12 @@
 				<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Name</div><div class="content-3" style="text-align:center;">{{ form.event_name }}</div></div>
 				<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Date and Time</div><div class="content-3" style="text-align:center;">{{ form.event_date }}</div><div><i style="color: tomato; font-size: .7em;">Format: 03/05/2017 16:00</i></div></div>
 				<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Is Active</div><div class="content-3" style="text-align:center;">{{ form.is_active }}</div></div>
-				<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Address (<a href="/club/{{ club_event.club_id }}/manage/event/newaddress/">Add Address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div><br><div class="content-2"><a href="/club/{{ club_event.club_id }}/manage/event/address/">Edit Address</a></div></div>			
+				<div class="w3-padding-bottom content-base w3-padding-top"><div class="manage-descriptor">Address (<a href="/club/{{ club_event.club_id }}/manage/event/newaddress/">Add Address</a>)</div><div class="content-3" style="text-align:center;">{{ form.address }}</div><br><div class="content-2"><a href="/club/{{ club_event.club_id }}/manage/event/address/{{ event.address.id }}/">Edit Address</a></div></div>			
 				{% csrf_token %}
 			</div>
 			<div class="w3-padding-top"><input type="submit" value="Update"/></div>
 		</form>
 	</div>
-	<div class="w3-padding-top w3-margin-top"><a class="w3-padding" href="/event/{{ club_event.event.id }}/">Back to {{ club_event.event.event_name }}</a></div>
+	<div class="w3-padding-top w3-margin-top gobacklink"><a class="w3-padding" href="/event/{{ club_event.event.id }}/">Back to {{ club_event.event.event_name }}</a></div>
 </div>
 {% endblock content %}
