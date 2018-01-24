@@ -38,7 +38,18 @@ def index(request):
 		context['beer_rating'] = beer_rating
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id).select_related()
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id).select_related()
-    context['form'] = findbeerForm() 
+    context['form'] = findbeerForm()
+    brewery_notes_check = Brewery_Note.objects.filter(user=user_object).filter(is_active=True).exists()
+    context['brewery_notes_check'] = brewery_notes_check
+    if brewery_notes_check:
+		brewery_notes = Brewery_Note.objects.filter(user=user_object).filter(is_active=True).order_by('-date_added')[:8].select_related()
+		context['brewery_notes'] = brewery_notes
+    brewery_rating_check = Brewery_Score.objects.filter(user=user_object).exists()
+    active_brewery_rating_check = Brewery_Score.objects.filter(user=user_object, is_active=True).exists()
+    context['brewery_rating_check'] = brewery_rating_check
+    if active_brewery_rating_check:
+		brewery_rating = Brewery_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-id')[:12]
+		context['brewery_rating'] = brewery_rating
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).exists()
     context['fav_beer_check'] = fav_beer_check
@@ -77,6 +88,13 @@ def index(request):
 			rating_value = rp['assignratings']
 			ratingvalue, ratingbeer = rating_value.split("_")
 			rating = Beer_Score.objects.get(user=user_object, bdb_id=ratingbeer)
+			rating.score = ratingvalue
+			rating.save()
+			return redirect('/home/')
+		elif 'brewery_assignratings' in rp:
+			rating_value = rp['brewery_assignratings']
+			ratingvalue, ratingbrewery = rating_value.split("_")
+			rating = Brewery_Score.objects.get(user=user_object, brewery_id=ratingbrewery)
 			rating.score = ratingvalue
 			rating.save()
 			return redirect('/home/')
@@ -189,9 +207,9 @@ def beer(request, bdb_id):
     context['beer_notes'] = {}
     if beer_note_check:
 		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
-    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id, is_active=True).exists()
+    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
     if beer_score_check:
-		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id, is_active=True)
+		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
 		context['rating'] = rating
     else:
 		context['rating'] = 0
@@ -253,7 +271,7 @@ def beer(request, bdb_id):
 				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company, brewery_id = brewery_id)
 				new_rating.save()
 				return redirect('/home/findbeer/' + bdb_id + '/')
-		if 'fav' in rp:
+		elif 'fav' in rp:
 			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 			favorite_beer.save()
 			return redirect('/home/findbeer/' + bdb_id + '/')
@@ -301,10 +319,14 @@ def brewery(request, brew_id):
     context['brewery'] = brewery
     brewery_beers = requests.get(urlbrewery_beers).json()
     context['brewery_beers'] = brewery_beers
-    beer_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id).exists()
-    if beer_score_check:
+    brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id).exists()
+    active_brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id, is_active=True).exists()
+    if brewery_score_check:
 		rating = Brewery_Score.objects.get(user=user_object, brewery_id=brew_id)
-		context['rating'] = rating
+		if active_brewery_score_check:
+			context['rating'] = rating
+		else:
+			context['rating'] = 0
     else:
 		context['rating'] = 0
     data = brewery['data']
@@ -318,7 +340,7 @@ def brewery(request, brew_id):
 		if 'assignratings' in rp:
 			rating_value = rp['assignratings']
 			context['rating_value'] = rating_value
-			if beer_score_check:
+			if brewery_score_check:
 				if rating_value =='inactivate':
 					rating.is_active = False
 					rating.save()
@@ -540,6 +562,53 @@ def ratings(request):
 			context['beer_rating'] = beer_rating
 		return render(request, 'home/ratings.html', context)
     return render(request, 'home/ratings.html', context)
+	
+@login_required	
+def breweryscores(request):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    brewery_rating_check = Brewery_Score.objects.filter(user=user_object).exists()
+    context['brewery_rating_check'] = brewery_rating_check
+    if brewery_rating_check:
+		brewery_rating = Brewery_Score.objects.filter(user=user_object).select_related().order_by('-score')
+		context['brewery_rating'] = brewery_rating
+    if request.method == "POST": 
+		rp = request.POST
+		context['rp'] = rp
+		if 'assignratings' in rp:
+			sort = rp['sort']
+			if not sort:
+				sort = 'All'
+			context['sort'] = sort
+			rating_value = rp['assignratings']
+			context['rating_value'] = rating_value
+			brewery_id = rp['brewery_id']
+			rating = Brewery_Score.objects.get(user=user_object, brewery_id = brewery_id)	
+			rating.score = rating_value
+			rating.save()
+			if sort == 'All':
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).order_by('-score')
+			elif sort == 'Brewery':
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).order_by('beer_company', 'beer_name')
+			elif sort == 'Beer':
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).order_by('beer_name')
+			else:
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).filter(score=sort).order_by('beer_name')
+			context['brewery_rating'] = brewery_rating
+		elif 'sortratings' in rp:
+			sortratings = rp['sortratings']
+			context['sort'] = sortratings
+			if sortratings == 'All':
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).order_by('-score')
+			elif sortratings == 'Brewery':
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).order_by('beer_company')
+			else:
+				brewery_rating = Brewery_Score.objects.filter(user=user_object).filter(score=sortratings).order_by('beer_company')
+			context['brewery_rating'] = brewery_rating
+		return render(request, 'home/breweryscores.html', context)
+    return render(request, 'home/breweryscores.html', context)
 
 @login_required	
 def notes(request):
@@ -615,6 +684,37 @@ def noteedit(request, id):
         form = BeerNoteForm()
     return render(request, 'home/noteedit.html',context)
 
+@login_required	
+def brewerynotes(request):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    brewery_notes_check = Brewery_Note.objects.filter(user=user_object).exists()
+    context['brewery_notes_check'] = brewery_notes_check
+    context['sort_type'] = 'Most Recent'
+    if brewery_notes_check:
+		brewery_notes = Brewery_Note.objects.filter(user=user_object).order_by('-date_added')
+		context['brewery_notes'] = brewery_notes
+		context['sort_type'] = 'Most Recent'
+    if request.method == "POST": 
+		rp = request.POST.get("sortnotes")
+		context['rp'] = rp
+		if rp == 'Most Recent':
+			brewery_notes = Brewery_Note.objects.filter(user=user_object).order_by('-date_added')
+			context['brewery_notes'] = brewery_notes
+			context['sort_type'] = 'Most Recent'
+		elif rp == 'Brewery':
+			brewery_notes = Brewery_Note.objects.filter(user=user_object).order_by('beer_company')
+			context['brewery_notes'] = brewery_notes
+			context['sort_type'] = 'Brewery'
+		elif rp == 'Oldest':
+			brewery_notes = Brewery_Note.objects.filter(user=user_object).order_by('date_added')
+			context['brewery_notes'] = brewery_notes
+			context['sort_type'] = 'Oldest'
+		return render(request, 'home/brewerynotes.html', context)
+    return render(request, 'home/brewerynotes.html', context)	
+	
 @login_required	
 @brewerynote_is_user
 def brewerynoteedit(request, id):

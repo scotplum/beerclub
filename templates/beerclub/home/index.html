@@ -79,14 +79,14 @@
 			{% if events %}
 			{% for event in events %}
 			<div class="content-base">
-				<div class="content-1">{{ event.club }}</div>
-				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-1" style="font-size: 100%;"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3-black" style="font-size: 95%;"><a class="" style="color: tomato;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
 				<div class="content-3">{{ event.event.address }}</div>
-				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-3" style="font-size: 75%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">Events marked as attending will display here</div>			
+			<div class="content-base emptycontent">Available upcoming events will display here</div>			
 			{% endif %}
 			</div>
 			<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/event/">See All Events</a></div>
@@ -97,14 +97,14 @@
 			{% if past_events %}
 			{% for event in past_events %}
 			<div class="content-base">
-				<div class="content-1">{{ event.club }}</div>
-				<div class="content-1"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-1" style="font-size: 100%;"><a href="/event/{{ event.event.id }}/">{{ event.event.event_name }}</a></div>
+				<div class="content-3-black" style="font-size: 95%;"><a class="" style="color: tomato;" href="/club/{{ event.club.id }}/">{{ event.club }}</a></div>
 				<div class="content-3">{{ event.event.address }}</div>
-				<div class="content-3 w3-tiny">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
+				<div class="content-3" style="font-size: 75%;">{{ event.event.event_date|date:'n/j/y (g:i A)'|lower }}</div>
 			</div>
 			{% endfor %}
 			{% else %}
-			<div class="content-base emptycontent">Past events you attended will display here</div>			
+			<div class="content-base emptycontent">Available recent past events will display here</div>			
 			{% endif %}
 			</div>
 			<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/event/">See All Events</a></div>
@@ -169,10 +169,59 @@
 				</div>
 				{% endfor %}
 				{% else %}
-				<div class="content-base emptycontent">Add scores on a beer page by clicking on a start at the top of the page</div>
+				<div class="content-base emptycontent">Add scores on a beer page by clicking on a star at the top of the page</div>
 				{% endif %}
 			</div>
 		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/home/ratings/">See All Beer Scores</a></div>
+		</div>
+	</div>
+	<div class="w3-container w3-padding">
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 class="beerheading">Recent Brewery Notes</h3>
+			<div class="w3-center homebeer w3-padding-top">
+				{% if brewery_notes_check %}
+				{% for note in brewery_notes %}
+				<div class="content-base">	
+					<a href="/home/brewerynotes/{{ note.id }}/" class="w3-right"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}" style="text-align: left;"><span class=""><a href="/home/brewery/{{ note.brewery_id }}/" style="color: tomato;">{{ note.beer_company }}</a></span>					
+					</div>
+					<div class="content-wrapper w3-margin-0"><div class="content-3-black" style="font-size: 90%;">{{ note.note }}</div></div>
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="content-base emptycontent">Add notes at the bottom of a brewery page</div>
+				{% endif %}
+			</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/home/brewerynotes/">See All Brewery Notes</a></div>
+		</div>
+		<div class="w3-cell w3-half w3-left w3-padding-bottom">
+			<h3 class="beerheading">Recent Brewery Scores</h3>
+			<div class="homebeer w3-padding-top">
+				{% if brewery_rating_check %}
+				{% for rating in brewery_rating %}
+				<div class="content-base">			
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><span class=""><a href="/home/brewery/{{ rating.brewery_id }}/" style="color: tomato;">{{ rating.beer_company }}</a></span>		
+				<form name="ratingForm" method="Post">
+					<button class="removesubmit" title="1" value="1_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="2" value="2_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="3" value="3_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="4" value="4_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 3 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="5" value="5_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 4 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="6" value="6_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 5 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="7" value="7_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 6 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="8" value="8_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 7 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="9" value="9_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 8 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					<button class="removesubmit" title="10" value="10_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 9 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
+					{% csrf_token %}
+				</form>
+					</div>				
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="content-base emptycontent">Add scores on a brewery page by clicking on a star at the top of the page</div>
+				{% endif %}
+			</div>
+		<div class="w3-padding-top homecompany w3-margin-right w3-margin-top gobacklink"><a href="/home/breweryscores/">See All Brewery Scores</a></div>
 		</div>
 	</div>
 	<br>

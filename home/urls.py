@@ -21,10 +21,14 @@ urlpatterns = [
 	url(r'^brewery/(?P<brew_id>[A-Za-z0-9]+)/$', views.brewery, name='brewery'),
 	#ex: /ratings/
 	url(r'^ratings/$', views.ratings, name='ratings'),
+	#ex: /breweryscores/
+	url(r'^breweryscores/$', views.breweryscores, name='breweryscores'),
 	#ex: /notes/
 	url(r'^notes/$', views.notes, name='notes'),
 	#ex: /notes/ID9EJ3/
 	url(r'^notes/(?P<id>[A-Za-z0-9]+)/', views.noteedit, name='noteedit'),
+	#ex: /brewerynotes/
+	url(r'^brewerynotes/$', views.brewerynotes, name='brewerynotes'),
 	#ex: /brewerynotes/ID9EJ3/
 	url(r'^brewerynotes/(?P<id>[A-Za-z0-9]+)/', views.brewerynoteedit, name='brewerynoteedit'),
 	#ex: /tasters/id/
