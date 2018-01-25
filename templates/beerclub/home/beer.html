@@ -186,7 +186,7 @@
 			<h3 class="beerheading">Scores
 			</h3>
 			<div class="homebeer">
-			<div class="content-base"><span class="beerstatslabel">My Score </span><span class="beerstatsvalue">{% if rating.score %}{{ rating.score }}{% else %}None{% endif %}</span></div>
+			<div class="content-base"><span class="beerstatslabel">My Score </span><span class="beerstatsvalue">{% if rating.score and rating.is_active %}{{ rating.score }}{% else %}None{% endif %}</span></div>
 			<div class="content-base"><span class="beerstatslabel">The Beer Crowd </span><span class="beerstatsvalue">{% if beercrowd_score %}{{ beercrowd_score|floatformat:2 }} ({{ beercrowd_count }}){% else %}None (0){% endif %}</span></div>
 			{% for crowdscore in club_score %}<div class="content-base"><span class="beerstatslabel"><a style="color: tomato;" href="/club/{{ crowdscore.3 }}/">{{ crowdscore.0 }}</a> </span><span class="beerstatsvalue">{% if crowdscore.2 > 0 %}<a href="/home/findbeer/{{ bdb_id }}/{{ crowdscore.3 }}/">{% endif %}{{ crowdscore.1|floatformat:2 }} ({{ crowdscore.2 }}){% if crowdscore.2 > 0 %}</a>{% endif %}</span></div>{% endfor %}
 			</div>

@@ -437,6 +437,7 @@ def newaddress(request, id):
     context['club_admin_check'] = club_admin_check
     if request.method == 'POST':
         form = EventAddressForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             data = form.cleaned_data
             address = form.save(commit=False)
@@ -480,6 +481,7 @@ def editaddress(request, id, address_id):
     context['club_admin_check'] = club_admin_check
     if request.method == 'POST':
         form = EventAddressEditForm(request.POST, instance=event_address)
+        context['form'] = form
         if form.is_valid():
             address = form.save(commit=False)
             data = form.cleaned_data

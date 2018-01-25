@@ -34,7 +34,7 @@ def index(request):
     beer_rating_check = Beer_Score.objects.filter(user=user_object).exists()
     context['beer_rating_check'] = beer_rating_check
     if beer_rating_check:
-		beer_rating = Beer_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-id')[:12]
+		beer_rating = Beer_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-score_date', 'id')[:12]
 		context['beer_rating'] = beer_rating
     context['favorite'] = Favorite_Beers.objects.filter(user_id=user_object.id).select_related()
     context['wanted'] = Wanted_Beers.objects.filter(user_id=user_object.id).select_related()
@@ -48,7 +48,7 @@ def index(request):
     active_brewery_rating_check = Brewery_Score.objects.filter(user=user_object, is_active=True).exists()
     context['brewery_rating_check'] = brewery_rating_check
     if active_brewery_rating_check:
-		brewery_rating = Brewery_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-id')[:12]
+		brewery_rating = Brewery_Score.objects.filter(user=user_object).filter(is_active=True).select_related().order_by('-score_date', 'id')[:12]
 		context['brewery_rating'] = brewery_rating
     fav_beer_check = Favorite_Beers.objects.filter(user=user_object).exists()
     want_beer_check = Wanted_Beers.objects.filter(user=user_object).exists()

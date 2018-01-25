@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.forms import ModelForm
+from datetime import datetime
 
 # Create your models here.
 class Beer_Category(models.Model):
@@ -131,6 +132,7 @@ class Beer_Score(models.Model):
 	beer_category 	= models.CharField(max_length=100)
 	brewery_id		= models.CharField(max_length=20)
 	is_active 		= models.BooleanField(default=True)
+	score_date		= models.DateTimeField(auto_now=True)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.bdb_id)
@@ -141,6 +143,7 @@ class Brewery_Score(models.Model):
 	beer_company  	= models.CharField(max_length=100) 
 	brewery_id		= models.CharField(max_length=20)
 	is_active       = models.BooleanField(default=True)
+	score_date		= models.DateTimeField(auto_now=True)
 	
 	def __str__(self):
 		return str(self.user) + ' | ' + str(self.brewery_id)
