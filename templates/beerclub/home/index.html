@@ -28,7 +28,7 @@
 				{% csrf_token %}
 				</form>
 				<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}">
-				<a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> <a href="/home/brewery/{{ beer.brewery_id }}/" style="color: tomato;">{{ beer.beer_company }}</a></span>
+				<a href="/home/findbeer/{{ beer.bdb_id }}/" style="{% if beer.beer_name|length > 25 and request.session.is_mobile %}font-size: 85%;{% endif %}">{{ beer.beer_name }}</a><span class="content-3"> <a href="/home/brewery/{{ beer.brewery_id }}/" style="color: tomato;">{{ beer.beer_company }}</a></span>
 				{% for trophy in trophy_beers %}
 				{% if beer.bdb_id in trophy and 23 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 				{% if beer.bdb_id in trophy and 96 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -56,7 +56,7 @@
 					<button class="removesubmit" name="removewant" value="{{ beer.bdb_id }}" type="submit"><a class="w3-right w3-tiny"><i class="fa fa-times" aria-hidden="true"></i></a></button>
 					{% csrf_token %}
 					</form>
-					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span class="content-3"> <a href="/home/brewery/{{ beer.brewery_id }}/" style="color: tomato;">{{ beer.beer_company }}</a></span>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/" style="{% if beer.beer_name|length > 25 and request.session.is_mobile %}font-size: 85%;{% endif %}">{{ beer.beer_name }}</a><span class="content-3"> <a href="/home/brewery/{{ beer.brewery_id }}/" style="color: tomato;">{{ beer.beer_company }}</a></span>
 					{% for trophy in trophy_beers %}
 					{% if beer.bdb_id in trophy and 23 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 					{% if beer.bdb_id in trophy and 96 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
