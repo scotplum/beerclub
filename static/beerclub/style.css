@@ -353,8 +353,8 @@ body {
 
 .icon-home{
 	display: inline-block;
-	width: 24px;
-	height: 24px;
+	width: 20px;
+	height: 20px;
 	padding-left: 1px;
 	padding-right: 1px;
 	vertical-align: middle;
@@ -362,8 +362,8 @@ body {
 
 .icon-m{
 	display: inline-block;
-	width: 20px;
-	height: 20px;
+	width: 18px;
+	height: 18px;
 	padding-left: 1px;
 	padding-right: 1px;
 	vertical-align: middle;
@@ -450,7 +450,7 @@ body {
 }
 
 .content-1{
-	font-size: 85%;
+	font-size: 80%;
 	padding: 0 0 0 0;
 	margin-left: 3%;
 	margin-right: 3%;
@@ -485,7 +485,7 @@ body {
 	padding-bottom: 0;
 	text-decoration: none;
 	font-weight: 700;
-	font-size: 80%;
+	font-size: 75%;
 }
 
 .content-2-nobold{

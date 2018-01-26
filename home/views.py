@@ -430,14 +430,16 @@ def detail(request, bdb_id, club_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
+    context['bdb_id'] = bdb_id
     clubs = Club_User.objects.filter(user=user_object, club=club_id)
     context['aggregate_score'] = beerscore(request, user_object, clubs, bdb_id)
     club_users = Club_User.objects.filter(club=club_id).values_list('user')
+    context['crowd'] = Club.objects.get(id=club_id)
     user_scores_check = Beer_Score.objects.filter(user__in=club_users).filter(is_active=True).filter(bdb_id=bdb_id).exists()
     context['user_scores_check'] = user_scores_check
     if user_scores_check:
 		context['user_scores'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).filter(is_active=True).order_by('-score').select_related()
-    context['beer_name'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).values('beer_name', 'bdb_id').distinct()
+    context['beer_name'] = Beer_Score.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).values('beer_name', 'bdb_id', 'beer_company', 'brewery_id').distinct()
     wanted_check = Wanted_Beers.objects.filter(user__in=club_users).filter(bdb_id=bdb_id).exists()
     context['wanted_beer_check'] = wanted_check
     if wanted_check:
