@@ -77,6 +77,7 @@ INSTALLED_APPS = [
 	'localflavor',
 	'club',
 	'debug_toolbar',
+	'allauth.socialaccount.providers.twitter',
 ]
 
 MIDDLEWARE = [

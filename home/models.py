@@ -163,3 +163,16 @@ class BreweryNoteForm(ModelForm):
     class Meta:
         model = Brewery_Note
         fields = ['note']
+		
+class Beer(models.Model):
+	bdb_id				= models.CharField(max_length=20)
+	beer_company  		= models.CharField(max_length=100) 
+	beer_name  			= models.CharField(max_length=500) 
+	beer_category 		= models.CharField(max_length=100)
+	brewery_id			= models.CharField(max_length=20)
+	beer_image_url		= models.URLField(max_length=250, blank=True)
+	brewery_image_url	= models.URLField(max_length=250, blank=True)
+	api_update_date		= models.DateTimeField(null=True, blank=True)
+	
+	def __str__(self):
+		return unicode(self.beer_name) + ' | ' + unicode(self.beer_company)

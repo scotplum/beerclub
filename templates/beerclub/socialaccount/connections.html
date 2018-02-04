@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account Connections" %}{% endblock %}
+
+{% block content %}
+<div>
+	<div class="topmenu-margin w3-center">
+		<div class="content-base-navyborder">
+			<div class="w3-padding-bottom w3-padding-top topheading" style="text-align: center;">Social Account Connections</div>
+			<div class="topcontent"style="{% if request.session.is_mobile %}text-align: left; margin-left: 2px; margin-right: 2px;{% endif %}"></div>
+		</div>
+	</div>
+	{% if form.accounts %}
+	<h3 class="w3-center beerheading">{% trans 'Connected Social Accounts' %}</h3>
+	<div class="homebeer">
+		<form method="post" class="w3-center w3-padding-bottom w3-padding-top" action="{% url 'socialaccount_connections' %}">
+		{% csrf_token %}
+			<fieldset>
+			{% if form.non_field_errors %}
+				<div id="errorMsg">{{ form.non_field_errors }}</div>
+				{% endif %}
+				{% for base_account in form.accounts %}
+				{% with base_account.get_provider_account as account %}
+					<div class="content-1" style="">
+						<label for="id_account_{{ base_account.id }}">
+						<input id="id_account_{{ base_account.id }}" type="radio" name="account" value="{{ base_account.id }}"/>
+						<span class="">{{account.get_brand.name}}</span>
+						({{ account }})
+						</label>
+					</div>
+					{% endwith %}
+					{% endfor %}
+				<div class="w3-padding w3-small">
+					<button type="submit">{% trans 'Remove' %}</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	{% else %}
+	<h3 class="w3-center">{% trans 'No social network accounts connected' %}</h3>
+	{% endif %}
+	<h3 class="w3-center beerheading">{% trans 'Add Social Account' %}</h3>
+	<div class="homebeer">
+		<div class="socialaccount_providers w3-center content-base">{% include "socialaccount/snippets/provider_list.html" with process="connect" %}</div>
+	</div>
+
+	{% include "socialaccount/snippets/login_extra.html" %}
+</div>
+<br><br>
+{% endblock %}

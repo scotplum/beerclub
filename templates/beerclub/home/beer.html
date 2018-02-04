@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Welcome Home!!{% endblock title %}
 
 {% block content %}
@@ -52,18 +51,14 @@
 		{% endif %}
 		{% if want_beer_check %}
 			{% if want_beer.is_active %}
-		<button title="Remove from Wanted" class=""  name="removewant" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-shopping-basket fafaspace" aria-hidden="true"></i>
-</button>			
+		<button title="Remove from Wanted" class=""  name="removewant" value="y" type="submit"><i class="fa fa-minus w3-tiny" aria-hidden="true"></i><i class="fa fa-shopping-basket fafaspace" aria-hidden="true"></i></button>			
 			{% else %}
-		<button title="Add to Wanted" class=""  name="activatewant" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
-</button>						
+		<button title="Add to Wanted" class=""  name="activatewant" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>						
 			{% endif %}
 		{% else %}
-		<button title="Add to Wanted" class=""  name="want" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
-</button>
+		<button title="Add to Wanted" class=""  name="want" value="y" type="submit"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
 		{% endif %}
-		<button title="Add to Event" class=""  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-</button>
+		<button title="Add to Event" class=""  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
 		{% csrf_token %}
 		</form>
 		<div class="w3-small">
@@ -199,7 +194,10 @@
 		{% if note.is_active == True %}
 			<div class="content-base">
 				<div class="w3-padding-top w3-padding topcontent" style="text-align: left;">{{ note.note }}</div>
-				<div class="w3-center w3-small w3-padding-left w3-padding-bottom">{{ note.date_added }}<span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
+				<div class="w3-center w3-small w3-padding-left w3-padding-bottom" style="color: tomato;">{{ note.date_added|date:'n/j/y g:i A'|lower }}
+					<span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span>
+					<span class="w3-left"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 150%;" aria-hidden="true"></i></a></span>
+				</div>
 			</div>
 		{% endif %}
 		{% endfor %}
@@ -213,4 +211,6 @@
 		</div>
 	</div>
 </div>
+{{ new_update }}
+{{ old_update }}
 {% endblock content %}

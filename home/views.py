@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Avg, Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
-from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm
+from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm, Beer
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm, ProfileForm
@@ -13,6 +13,8 @@ from beerclub.utils import navigation, beerscore
 from decouple import config
 from allauth.account.models import EmailAddress
 from beerclub.decorators import beernote_is_user, brewerynote_is_user
+from allauth.socialaccount.models import SocialToken, SocialApp
+from django.core.urlresolvers import resolve
 
 # Create your views here.
 
@@ -140,6 +142,7 @@ def beer(request, bdb_id):
     user_object = nav['user_object']
     context = nav['context']
     context['bdb_id'] = bdb_id
+    beer_check = Beer.objects.filter(bdb_id=bdb_id).exists()
     beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).exists()
     if beercrowd_score_check:
 		beercrowd_score = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).aggregate(Avg('score'))
@@ -162,6 +165,7 @@ def beer(request, bdb_id):
     brewery = ''
     if 'data' in beer:
 		data = beer['data']
+		update_date = data['updateDate']
 		if 'style' in data: 
 			style = data['style']
 			if 'category' in style:
@@ -169,6 +173,10 @@ def beer(request, bdb_id):
 				context['category'] = style['category']
 		if 'name' in data:
 			beer_name = data['name']
+		if 'labels' in data:
+			beer_image = data['labels']['medium']
+		else:
+			beer_image = ''
 		if 'breweries' in data:
 			brewery = data['breweries']
 			for brew in brewery:
@@ -189,6 +197,22 @@ def beer(request, bdb_id):
 							context['region'] = location['region']
     context['data'] = data
     context['style'] = style
+    if beer_check:
+		beer_object = Beer.objects.filter(bdb_id=bdb_id, api_update_date = update_date).exists()
+		if beer_object:
+			pass
+		else:
+			beer_object.beer_company = beer_company
+			beer_object.beer_name = beer_name
+			beer_object.beer_category = beer_category
+			beer_object.brewery_id = brewery_id
+			beer_object.beer_image_url = beer_image_url
+			beer_object.brewery_image_url = image_url
+			beer_object.api_update_date = update_date
+			beer_object.save()
+    else:
+		beer_save = Beer(beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, bdb_id = bdb_id, brewery_id = brewery_id, beer_image_url = beer_image, brewery_image_url = image_url, api_update_date = update_date)
+		beer_save.save()
     beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
     context['beer_attribute_check'] = beer_attribute_check
     attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
@@ -368,6 +392,10 @@ def profile(request):
     context = nav['context']
     context['form'] = ProfileForm(instance=user_object)
     context['user_email'] = EmailAddress.objects.filter(verified=False)
+    twitter_check = SocialToken.objects.filter(account__user=request.user, account__provider='twitter').exists()
+    context['twitter_check'] = twitter_check
+    if twitter_check:
+		context['twitter'] = SocialToken.objects.get(account__user=request.user, account__provider='twitter')
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         post_info = request.POST
@@ -792,3 +820,16 @@ def profilesheet(request, bdb_id):
 		p_s_a.save()
 		return redirect('/home/findbeer/' + bdb_id + '/')
     return render(request, 'home/profilesheet.html', context)
+	
+@login_required	
+def share(request, id, social_id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    context['social_app'] = SocialApp.objects.get(id=social_id)
+    current_url = resolve(request.path_info).url_name
+    if current_url == 'noteshare':
+		note = Beer_Note.objects.get(id=id)
+		context['note'] = note
+    return render(request, 'home/share.html', context)
