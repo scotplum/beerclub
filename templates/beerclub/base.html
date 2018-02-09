@@ -24,8 +24,13 @@
             <div id="content" class="">
 				<div style="background-color: tomato; margin: 1%;"><img id="logo" src={% static "beerclub/thebeercrowd_logo.png" %}>
 				</div>
+				{% if request.user.is_authenticated %}
 				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity">We are thrilled you joined the beer crowd</span></div>
-                {% block topbar %}
+				{% else %}
+				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity"><a href="/accounts/signup/">Come join the beer crowd!</a></span></div>				
+				{% endif %}
+				{% block topbar %}
+				{% if request.user.is_authenticated %}
                 <div class="w3-hover-grayscale w3-margin-bottom">
 				{% if banner.image_url %}
 				{% if banner.image_url == 'no url' %}
@@ -37,7 +42,7 @@
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
 				{% endif %}
 				</div>
-				 {% if request.user.is_authenticated %}
+
 				
 				<div class="w3-container w3-padding-bottom" style="display: inline-block; {% if request.session.is_mobile %}margin-left: 6%; {% else %}margin-left: 1.5%;{% endif %}">
 					<form name="beerForm" class="w3-center" style="margin: 0; padding:0;" action="/home/findbeer/" method="Post">

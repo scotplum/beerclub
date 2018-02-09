@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Welcome Home!!{% endblock title %}
+{% block title %}{{ data.name }} by {{ brewery.nameShortDisplay }}{% endblock title %}
 
 {% block content %}
 {% load crispy_forms_tags %}
@@ -7,6 +7,7 @@
 <div class="w3-mobile w3-center">
 	<div class="content-base topmenu-margin">
 		<div class="topheading">{{ data.name }} <span style="color: #0c3c73">by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.nameShortDisplay }}</u></a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.name }}</u></a>{% endif %}</div>
+			{% if user.is_authenticated %}
 			<form name="ratingForm" method="Post">
 				{% if rating.is_active %}
 				<button class="removesubmit" style="{% if request.session.is_mobile == False %}vertical-align: 7.25%;{% else %}vertical-align: -1px;{% endif %}color: #1569C7; background-color: snow; padding-right: 7px; {% if request.session.is_mobile %}font-size: 150%;{% else %}font-size: 105%;{% endif %}" title="Remove Score" value="inactivate" type="submit" name="assignratings"><i class="fa fa-ban" aria-hidden="true"></i></button>
@@ -31,6 +32,7 @@
 			{% if 246 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
 			{% if 293 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
 			{% endfor %}
+			{% endif %}
 		{% if data.description %}
 		{% if data.description|length < 225 %}
 		<div class="w3-padding-left w3-padding-right w3-margin-bottom topcontent" style="text-align: center; font-size: 100%;">{{ data.description }}</div>
@@ -38,6 +40,7 @@
 		<div class="w3-padding-left w3-padding-right w3-margin-bottom topcontent" style="text-align: left; font-size: 100%;">{{ data.description }}</div>
 		{% endif %}
 		{% endif %}
+		{% if user.is_authenticated %}
 		<form name="beerForm" class="w3-center w3-padding-bottom" method="Post">
 		{% if fav_beer_check %}
 			{% if fav_beer.is_active %}
@@ -66,6 +69,7 @@
 			<i class="fa fa-shopping-basket" aria-hidden="true"></i> Wanted |
 			<i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Add to Event
 		</div>
+		{% endif %}
 	</div>
 	{% if attribute_overrall_check == True %}
 	<div class="beerstatslabel w3-padding-top w3-padding-bottom">
@@ -78,15 +82,15 @@
 		<i class="fa fa-quote-right" style="line-height: 1; top: -5px; position: relative;"></i>
 	</div>
 	{% endif %}
-	<div class="w3-container w3-center {% if attribute_overrall_check == True %}{% else %}w3-padding-top w3-margin-top{% endif %}">
+	<div class="w3-container w3-center {% if attribute_overrall_check == True %}{% else %}w3-margin-top{% endif %}">
 		<div class="">
-			{% if data.labels.medium %}
-			<div id="beerimg" class="" style="background-image: url({{ data.labels.medium }})"></div>
-			{% endif %}	
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>
 			{% endif %}
 			<div class="homebeer">
+				{% if data.labels.medium %}
+				<div class="content-base w3-padding" style="background-color: white;"><img class="" style="width: 100%; max-width: 250px;" src="{{ data.labels.medium }}"></div>
+				{% endif %}	
 				{% if category.name %}
 				<div class="content-base"><span class="beerstatslabel">Category </span><span class="beerstatsvalue">{{ category.name }}</span></div>
 				{% endif %}
@@ -130,6 +134,9 @@
 			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/"><u>{{ brewery.name }}</u></a></h3>
 			{% endif %}
 			<div class="homebeer">
+				{% if brewery_image_url %}
+				<div class="content-base w3-padding" style="background-color: white;"><img class="" style="width: 100%; max-width: 600px;" src="{{ brewery_image_url }}"></div>
+				{% endif %}	
 				{% if brewery.description %}
 				{% if brewery.description|length < 100 %}
 				<div class="content-base-nobold topcontent" style="text-align: center; font-size: 90%;">{{ brewery.description }}</div>
@@ -137,7 +144,7 @@
 				<div class="content-base-nobold topcontent" style="text-align: left; font-size: 90%;">{{ brewery.description }}</div>
 				{% endif %}
 				{% endif %}
-				<div class="w3-padding-top">
+				<div class="">
 					{% if brewery.brandClassification %}
 					<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.brandClassification|title }}</span></div>
 					{% endif %}
@@ -187,6 +194,7 @@
 			</div>
 		</div>
 	</div>
+	{% if user.is_authenticated %}
 	<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
 		<h3 class="beerheading">Notes</h3>
 		<div class="homebeer">
@@ -213,6 +221,7 @@
 			</form>
 		</div>
 	</div>
+	{% endif %}
 </div>
 {{ new_update }}
 {{ old_update }}

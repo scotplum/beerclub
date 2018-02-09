@@ -135,12 +135,17 @@ def findbeer(request):
      
     return render(request, 'home/findbeer.html') 
 
-@login_required
+
 def beer(request, bdb_id):
     context = {}
-    nav = navigation(request)
-    user_object = nav['user_object']
-    context = nav['context']
+    anon_user = request.user.is_anonymous()
+    context['anon_user'] = anon_user
+    if anon_user:
+		user_object = ''
+    else:
+		nav = navigation(request)
+		user_object = nav['user_object']
+		context = nav['context']
     context['bdb_id'] = bdb_id
     beer_check = Beer.objects.filter(bdb_id=bdb_id).exists()
     beercrowd_score_check = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).exists()
@@ -149,10 +154,13 @@ def beer(request, bdb_id):
 		context['beercrowd_score'] = beercrowd_score['score__avg']
 		beercrowd_count = Beer_Score.objects.filter(bdb_id=bdb_id).filter(is_active=True).aggregate(Count('score'))
 		context['beercrowd_count'] = beercrowd_count['score__count']
-    if context['club_check']:
-		clubs = context['clubs']
-		club_score = beerscore(request, user_object, clubs, bdb_id)
-		context['club_score'] = club_score
+    if anon_user:
+		pass
+    else:
+		if context['club_check']:
+			clubs = context['clubs']
+			club_score = beerscore(request, user_object, clubs, bdb_id)
+			context['club_score'] = club_score
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&withIngredients=Y&key=' + secret
     urlprofilesheet = '/home/findbeer/' + bdb_id + '/profilesheet/'
     context['urlprofilesheet'] = urlprofilesheet
@@ -189,6 +197,7 @@ def beer(request, bdb_id):
 				if 'images' in brew:
 					brewery_images = brew['images']
 					image_url = brewery_images['large']
+					context['brewery_image_url'] = image_url
 				if 'website' in brew:
 					brewery_website = brew['website']
 				if 'locations' in brew:
@@ -214,69 +223,70 @@ def beer(request, bdb_id):
     else:
 		beer_save = Beer(beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, bdb_id = bdb_id, brewery_id = brewery_id, beer_image_url = beer_image, brewery_image_url = image_url, api_update_date = update_date)
 		beer_save.save()
-    beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
-    context['beer_attribute_check'] = beer_attribute_check
-    attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
-    context['attribute_overrall_check'] = attribute_overrall_check
-    if attribute_overrall_check:
-		attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
-		context['attribute_overrall'] = attribute_overrall
-    if beer_attribute_check:
-		profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
-		ps_attribute = profile_sheet.values_list('beer_attribute')
-		ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).prefetch_related('section').order_by('section')
-		context['profile_sheet'] = profile_sheet
-		context['ps_attribute'] = ps_attribute
-		context['ps_attribute_objects'] = ps_attribute_objects
-    beer_note_check = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
-    context['beer_notes'] = {}
-    if beer_note_check:
-		context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
-    beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
-    if beer_score_check:
-		rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
-		context['rating'] = rating
-    else:
-		context['rating'] = 0
-    fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
-    want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
-    beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
-    if beer_banner_check:
-		if 'image_url' in locals() and 'brewery_website' in locals():
-			beer_banner = Beer_Banner.objects.get(user=user_object)
-			beer_banner.image_url = image_url
-			beer_banner.beer_website = brewery_website
-			beer_banner.save()
-		elif 'image_url' in locals():
-			beer_banner = Beer_Banner.objects.get(user=user_object)
-			beer_banner.image_url = image_url
-			beer_banner.beer_website = 'no website'
-			beer_banner.save()
+    if not anon_user:
+		beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+		context['beer_attribute_check'] = beer_attribute_check
+		attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
+		context['attribute_overrall_check'] = attribute_overrall_check
+		if attribute_overrall_check:
+			attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
+			context['attribute_overrall'] = attribute_overrall
+		if beer_attribute_check:
+			profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
+			ps_attribute = profile_sheet.values_list('beer_attribute')
+			ps_attribute_objects = Beer_Attribute.objects.filter(id__in=ps_attribute).prefetch_related('section').order_by('section')
+			context['profile_sheet'] = profile_sheet
+			context['ps_attribute'] = ps_attribute
+			context['ps_attribute_objects'] = ps_attribute_objects
+		beer_note_check = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
+		context['beer_notes'] = {}
+		if beer_note_check:
+			context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
+		beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
+		if beer_score_check:
+			rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
+			context['rating'] = rating
 		else:
-			beer_banner = Beer_Banner.objects.get(user=user_object)
-			beer_banner.image_url = 'no url'
-			beer_banner.beer_website = 'no website'
-			beer_banner.save()
-    else:
-		if 'image_url' in locals() and 'brewery_website' in locals():
-			beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website=brewery_website)
-			beer_banner.save()
-		elif 'image_url' in locals():
-			beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website='no website')
-			beer_banner.save()
+			context['rating'] = 0
+		fav_beer_check = Favorite_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
+		want_beer_check = Wanted_Beers.objects.filter(user=user_object).filter(bdb_id=bdb_id).exists()
+		beer_banner_check = Beer_Banner.objects.filter(user=user_object).exists()
+		if beer_banner_check:
+			if 'image_url' in locals() and 'brewery_website' in locals():
+				beer_banner = Beer_Banner.objects.get(user=user_object)
+				beer_banner.image_url = image_url
+				beer_banner.beer_website = brewery_website
+				beer_banner.save()
+			elif 'image_url' in locals():
+				beer_banner = Beer_Banner.objects.get(user=user_object)
+				beer_banner.image_url = image_url
+				beer_banner.beer_website = 'no website'
+				beer_banner.save()
+			else:
+				beer_banner = Beer_Banner.objects.get(user=user_object)
+				beer_banner.image_url = 'no url'
+				beer_banner.beer_website = 'no website'
+				beer_banner.save()
 		else:
-			beer_banner = Beer_Banner(user=user_object, image_url='no url', beer_website='no website')
-			beer_banner.save()
-    beer_banner = Beer_Banner.objects.get(user=user_object)
-    context['banner'] = beer_banner
-    context['fav_beer_check'] = fav_beer_check
-    context['want_beer_check'] = want_beer_check
-    if fav_beer_check is True:
-		fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
-		context['fav_beer'] = fav_beer
-    if want_beer_check is True:
-		want_beer = Wanted_Beers.objects.get(user=user_object, bdb_id=bdb_id)
-		context['want_beer'] = want_beer
+			if 'image_url' in locals() and 'brewery_website' in locals():
+				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website=brewery_website)
+				beer_banner.save()
+			elif 'image_url' in locals():
+				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website='no website')
+				beer_banner.save()
+			else:
+				beer_banner = Beer_Banner(user=user_object, image_url='no url', beer_website='no website')
+				beer_banner.save()
+		beer_banner = Beer_Banner.objects.get(user=user_object)
+		context['banner'] = beer_banner
+		context['fav_beer_check'] = fav_beer_check
+		context['want_beer_check'] = want_beer_check
+		if fav_beer_check is True:
+			fav_beer = Favorite_Beers.objects.get(user=user_object, bdb_id=bdb_id)
+			context['fav_beer'] = fav_beer
+		if want_beer_check is True:
+			want_beer = Wanted_Beers.objects.get(user=user_object, bdb_id=bdb_id)
+			context['want_beer'] = want_beer
 	#If the request method is a POST from a form submission then either add or remove from Favorite or Wanted beers
     if request.method == "POST": 
 		rp = request.POST
