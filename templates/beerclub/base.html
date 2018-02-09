@@ -31,7 +31,7 @@
 				{% if banner.image_url == 'no url' %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height: 100px;" alt="beerclub">
 				{% else %}
-				<a href="{{ banner.beer_website }}" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				
+				<a href="{{ banner.beer_website }}" target="_blank" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				
 				{% endif %}
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">

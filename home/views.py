@@ -7,7 +7,7 @@ from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
 from forms import findbeerForm, ProfileSheetForm, ProfileForm
 from django.utils import timezone
-import requests
+import requests, os, tweepy
 from django.forms import inlineformset_factory
 from beerclub.utils import navigation, beerscore
 from decouple import config
@@ -174,7 +174,7 @@ def beer(request, bdb_id):
 		if 'name' in data:
 			beer_name = data['name']
 		if 'labels' in data:
-			beer_image = data['labels']['medium']
+			beer_image = data['labels']['large']
 		else:
 			beer_image = ''
 		if 'breweries' in data:
@@ -188,7 +188,7 @@ def beer(request, bdb_id):
 					beer_company = brew['name']
 				if 'images' in brew:
 					brewery_images = brew['images']
-					image_url = brewery_images['medium']
+					image_url = brewery_images['large']
 				if 'website' in brew:
 					brewery_website = brew['website']
 				if 'locations' in brew:
@@ -198,15 +198,16 @@ def beer(request, bdb_id):
     context['data'] = data
     context['style'] = style
     if beer_check:
-		beer_object = Beer.objects.filter(bdb_id=bdb_id, api_update_date = update_date).exists()
-		if beer_object:
+		beer_object_check = Beer.objects.filter(bdb_id=bdb_id, api_update_date = update_date).exists()
+		if beer_object_check:
 			pass
 		else:
+			beer_object = Beer.objects.get(bdb_id=bdb_id)
 			beer_object.beer_company = beer_company
 			beer_object.beer_name = beer_name
 			beer_object.beer_category = beer_category
 			beer_object.brewery_id = brewery_id
-			beer_object.beer_image_url = beer_image_url
+			beer_object.beer_image_url = beer_image
 			beer_object.brewery_image_url = image_url
 			beer_object.api_update_date = update_date
 			beer_object.save()
@@ -827,9 +828,94 @@ def share(request, id, social_id):
     nav = navigation(request)
     user_object = nav['user_object']
     context = nav['context']
-    context['social_app'] = SocialApp.objects.get(id=social_id)
+    social_app = SocialApp.objects.get(id=social_id)
+    context['social_app'] = social_app
+    site_token = social_app.client_id
+    site_secret = social_app.secret
+    beer_filename = ''
+    brewery_filename = ''
+    user_token_check = SocialToken.objects.filter(account__user=user_object.id, app=social_id).exists()
+    context['user_token_check'] = user_token_check
     current_url = resolve(request.path_info).url_name
     if current_url == 'noteshare':
 		note = Beer_Note.objects.get(id=id)
 		context['note'] = note
+		context['beer'] = Beer.objects.get(bdb_id=note.bdb_id)
+		context['share_type'] = 'Beer Note'
+		context['beer_or_brewery'] = 'Beer'
+    elif current_url == 'brewerynoteshare':
+		note = Brewery_Note.objects.get(id=id)
+		context['note'] = note
+		beer = Beer.objects.filter(brewery_id=note.brewery_id).values('beer_company', 'brewery_image_url')
+		for brewery in beer:
+			context['beer'] = brewery
+		context['share_type'] = 'Brewery Note'
+		context['beer_or_brewery'] = 'Brewery'
+    if request.method == "POST":
+		rp = request.POST
+		if 'sharetext' in rp:
+			share_text = rp['sharetext']
+		#Downloads temp file of beer image for sending to Twitter
+		if 'beer_image_url' in rp:
+			beer_image_url = rp['beer_image_url']
+			beer_filename = 'beer_temp_' + str(user_object.id) + '.jpg'
+			beer_request = requests.get(beer_image_url, stream=True)
+			if beer_request.status_code == 200:
+				with open(beer_filename, 'wb') as image:
+					for chunk in beer_request:
+						image.write(chunk)
+		#Downloads temp file of beer image for sending to Twitter
+		if 'brewery_image_url' in rp:
+			brewery_image_url = rp['brewery_image_url']
+			brewery_filename = 'brewery_temp' + str(user_object.id) + '.jpg'
+			brewery_request = requests.get(brewery_image_url, stream=True)
+			if brewery_request.status_code == 200:
+				with open(brewery_filename, 'wb') as image:
+					for chunk in brewery_request:
+						image.write(chunk)
+    #Twitter API
+		if social_app.name == 'Twitter':
+			if user_token_check:
+				social_token = SocialToken.objects.get(account__user=user_object.id, account__provider='twitter')
+				user_secret = social_token.token_secret
+				user_token = social_token.token
+				auth = tweepy.OAuthHandler(site_token, site_secret)
+				auth.set_access_token(user_token, user_secret)
+				api = tweepy.API(auth)
+				status = share_text
+				if beer_filename and brewery_filename:
+					# upload images and get media_ids
+					filenames = ['beer_temp_' + str(user_object.id) + '.jpg', 'brewery_temp' + str(user_object.id) + '.jpg']
+					media_ids = []
+					for filename in filenames:
+						res = api.media_upload(filename)
+						media_ids.append(res.media_id)
+					#tweet multiple images
+					try:
+						api.update_status(status=status, media_ids=media_ids)
+						context['post_response'] = 'Successful'
+					except tweepy.TweepError as e:
+						context['post_response'] = e.args[0][0]['message']
+				elif beer_filename:
+					try:
+						api.update_with_media(beer_filename, status=status)
+						context['post_response'] = 'Successful'
+					except tweepy.TweepError as e:
+						context['post_response'] = e.args[0][0]['message']
+				elif brewery_filename:
+					try:
+						api.update_with_media(brewery_filename, status=status)
+						context['post_response'] = 'Successful'
+					except tweepy.TweepError as e:
+						context['post_response'] = e.args[0][0]['message']
+				else:
+					try:
+						api.update_status(status=status)
+						context['post_response'] = 'Successful'
+					except tweepy.TweepError as e:
+						context['post_response'] = e.args[0][0]['message']
+				if beer_filename:
+					os.remove(beer_filename)
+				if brewery_filename:
+					os.remove(brewery_filename)
     return render(request, 'home/share.html', context)

@@ -7,15 +7,89 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
-			<div class="w3-padding-top topheading" style="text-align: center;">Share On {{ social_app }}</div>
-
+			<div class="w3-padding-top topheading" style="text-align: center;">Share {{ share_type }} On {{ social_app }}</div>
+			<div class="content-2" style="font-size: 120%;"><b><a href="/home/findbeer/{{ beer.bdb_id }}/">{% if beer_or_brewery == 'Beer' %}{{ beer.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ beer.brewery_id }}/">{{ beer.beer_company }}</a></b></div>
 		</div>
 	</div>
-	<h3 class="w3-center beerheading">Share</h3>
+	{% if post_response %}
+	{% if post_response == 'Successful' %}
+	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Successful</h3>
 	<div class="homebeer">
-		<div class="">
-			<span class="beerstatsvalue" style="padding: 0 5px 0 5px;">{{ note.note }}</span>
+		<div class="w3-padding-bottom w3-padding-top content-base">Your {{ share_type }} has been shared on {{ social_app }}</div>
+	</div>
+	<a href="../../">Return to {{ share_type }}</a>
+	{% else %}
+	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Unsuccessful</h3>
+	<div class="homebeer">
+		<div class="w3-padding-bottom w3-padding-top content-base">There was an issue, unfortunately.  {{ post_response }}</div>
+	</div>
+	{% endif %}
+	{% else %}
+	{% if share_type == 'Beer Note' or share_type == 'Brewery Note' %}
+	<h3 class="w3-center beerheading">{{ share_type }}</h3>
+	<div>
+		<div class="homebeer">
+			<div class="w3-padding-bottom w3-padding-top content-base">
+				<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/{% if share_type == 'Beer Note' %}findbeer/{{ note.bdb_id }}{% else %}brewery/{{ note.brewery_id }}{% endif %}/">{{ note.beer_name }} <span class="beerstatslabel">{{ note.beer_company }}</span></a></div>
+				<div class="content-3-black" style="text-align: left; padding-left: 3%;">{{ note.note }}</div>	
+				<div class="content-1 w3-padding-top w3-small" style="text-align:left;"><b>{{ note.date_added }}</b><span class="w3-right"><a href="/home/{% if share_type == 'Beer Note' %}notes{% else %}brewerynotes{% endif %}/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
+			</div>
 		</div>
 	</div>
+	{% endif %}
+	{% if user_token_check %}
+	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Creator</h3>
+		<form class="w3-padding-bottom" id="share" method="Post">
+			<div class="homebeer">
+				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
+					<div class="beerstatslabel" style="font-size: 120%;">{{ social_app.name }} Text</div>
+					<textarea data-limit="280" name="sharetext" id="sharetext" class="w3-padding" style="font-size: 80%; text-align: left; {% if request.session.is_mobile %}height: 120px;{% endif %}"></textarea>
+					<div class="content-1 w3-padding-top" style="font-size: 70%;"><span class="countdown" id="textarea_feedback">280</span> Characters Remaining</div>
+				</div>
+				{% if beer.beer_image_url %}
+				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
+					<div class="beerstatslabel w3-padding-bottom" style="font-size: 120%;">Beer Label</div>
+					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 400px;" src="{{ beer.beer_image_url }}"></div>
+					<input type="checkbox" value="{{ beer.beer_image_url }}" name="beer_image_url" checked></input>
+				</div>
+				{% endif %}	
+				{% if beer.brewery_image_url %}
+				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
+					<div class="beerstatslabel w3-padding-bottom" style="font-size: 120%;">Brewery Label</div>
+					<div class="w3-padding-bottom"><img class="w3-image" src="{{ beer.brewery_image_url }}"></div>
+					<input type="checkbox" value="{{ beer.brewery_image_url }}" name="brewery_image_url"></input>
+				</div>
+				{% endif %}	
+			</div>
+			<div class="w3-padding-top"><button class="" type="submit">Tweet!</button></div>
+			{% csrf_token %}
+		</form>
+	{% else %}
+	<h3 class="w3-center beerheading">Authorize {{ social_app }}</h3>
+	<div class="homebeer">
+		<div class="w3-padding-bottom w3-padding-top content-base">
+			<div class="w3-padding-bottom">You will need to let {{ social_app }} know that it is ok for The Beer Crowd to share on your behalf:</div>
+			<div><a href="/accounts/social/connections/">Authorize Social Accounts</a></div>
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('textarea').val('{% if beer_or_brewery == 'Beer' %}{{ beer.beer_name }} by {% endif %}{{ beer.beer_company }}: {{ note.note }} #thebeercrowd');
+    $('textarea').on("load propertychange keyup input paste",
+    function () {     
+        var limit = $(this).data("limit");     
+        var remainingChars = limit - $(this).val().length;      
+        if (remainingChars <= 0) {
+            $(this).val($(this).val().substring(0, limit));
+        }
+        $(".countdown").text(remainingChars<=0?0:remainingChars);
+    });
+  
+  $('textarea').trigger('load');
+});
+</script>
 {% endblock content %}

@@ -28,11 +28,13 @@ urlpatterns = [
 	#ex: /notes/30/1/share/
 	url(r'^notes/(?P<id>[A-Za-z0-9]+)/(?P<social_id>[0-9]+)/share/$', views.share, name='noteshare'),
 	#ex: /notes/ID9EJ3/
-	url(r'^notes/(?P<id>[A-Za-z0-9]+)/', views.noteedit, name='noteedit'),
+	url(r'^notes/(?P<id>[A-Za-z0-9]+)/$', views.noteedit, name='noteedit'),
 	#ex: /brewerynotes/
 	url(r'^brewerynotes/$', views.brewerynotes, name='brewerynotes'),
+	#ex: /brewerynotes/ID9EJ3/1/share/
+	url(r'^brewerynotes/(?P<id>[A-Za-z0-9]+)/(?P<social_id>[0-9]+)/share/$', views.share, name='brewerynoteshare'),
 	#ex: /brewerynotes/ID9EJ3/
-	url(r'^brewerynotes/(?P<id>[A-Za-z0-9]+)/', views.brewerynoteedit, name='brewerynoteedit'),
+	url(r'^brewerynotes/(?P<id>[A-Za-z0-9]+)/$', views.brewerynoteedit, name='brewerynoteedit'),
 	#ex: /tasters/id/
 	url(r'^tasters/(?P<id>[0-9]+)/$', views.taster, name='taster'),
 	#ex: /tasters/

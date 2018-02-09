@@ -6,7 +6,7 @@
 {% load home_extras %}
 <div class="w3-mobile w3-center">
 	<div class="content-base topmenu-margin">
-		<div class="topheading">{{ data.name }} by {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.nameShortDisplay }}</u></a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.name }}</u></a>{% endif %}</div>
+		<div class="topheading">{{ data.name }} <span style="color: #0c3c73">by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.nameShortDisplay }}</u></a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="color: tomato;"><u>{{ brewery.name }}</u></a>{% endif %}</div>
 			<form name="ratingForm" method="Post">
 				{% if rating.is_active %}
 				<button class="removesubmit" style="{% if request.session.is_mobile == False %}vertical-align: 7.25%;{% else %}vertical-align: -1px;{% endif %}color: #1569C7; background-color: snow; padding-right: 7px; {% if request.session.is_mobile %}font-size: 150%;{% else %}font-size: 105%;{% endif %}" title="Remove Score" value="inactivate" type="submit" name="assignratings"><i class="fa fa-ban" aria-hidden="true"></i></button>
@@ -193,10 +193,13 @@
 		{% for note in beer_notes %}
 		{% if note.is_active == True %}
 			<div class="content-base">
+				<div class="w3-padding-left w3-padding-top topcontent" style="text-align: left;">
+					<span style="font-size: 70%;"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 150%;" aria-hidden="true"></i></a></span>
+				</div>
 				<div class="w3-padding-top w3-padding topcontent" style="text-align: left;">{{ note.note }}</div>
-				<div class="w3-center w3-small w3-padding-left w3-padding-bottom" style="color: tomato;">{{ note.date_added|date:'n/j/y g:i A'|lower }}
-					<span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span>
-					<span class="w3-left"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 150%;" aria-hidden="true"></i></a></span>
+				<div class="w3-row" style="color: tomato;">
+					<div class="w3-left w3-padding-left" style="font-size: 80%;">{{ note.date_added|date:'n/j/y g:i A'|lower }}</div>
+					<div class="w3-right" style="font-size: 80%;"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></div>
 				</div>
 			</div>
 		{% endif %}
