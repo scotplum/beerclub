@@ -154,7 +154,7 @@
 					<div class="">					
 					{% for cs in club_scores %}
 					{% if cs.count >= crowd.display_member_vote %}
-					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ cs.bdb_id }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span><a href="/home/findbeer/{{ cs.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">{{ cs.average|floatformat:2 }} ({{ cs.count }})</a></span></span></div></div>
+					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/{{ cs.bdb_id }}/{{ cs.beer_name|slugify }}-by-{{ cs.beer_company|slugify }}/">{{ cs.beer_name }}</a><span class="content-3"> {{ cs.beer_company }} <span><a href="/home/findbeer/{{ cs.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">{{ cs.average|floatformat:2 }} ({{ cs.count }})</a></span></span></div></div>
 					{% endif %}
 					{% endfor %}
 					</div>
@@ -173,7 +173,7 @@
 					<div class="">					
 					{% for wb in club_wanted_beers %}
 					{% if wb.count >= crowd.display_wanted_beer %}
-					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/findbeer/{{ wb.bdb_id }}/">{{ wb.beer_name }}</a></span><span class="content-3"> {{ wb.beer_company }} <span style="color:tomato;"><a href="/home/findbeer/{{ wb.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">({{ wb.count }})</a></span></span></div></div>
+					<div class="content-base {% if request.session.is_mobile %}mobile-text{% endif %}"><div class="content-1"><a class="" href="/home/{{ wb.bdb_id }}/{{ wb.beer_name|slugify }}-by-{{ wb.beer_company|slugify }}/">{{ wb.beer_name }}</a></span><span class="content-3"> {{ wb.beer_company }} <span style="color:tomato;"><a href="/home/findbeer/{{ wb.bdb_id }}/{{ crowd.id }}/" style="color: tomato; font-weight: heavy;">({{ wb.count }})</a></span></span></div></div>
 					{% endif %}
 					{% endfor %}
 					</div>

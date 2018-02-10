@@ -82,7 +82,10 @@
 		<i class="fa fa-quote-right" style="line-height: 1; top: -5px; position: relative;"></i>
 	</div>
 	{% endif %}
-	<div class="w3-container w3-center {% if attribute_overrall_check == True %}{% else %}w3-margin-top{% endif %}">
+	<div class="w3-padding-top w3-margin-top" style="text-align: center;">
+		<span style=""><a href="" title="Tweet Beer"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span>
+	</div>
+	<div class="w3-container w3-center">
 		<div class="">
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}</h3>

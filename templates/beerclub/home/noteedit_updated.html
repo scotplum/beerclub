@@ -10,7 +10,7 @@
 		<h3 class="w3-center"><b>UPDATED: Edit Note</b></h3>
 	</div>
 	<div class="w3-large w3-padding">				
-		<div class="content-1 w3-large"><a href="/home/findbeer/{{ beer_note.bdb_id }}/">{{ beer_note.beer_name }} <span class="content-2">{{ beer_note.beer_company }}</span></a></div>			
+		<div class="content-1 w3-large"><a href="/home/{{ beer_note.bdb_id }}/{{ beer_note.beer_name|slugify }}-by-{{ beer_note.beer_company|slugify }}/">{{ beer_note.beer_name }} <span class="content-2">{{ beer_note.beer_company }}</span></a></div>			
 		<div class="content-2 w3-small"><b>{{ beer_note.date_added }}</b></div>
 	</div>
 	<form method="post" action="" class="w3-padding">

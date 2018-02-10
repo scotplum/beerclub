@@ -8,10 +8,10 @@
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			{% if user_scores_check %}
-			<div class="w3-padding-top topheading" style="text-align: center;"><div>{% for beer in beer_name %}<a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a><span style="font-size: 80%; padding-left: 8px;"><a style="color: tomato;" href="/home/brewery/{{ beer.brewery_id }}/"><u>{{ beer.beer_company }}</u></a></span>{% endfor %}</div><div style="font-size: 75%;">{% for agg in aggregate_score %}{{ agg.0 }}</div></div>
+			<div class="w3-padding-top topheading" style="text-align: center;"><div>{% for beer in beer_name %}<a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{{ beer.beer_name }}</a><span style="font-size: 80%; padding-left: 8px;"><a style="color: tomato;" href="/home/brewery/{{ beer.brewery_id }}/"><u>{{ beer.beer_company }}</u></a></span>{% endfor %}</div><div style="font-size: 75%;">{% for agg in aggregate_score %}{{ agg.0 }}</div></div>
 			<div class="topcontent"style="">Average score of {{ agg.1|floatformat:2 }}<br>Scored by {{ agg.2 }} {% if agg.2 == 1 %}member{% else %}members{% endif %}</div>{% endfor %}
 			{% else %}
-			<div class="w3-padding-top topheading" style="text-align: center;"><div><a href="/home/findbeer/{{ beer.bdb_id }}/">{{ beer.beer_name }}</a></div><div style="font-size: 75%;"></div></div>
+			<div class="w3-padding-top topheading" style="text-align: center;"><div><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{{ beer.beer_name }}</a></div><div style="font-size: 75%;"></div></div>
 			<div class="topcontent"style="">There have been no member scores for this <a href="/home/findbeer/{{ bdb_id }}/">beer</a>.</div>
 			{% endif %}
 		</div>

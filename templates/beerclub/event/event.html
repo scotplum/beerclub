@@ -105,7 +105,7 @@
 				{% csrf_token %}
 				</form>
 				{% endif %}
-				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ beer.bdb_id }}/"><b>{{ beer.beer_name }}</b></a>
+				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/"><b>{{ beer.beer_name }}</b></a>
 					<span class="content-3"><b>{{ beer.beer_company }}</b></span>
 					{% for rating in beer_score %}
 					{% if rating.bdb_id in beer.bdb_id %}
@@ -143,7 +143,7 @@
 			{% endif %}
 			{% for item in suggest_distinct %}
 			<div class="content-base">
-				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/findbeer/{{ item.0 }}/">{{ item.2 }}</a>
+				<div class="w3-margin-right content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/{{ item.0 }}/{{ item.2|slugify }}-by-{{ item.1|slugify }}/">{{ item.2 }}</a>
 					<span class="content-3">{{ item.1 }}</span>
 				</div>
 			</div>

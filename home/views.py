@@ -15,6 +15,7 @@ from allauth.account.models import EmailAddress
 from beerclub.decorators import beernote_is_user, brewerynote_is_user
 from allauth.socialaccount.models import SocialToken, SocialApp
 from django.core.urlresolvers import resolve
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 
@@ -136,7 +137,7 @@ def findbeer(request):
     return render(request, 'home/findbeer.html') 
 
 
-def beer(request, bdb_id):
+def beer(request, bdb_id, slug):
     context = {}
     anon_user = request.user.is_anonymous()
     context['anon_user'] = anon_user
@@ -301,41 +302,41 @@ def beer(request, bdb_id):
 					rating.score = rating_value
 					rating.is_active = True
 					rating.save()
-				return redirect('/home/findbeer/' + bdb_id + '/')
+				return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 			else:
 				new_rating = Beer_Score(user=user_object, bdb_id = bdb_id, score = rating_value, beer_name = beer_name, beer_category = beer_category, beer_company = beer_company, brewery_id = brewery_id)
 				new_rating.save()
-				return redirect('/home/findbeer/' + bdb_id + '/')
+				return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'fav' in rp:
 			favorite_beer = Favorite_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 			favorite_beer.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'want' in rp:
 			want_beer = Wanted_Beers(user=user_object, beer_company = beer_company, beer_name = beer_name, beer_category = beer_category, date_added=timezone.now(), is_active=True, bdb_id = bdb_id, brewery_id = brewery_id)
 			want_beer.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'removefav' in rp:
 			fav_beer.is_active = False
 			fav_beer.save()
 			#remove_fav = 
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'removewant' in rp:
 			want_beer.is_active = False
 			want_beer.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'activatefav' in rp:
 			fav_beer.is_active = True
 			fav_beer.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'activatewant' in rp:
 			want_beer.is_active = True
 			want_beer.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'beernote' in rp:
 			note = rp['beernotevalue']
 			beer_note = Beer_Note(user=user_object, bdb_id=bdb_id, is_active=True, date_added=timezone.now(), note=note, beer_name = beer_name, beer_company = beer_company, beer_category = beer_category, brewery_id = brewery_id)
 			beer_note.save()
-			return redirect('/home/findbeer/' + bdb_id + '/')
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'event' in rp:
 			return redirect('/home/findbeer/' + bdb_id + '/event/')
 		else:
@@ -720,7 +721,7 @@ def noteedit(request, id):
             beer_note = Beer_Note.objects.get(id=id)
             context['beer_note'] = beer_note
             context['form'] = BeerNoteForm(instance=beer_note)
-            return redirect('/home/findbeer/' + beer_note.bdb_id + '/')
+            return redirect('/home/' + beer_note.bdb_id + '/' + slugify(beer_note.beer_name) + '-by-' + slugify(beer_note.beer_company) + '/')
     else:
         form = BeerNoteForm()
     return render(request, 'home/noteedit.html',context)
@@ -819,6 +820,7 @@ def profilesheet(request, bdb_id):
     context['profile_category'] = profile_category
     profile_attribute = Beer_Attribute.objects.all().prefetch_related('section')
     context['profile_attribute'] = profile_attribute
+    beer_object = Beer.objects.get(bdb_id=bdb_id)
     if request.method == "POST": 
 		rp = request.POST
 		context['rp'] = rp
@@ -829,7 +831,7 @@ def profilesheet(request, bdb_id):
 			attribute_add = Beer_Attribute.objects.get(id=a_id)
 			p_s_a.beer_attribute.add(attribute_add)
 		p_s_a.save()
-		return redirect('/home/findbeer/' + bdb_id + '/')
+		return redirect('/home/' + bdb_id + '/' + slugify(beer_object.beer_name) + '-by-' + slugify(beer_object.beer_company) + '/')
     return render(request, 'home/profilesheet.html', context)
 	
 @login_required	

@@ -8,7 +8,7 @@
 
 <div class="w3-mobile w3-center">
 	<div class="content-base-navyborder topmenu-margin">
-		<div class="w3-padding-bottom w3-padding-top"><a class="topheading" href="/home/findbeer/{{ beer_info.bdb_id }}/">{{ beer_info.beer_name }}</a></div>
+		<div class="w3-padding-bottom w3-padding-top"><a class="topheading" href="/home/{{ beer_info.bdb_id }}/{{ beer_info.beer_name|slugify }}-by-{{ beer_info.beer_company|slugify }}/">{{ beer_info.beer_name }}</a></div>
 		<div class="topcontent" style={% if request.session.is_mobile %}"text-align: left;"{% else %}"text-align: center;"{% endif %}>It is not necessary to save each section individually.  The Save Profile buttons are placed at the end of each section for convenience.</div>
 	</div>
 	<div class={% if request.session.is_mobile %}{% else %}"w3-container"{% endif %}>
@@ -40,6 +40,6 @@
 			{% csrf_token %}
 		</form>
 	</div>
-	<a href="/home/findbeer/{{ beer_info.bdb_id }}/">Back to {{ beer_info.beer_name }}</a>
+	<a href="/home/{{ beer_info.bdb_id }}/{{ beer_info.beer_name|slugify }}-by-{{ beer_info.beer_company|slugify }}/">Back to {{ beer_info.beer_name }}</a>
 </div>
 {% endblock content %}

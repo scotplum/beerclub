@@ -8,7 +8,7 @@
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			<div class="w3-padding-top topheading" style="text-align: center;">Share {{ share_type }} On {{ social_app }}</div>
-			<div class="content-2" style="font-size: 120%;"><b><a href="/home/findbeer/{{ beer.bdb_id }}/">{% if beer_or_brewery == 'Beer' %}{{ note.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a></b></div>
+			<div class="content-2" style="font-size: 120%;"><b><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{% if beer_or_brewery == 'Beer' %}{{ note.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a></b></div>
 		</div>
 	</div>
 	{% if post_response %}
@@ -30,7 +30,7 @@
 	<div>
 		<div class="homebeer">
 			<div class="w3-padding-bottom w3-padding-top content-base">
-				<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/{% if share_type == 'Beer Note' %}findbeer/{{ note.bdb_id }}{% else %}brewery/{{ note.brewery_id }}{% endif %}/">{{ note.beer_name }} <span class="beerstatslabel">{{ note.beer_company }}</span></a></div>
+				<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/{% if share_type == 'Beer Note' %}/{{ note.bdb_id }}/{{ note.beer_name|slugify }}-by-{{ note.beer_company|slugify }}{% else %}brewery/{{ note.brewery_id }}{% endif %}/">{{ note.beer_name }} </a><span class="" style="padding-left: 4px;"><a class="beerstatslabel" href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a></span></div>
 				<div class="content-3-black" style="text-align: left; padding-left: 3%;">{{ note.note }}</div>	
 				<div class="content-1 w3-padding-top w3-small" style="text-align:left;"><b>{{ note.date_added }}</b><span class="w3-right"><a href="/home/{% if share_type == 'Beer Note' %}notes{% else %}brewerynotes{% endif %}/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
 			</div>
