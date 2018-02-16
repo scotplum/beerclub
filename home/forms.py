@@ -1,6 +1,6 @@
 from django import forms 
 from django.forms import ModelForm, inlineformset_factory
-from models import Favorite_Beers, Wanted_Beers, Profile_Sheet, Beer_Attribute
+from models import Favorite_Beers, Wanted_Beers, Profile_Sheet, Beer_Attribute, Beer_User_Image
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 from django.forms.widgets import CheckboxSelectMultiple
@@ -42,3 +42,8 @@ class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ('last_name', 'first_name',  'email',)
+		
+class BeerImageForm(forms.ModelForm):
+	class Meta:
+		model = Beer_User_Image
+		fields = ('description', 'beer_image')

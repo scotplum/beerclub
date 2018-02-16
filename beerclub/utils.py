@@ -5,6 +5,8 @@ from home.models import Beer_Banner, Beer_Score
 from home.forms import findbeerForm
 from club.models import Club, Club_User
 import re
+from PIL import Image, ExifTags
+
 
 def navigation(request):
 	#Build the context for this user, check Beer Banner and assign Club links for navigation
@@ -48,5 +50,4 @@ def beerscore(request, user_object, clubs, bdb_id):
 		club_score_list = [club_name, score['score__avg'], count['score__count'], club_id]
 		club_score.append(club_score_list)
     return club_score
-
 

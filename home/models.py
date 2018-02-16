@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.forms import ModelForm
 from datetime import datetime
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+import os
+from beerclub.modelutils import rotate_image
+
 
 # Create your models here.
 class Beer_Category(models.Model):
@@ -174,5 +179,22 @@ class Beer(models.Model):
 	brewery_image_url	= models.URLField(max_length=250, blank=True)
 	api_update_date		= models.DateTimeField(null=True, blank=True)
 	
-	def __str__(self):
+	def __unicode__(self):
 		return unicode(self.beer_name) + ' | ' + unicode(self.beer_company)
+		
+class Beer_User_Image(models.Model):
+	beer_image 			= models.ImageField(upload_to='beer_image/')
+	description			= models.CharField(max_length=1000, blank=True)
+	date_added			= models.DateTimeField(auto_now_add=True)
+	user				= models.ForeignKey(User, on_delete=models.CASCADE)
+	beer				= models.ForeignKey(Beer, on_delete=models.CASCADE)
+	
+	def __unicode__(self):
+		return unicode(self.user) + ' | ' + unicode(self.beer)
+
+@receiver(post_save, sender=Beer_User_Image, dispatch_uid="rotate_beer_user_image")
+def update_image(sender, instance, **kwargs):
+	if instance.beer_image:
+		BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+		fullpath = BASE_DIR + instance.beer_image.url
+		rotate_image(fullpath)

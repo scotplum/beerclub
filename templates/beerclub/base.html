@@ -27,7 +27,7 @@
 				{% if request.user.is_authenticated %}
 				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity">We are thrilled you joined the beer crowd</span></div>
 				{% else %}
-				<div class="content-description-top w3-margin-bottom"><span class="w3-animate-opacity"><a href="/accounts/signup/">Come join the beer crowd!</a></span></div>				
+				<div class="content-description-top w3-margin-bottom w3-margin-top"><span class="w3-animate-opacity">Come <a href="/accounts/signup/"><u>join</u></a> the beer crowd or <a href="/accounts/login/"><u>sign in</u></a>.</span></div>				
 				{% endif %}
 				{% block topbar %}
 				{% if request.user.is_authenticated %}
