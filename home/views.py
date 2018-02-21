@@ -1016,3 +1016,7 @@ def editbeerimage(request, bdb_id, slug, id):
 				update_image.save()
 			return redirect('/home/' + bdb_id + '/' + slug + '/')	
     return render(request, 'home/editbeerimage.html',context)
+	
+def beer_redirect(request, bdb_id):
+    beer = Beer.objects.get(bdb_id=bdb_id)
+    return redirect('/home/' + bdb_id + '/' + slugify(beer.beer_name) + '-by-' + slugify(beer.beer_company) + '/')
