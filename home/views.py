@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm, Beer, Beer_User_Image
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
-from forms import findbeerForm, ProfileSheetForm, ProfileForm, BeerImageForm
+from forms import findbeerForm, ProfileSheetForm, ProfileForm, BeerImageForm, BeerImageEditForm
 from django.utils import timezone
 import requests, os, tweepy
 from django.forms import inlineformset_factory
@@ -17,6 +17,7 @@ from allauth.socialaccount.models import SocialToken, SocialApp
 from django.core.urlresolvers import resolve
 from django.template.defaultfilters import slugify
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 
@@ -345,6 +346,8 @@ def beer(request, bdb_id, slug):
 			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/')
 		elif 'event' in rp:
 			return redirect('/home/findbeer/' + bdb_id + '/event/')
+		elif 'beerimage' in rp:
+			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/addbeerimage/')
 		else:
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
@@ -433,10 +436,10 @@ def beerevent(request, bdb_id):
     context = nav['context']
     urlbeer = 'http://api.brewerydb.com/v2/beer/' + bdb_id + '?withBreweries=Y&key=' + secret
     now = timezone.now()
-    events = Event.objects.filter(event_date__gte=timezone.now())
+    events = Event.objects.filter(event_date__gte=(timezone.now() - timezone.timedelta(days=1)))
     context['events'] = events
     user_clubs = Club_User.objects.filter(user=user_object).values_list('club')
-    club_events = Club_Event.objects.filter(club__in=user_clubs).filter(event__is_active=True).filter(event__event_date__gte=timezone.now()).select_related()
+    club_events = Club_Event.objects.filter(club__in=user_clubs).filter(event__is_active=True).filter(event__event_date__gte=(timezone.now() - timezone.timedelta(days=1))).select_related()
     context['club_events'] = club_events
 	#Retrieve Beer Using ID From BreweryDB
     
@@ -858,18 +861,29 @@ def share(request, id, social_id):
     if current_url == 'noteshare':
 		note = Beer_Note.objects.get(id=id)
 		context['note'] = note
-		beer_object = Beer.objects.filter(bdb_id=note.bdb_id)
-		context['beer'] = Beer.objects.get(bdb_id=note.bdb_id)
-		context['share_type'] = 'Beer Note'
-		context['beer_or_brewery'] = 'Beer'
+		if note.user == user_object:
+			beer_object = Beer.objects.filter(bdb_id=note.bdb_id)
+			context['beer'] = Beer.objects.get(bdb_id=note.bdb_id)
+			context['share_type'] = 'Beer Note'
+			context['beer_or_brewery'] = 'Beer'
+		else:
+			raise PermissionDenied
     elif current_url == 'brewerynoteshare':
 		note = Brewery_Note.objects.get(id=id)
 		context['note'] = note
-		beer = Beer.objects.filter(brewery_id=note.brewery_id).values('beer_company', 'brewery_image_url')
-		for brewery in beer:
-			context['beer'] = brewery
-		context['share_type'] = 'Brewery Note'
-		context['beer_or_brewery'] = 'Brewery'
+		if note.user == user_object:
+			beer = Beer.objects.filter(brewery_id=note.brewery_id).values('beer_company', 'brewery_image_url')
+			for brewery in beer:
+				context['beer'] = brewery
+			context['share_type'] = 'Brewery Note'
+			context['beer_or_brewery'] = 'Brewery'
+		else:
+			raise PermissionDenied
+    elif current_url == 'beershare':
+		beer_object = Beer.objects.get(bdb_id=id)
+		context['beer'] = beer_object
+		context['share_type'] = 'Beer'
+		context['beer_or_brewery'] = 'Beer'
     if beer_object:
 		beer_image_check = Beer_User_Image.objects.filter(beer=beer_object, user=user_object).exists()
 		context['beer_image_check'] = beer_image_check
@@ -973,3 +987,32 @@ def addbeerimage(request, bdb_id, slug):
 		form = BeerImageForm()
 		context['form'] = form
     return render(request, 'home/addbeerimage.html',context)
+	
+@login_required
+def editbeerimage(request, bdb_id, slug, id):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    beer = Beer.objects.get(bdb_id=bdb_id)
+    context['beer'] = beer
+    image_instance = Beer_User_Image.objects.get(id=id)
+    context['image'] = image_instance
+    form = BeerImageEditForm(instance=image_instance)
+    context['form'] = form
+    if request.method == 'POST':
+        form = BeerImageEditForm(request.POST)
+        description = request.POST.get("description")
+        is_active = request.POST.get('is_active', '') == 'on'
+        update_image = image_instance
+        if form.is_valid():
+			if is_active:
+				update_image.description = description
+				update_image.is_active = True
+				update_image.save()
+			else:
+				update_image.description = description
+				update_image.is_active = False
+				update_image.save()
+			return redirect('/home/' + bdb_id + '/' + slug + '/')	
+    return render(request, 'home/editbeerimage.html',context)

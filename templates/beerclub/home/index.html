@@ -129,9 +129,11 @@
 					{% endfor %}					
 					</div>
 					<div class="content-wrapper w3-margin-0"><div class="content-3-black" style="font-size: 90%;">{{ note.note }}</div></div>
-					<div class=" w3-margin-bottom" style="padding-bottom: 2px;">
+
+<!--				<div class=" w3-margin-bottom" style="padding-bottom: 2px;">
 						<a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter w3-left" style="font-size: 110%; margin-left: 3%; margin-right: 3%; margin-top: 2px;" aria-hidden="true"></i></a>
 					</div>
+-->
 				</div>
 				{% endfor %}
 				{% else %}
@@ -146,7 +148,7 @@
 				{% if beer_rating_check %}
 				{% for rating in beer_rating %}
 				<div class="content-base">			
-					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><a href="/home/{{ rating.bdb_id }}/{{ rating.beer_name|slugify }}-by-{{ rating.beer_company|slugify }}/" style="{% if rating.beer_name|length > 25 and request.session.is_mobile %}font-size: 85%;{% endif %}">{{ rating.beer_name }}</a> <span class="content-3"><a href="/home/brewery/{{ rating.brewery_id }}/" style="color: tomato;">{{ rating.beer_company }}</a></span>
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text w3-padding-bottom{% endif %}"><a href="/home/{{ rating.bdb_id }}/{{ rating.beer_name|slugify }}-by-{{ rating.beer_company|slugify }}/" style="{% if rating.beer_name|length > 25 and request.session.is_mobile %}font-size: 85%;{% endif %}">{{ rating.beer_name }}</a> <span class="content-3"><a href="/home/brewery/{{ rating.brewery_id }}/" style="color: tomato;">{{ rating.beer_company }}</a></span>
 						{% for trophy in trophy_beers %}
 						{% if rating.bdb_id in trophy and 23 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 						{% if rating.bdb_id in trophy and 96 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
@@ -155,7 +157,7 @@
 						{% if rating.bdb_id in trophy and 246 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
 						{% if rating.bdb_id in trophy and 293 in trophy %}<span><svg class="{% if request.session.is_mobile %}icon-m{% else %}icon-home{% endif %}"><use xlink:href="#whale" /></svg></span>{% endif %}	
 						{% endfor %}		
-				<form name="ratingForm" method="Post">
+				<form name="ratingForm" method="Post" class="{% if request.session.is_mobile %}w3-padding-top{% endif %}">
 					<button class="removesubmit" title="1" value="1_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 					<button class="removesubmit" title="2" value="2_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 					<button class="removesubmit" title="3" value="3_{{ rating.bdb_id }}" type="submit" name="assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
@@ -189,9 +191,10 @@
 					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}" style="text-align: left;"><span class=""><a href="/home/brewery/{{ note.brewery_id }}/" style="color: tomato;">{{ note.beer_company }}</a></span>					
 					</div>
 					<div class="content-wrapper w3-margin-0"><div class="content-3-black" style="font-size: 90%;">{{ note.note }}</div></div>
-					<div class=" w3-margin-bottom" style="padding-bottom: 2px;">			
+<!--				<div class=" w3-margin-bottom" style="padding-bottom: 2px;">			
 						<a href="/home/brewerynotes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter w3-left" style="font-size: 110%; margin-left: 3%; margin-right: 3%; margin-top: 2px;" aria-hidden="true"></i></a>
 					</div>
+-->
 				</div>
 				{% endfor %}
 				{% else %}
@@ -206,8 +209,8 @@
 				{% if brewery_rating_check %}
 				{% for rating in brewery_rating %}
 				<div class="content-base">			
-					<div class="content-1 {% if request.session.is_mobile %}mobile-text{% endif %}"><span class=""><a href="/home/brewery/{{ rating.brewery_id }}/" style="color: tomato;">{{ rating.beer_company }}</a></span>		
-				<form name="ratingForm" method="Post">
+					<div class="content-1 {% if request.session.is_mobile %}mobile-text w3-padding-bottom{% endif %}"><span class=""><a href="/home/brewery/{{ rating.brewery_id }}/" style="color: tomato;">{{ rating.beer_company }}</a></span>		
+				<form name="ratingForm" method="Post" class="{% if request.session.is_mobile %}w3-padding-top{% endif %}">
 					<button class="removesubmit" title="1" value="1_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 0 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 					<button class="removesubmit" title="2" value="2_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 1 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 					<button class="removesubmit" title="3" value="3_{{ rating.brewery_id }}" type="submit" name="brewery_assignratings">{% if rating.score > 2 %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>

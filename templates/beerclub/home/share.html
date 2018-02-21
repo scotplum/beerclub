@@ -8,7 +8,7 @@
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
 			<div class="w3-padding-top topheading" style="text-align: center;">Share {{ share_type }} On {{ social_app }}</div>
-			<div class="content-2" style="font-size: 120%;"><b><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{% if beer_or_brewery == 'Beer' %}{{ note.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a></b></div>
+			<div class="content-2" style="font-size: 120%;"><b><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{% if beer_or_brewery == 'Beer' %}{{ beer.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ beer.brewery_id }}/">{{ beer.beer_company }}</a></b></div>
 		</div>
 	</div>
 	{% if post_response %}
@@ -48,10 +48,12 @@
 				</div>
 				{% if beer_image_check %}
 				{% for image in beer_image %}
+				{% if image.is_active %}
 				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
 					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 400px;" src="{{ image.beer_image.url }}"></div>
 					<input type="checkbox" value="{{ image.beer_image.url }}" name="beer_user_image_url" checked></input>
 				</div>
+				{% endif %}
 				{% endfor %}
 				{% endif %}	
 				{% if beer.beer_image_url %}
@@ -84,7 +86,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
 $(document).ready(function () {
-    $('textarea').val('{% if beer_or_brewery == 'Beer' %}{{ note.beer_name }} by {% endif %}{{ note.beer_company }}: {{ note.note }} #thebeercrowd');
+    $('textarea').val('{% if beer_or_brewery == 'Beer' %}{{ beer.beer_name }} by {% endif %}{{ beer.beer_company }}: {{ note.note }} #thebeercrowd');
     $('textarea').on("load propertychange keyup input paste",
     function () {     
         var limit = $(this).data("limit");     

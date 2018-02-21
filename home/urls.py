@@ -39,8 +39,12 @@ urlpatterns = [
 	url(r'^tasters/', views.tasters, name='tasters'),
 	#ex: /ID9EJ3/amber-by-abita/addbeerimage/
 	url(r'^(?P<bdb_id>[A-Za-z0-9]+)/(?P<slug>[-\w\d]+)/addbeerimage/$', views.addbeerimage, name='addbeerimage'),	
+	#ex: /ID9EJ3/amber-by-abita/editbeerimage/1/
+	url(r'^(?P<bdb_id>[A-Za-z0-9]+)/(?P<slug>[-\w\d]+)/editbeerimage/(?P<id>[0-9]+)/$', views.editbeerimage, name='editbeerimage'),
 	#ex: /ID9EJ3/amber-by-abita/
 	url(r'^(?P<bdb_id>[A-Za-z0-9]+)/(?P<slug>[-\w\d]+)/$', views.beer, name='beer'),
+	#ex: /ID9EJ3/amber-by-abita/share/
+	url(r'^(?P<id>[A-Za-z0-9]+)/([-\w\d]+)/(?P<social_id>[0-9]+)/share/$', views.share, name='beershare'),
 	# ex: /
 	url(r'^$', views.index, name='home'),
 ]

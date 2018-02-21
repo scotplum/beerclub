@@ -879,6 +879,12 @@ input[type=submit]:hover {
 	background-color: tomato;
 }
 
+input[type=file]{
+	display: inline-block;
+	margin-right: 50%;
+	border: solid 2px tomato;
+}
+
 .mobile-text {
 	font-size: 85%;
 	text-align: left;

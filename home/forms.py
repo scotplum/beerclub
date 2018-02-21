@@ -47,3 +47,8 @@ class BeerImageForm(forms.ModelForm):
 	class Meta:
 		model = Beer_User_Image
 		fields = ('description', 'beer_image')
+		
+class BeerImageEditForm(forms.ModelForm):
+	class Meta:
+		model = Beer_User_Image
+		fields = ('description', 'is_active')

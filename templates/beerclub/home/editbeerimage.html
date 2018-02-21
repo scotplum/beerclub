@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+
+
+<div class="w3-mobile w3-center">
+	<div class="w3-center">
+		<div class="content-base-navyborder topmenu-margin">
+			<div class="w3-padding-bottom w3-padding-top topheading">{{ beer.beer_name }} by {{ beer.beer_company }}</div>			
+			<div class="content-2 w3-small"><b></b></div>
+		</div>
+	</div>
+	<div class="w3-padding-top" style="background-color: white;"><a href="{{ image.beer_image.url }}"><img src="{{ image.beer_image.url }}" style="width: 100%; max-width: 250px; border: 1px solid #1569C7" alt="Beer Image" /></a></div>
+	<h3 class="w3-center beerheading">Edit Image Details</h3>
+	<form method="post" action="" class="w3-padding-bottom w3-container" id="addbeerimage" enctype="multipart/form-data">
+				<div class="beerstatslabel w3-padding-bottom" style="font-size: 120%; text-align: left; margin-left: 1.5%;margin-top: 1%;">Description <span style="font-size: 70%;">(can be blank)</span></div>
+				<div class="w3-padding-top" style="margin: 0 20px 10px 20px;">{{ form.description }}</div>
+				<div class="beerstatslabel" style="font-size: 120%;">Image is Active <span style="font-size: 70%; color: #1569C7;"><br>uncheck and update to remove image</span></div>
+				<div class="w3-padding-top" style="">{{ form.is_active }}</div>
+				{% csrf_token %}
+		<span class=""><button class="w3-margin-top" type="submit">Update</button></span>
+	</form>		
+	<div style="padding-top: 20px;"><a href="/home/">Return Home</a></div>
+</div>
+
+{% endblock content %}

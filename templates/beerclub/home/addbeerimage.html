@@ -13,16 +13,14 @@
 		</div>
 	</div>
 	<h3 class="w3-center beerheading">Add Image</h3>
-		<form method="post" action="" class="w3-padding-bottom" id="addbeerimage" enctype="multipart/form-data">
-			<div class="homebeer">
-				<div class="w3-center content-base" style="text-align: center;">{{ form.beer_image }}</div>
-				<div class="w3-padding-top" style="">{{ form.description }}</div>
-				<div class="beerstatslabel w3-padding-bottom" style="font-size: 120%;">Image Description (can be blank)</div>
+	<form method="post" action="" class="w3-padding-bottom w3-container" id="addbeerimage" enctype="multipart/form-data">
+				<div style="padding-top: 10px;">{{ form.beer_image }}</div>
+				<div class="w3-padding-top" style="margin: 0 20px 0 20px;">{{ form.description }}</div>
+				<div class="beerstatslabel w3-padding-bottom" style="font-size: 120%;">Description <span style="font-size: 70%;">(can be blank)</span></div>
 				{% csrf_token %}
 				<br>
-			</div>
-			<button class="w3-margin-top" type="submit">Submit</button>
-		</form>		
+		<button class="w3-margin-top" type="submit">Submit</button>
+	</form>		
 	<div><a href="/home/">Return Home</a></div>
 </div>
 

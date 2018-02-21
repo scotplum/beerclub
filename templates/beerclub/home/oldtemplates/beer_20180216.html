@@ -6,14 +6,7 @@
 {% load home_extras %}
 <div class="w3-mobile w3-center">
 	<div class="content-base topmenu-margin" style="{% if user.is_authenticated == False %}border-top: 1.5px solid #d9e9fb;{% endif %}">
-		<div class="topheading">{{ data.name }} {% if request.session.is_mobile == False %}<span style="color: #0c3c73">by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.nameShortDisplay }}</a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.name }}</a>{% endif %}{% endif %}</div>
-		{% if data.labels.medium %}
-		<div class="" style="padding-top: 2px; padding-bottom: 2px;">
-			<div class="" style="max-height: 200px; overflow: hidden;">
-					<div style="margin-bottom: -15px; margin-top: -15px;"><img class="" style="width: 100%; max-width: 150px;" src="{{ data.labels.medium }}" /></div>
-			</div>
-		</div>
-		{% endif %}	
+		<div class="topheading">{{ data.name }} <span style="color: #0c3c73"><br>by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.nameShortDisplay }}</a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.name }}</a>{% endif %}</div>
 			{% if user.is_authenticated %}
 			<form name="ratingForm" method="Post">
 				{% if rating.is_active %}
@@ -92,15 +85,27 @@
 	</div>
 		{% endif %}
 	<div class="w3-padding-top" style="text-align: center;">
-		<span style=""><a href="1/share/" title="Tweet Beer"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span>
+		<span style=""><a href="" title="Tweet Beer"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span>
 	</div> 
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left" style="{% if request.session.is_mobile == False %}padding-left: .5%;{% endif %}">
 			{% if data.name %}
 			<h3 class="beerheading">{{ data.name }}
+				<span><a class="w3-right managetool" href='addbeerimage/' style="text-decoration: none;"><i class="fa fa-camera" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool" title="Add a beer image"><i class="fa fa-camera" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
 			</h3>
 			{% endif %}
 			<div class="homebeer">
+				{% if data.labels.medium %}
+				<div class="content-base w3-padding" style="background-color: white; max-height: 250px; overflow: hidden;"><div style="margin-bottom: -20px; margin-top: -20px;"><img class="" style="width: 100%; max-width: 250px;" src="{{ data.labels.medium }}" /></div></div>
+				{% endif %}	
+				{% if beer_image_check %}
+				<div class="">
+				{% for image in beer_image %}
+				<div class="content-base w3-padding-bottom" style="background-color: white;"><a href="{{ image.beer_image.url }}"><img src="{{ image.beer_image.url }}" style="width: 100%; max-width: 250px; border: 1px solid #1569C7" alt="Beer Image" /></a></div>
+				{% endfor %}
+				</div>
+				{% endif %}
 				{% if category.name %}
 				<div class="content-base"><span class="beerstatslabel">Category </span><span class="beerstatsvalue">{{ category.name }}</span></div>
 				{% endif %}
@@ -138,14 +143,44 @@
 				<div class="content-base"><span class="beerstatslabel">Yeast </span><span class="beerstatsvalue">{% for i in data.ingredients.yeast %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></div>
 				{% endif %}
 			</div>
-			<h3 class="beerheading">Scores</h3>
-			<div class="homebeer">
-				<div class="content-base"><span class="beerstatslabel">My Score </span><span class="beerstatsvalue">{% if rating.score and rating.is_active %}{{ rating.score }}{% else %}None{% endif %}</span></div>
-				<div class="content-base"><span class="beerstatslabel">The Beer Crowd </span><span class="beerstatsvalue">{% if beercrowd_score %}{{ beercrowd_score|floatformat:2 }} ({{ beercrowd_count }}){% else %}None (0){% endif %}</span></div>
-				{% for crowdscore in club_score %}<div class="content-base"><span class="beerstatslabel"><a style="color: tomato;" href="/club/{{ crowdscore.3 }}/">{{ crowdscore.0 }}</a> </span><span class="beerstatsvalue">{% if crowdscore.2 > 0 %}<a href="/home/findbeer/{{ bdb_id }}/{{ crowdscore.3 }}/">{% endif %}{{ crowdscore.1|floatformat:2 }} ({{ crowdscore.2 }}){% if crowdscore.2 > 0 %}</a>{% endif %}</span></div>{% endfor %}
+		</div>
+		<div class="w3-cell w3-half w3-right" style="{% if request.session.is_mobile == False %}padding-right: .5%;{% endif %}">
+			<div>
+				{% if brewery.nameShortDisplay %}
+				<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/"><u>{{ brewery.nameShortDisplay }}</u></a></h3>
+				{% else %}
+				<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/"><u>{{ brewery.name }}</u></a></h3>
+				{% endif %}
+				<div class="homebeer">
+					{% if brewery_image_url %}
+					<div class="content-base w3-padding" style="background-color: white;"><img class="" style="width: 100%; max-width: 600px;" src="{{ brewery_image_url }}"></div>
+					{% endif %}	
+					{% if brewery.description %}
+					{% if brewery.description|length < 100 %}
+					<div class="content-base-nobold topcontent" style="text-align: center; font-size: 90%;">{{ brewery.description }}</div>
+					{% else %}
+					<div class="content-base-nobold topcontent" style="text-align: left; font-size: 90%;">{{ brewery.description }}</div>
+					{% endif %}
+					{% endif %}
+					<div class="">
+						{% if brewery.brandClassification %}
+						<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.brandClassification|title }}</span></div>
+						{% endif %}
+						{% if brewery.established %}
+						<div class="content-base"><span class="beerstatslabel">Established </span><span class="beerstatsvalue">{{ brewery.established }}</span></div>
+						{% endif %}
+						{% if region %}
+						<div class="content-base"><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ region }}</span></div>
+						{% endif %}
+						{% if brewery.website %}
+						<div class="content-base"><span class="beerstatsvalue"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
+						{% endif %}
+					</div>
+				</div>
 			</div>
-			<h3 class="beerheading w3-padding-left"><a class="managetool w3-margin-left" style="" href="{{ urlprofilesheet }}">Your Profile</a>
-			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-plus" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+			<div class="" style="{% if request.session.is_mobile == False %}padding-left: .5%;{% endif %}">
+			<h3 class="beerheading w3-padding-left"><a class="managetool w3-margin-left" style="" href="{{ urlprofilesheet }}"><u>Your Profile</u></a>
+			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 			</h3>
 			{% if beer_attribute_check == False %}
 			<div class="homebeer">
@@ -165,49 +200,38 @@
 			</div>
 			{% endif %}
 		</div>
-		<div class="w3-cell w3-half w3-right" style="{% if request.session.is_mobile == False %}padding-right: .5%;{% endif %}">			
-			{% if brewery.nameShortDisplay %}
-			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/"><u>{{ brewery.nameShortDisplay }}</u></a></h3>
-			{% else %}
-			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/"><u>{{ brewery.name }}</u></a></h3>
-			{% endif %}
-			<div class="homebeer">
-				{% if brewery.description %}
-				{% if brewery.description|length < 100 %}
-				<div class="content-base-nobold topcontent" style="text-align: center; font-size: 90%;">{{ brewery.description }}</div>
-				{% else %}
-				<div class="content-base-nobold topcontent" style="text-align: left; font-size: 90%;">{{ brewery.description }}</div>
-				{% endif %}
-				{% endif %}
-				<div class="">
-					{% if brewery.brandClassification %}
-					<div class="content-base"><span class="beerstatslabel">Classification </span><span class="beerstatsvalue">{{ brewery.brandClassification|title }}</span></div>
-					{% endif %}
-					{% if brewery.established %}
-					<div class="content-base"><span class="beerstatslabel">Established </span><span class="beerstatsvalue">{{ brewery.established }}</span></div>
-					{% endif %}
-					{% if region %}
-					<div class="content-base"><span class="beerstatslabel">Region </span><span class="beerstatsvalue">{{ region }}</span></div>
-					{% endif %}
-					{% if brewery.website %}
-					<div class="content-base"><span class="beerstatsvalue"><a href="{{ brewery.website }}">{{ brewery.website }}</a></span></div>
-					{% endif %}
-				</div>
-			</div>
-			<h3 class="beerheading"><a class="managetool w3-margin-left" href="addbeerimage/">Your Images</A>
-				<span><a class="w3-right managetool" href='addbeerimage/' style="text-decoration: none;"><i class="fa fa-plus" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
-				<span><a class="w3-left managetool" title="Add a beer image"><i class="fa fa-plus" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+		</div>
+	</div>
+	<div class="w3-container">
+		<div class="w3-cell w3-half w3-left" style="{% if request.session.is_mobile == False %}padding-left: .5%;{% endif %}">
+			<h3 class="beerheading w3-padding-left"><a class="managetool w3-margin-left" style="" href="{{ urlprofilesheet }}"><u>Your Profile</u></a>
+			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 			</h3>
-			<div class="homebeer">	
-				{% if beer_image_check %}
-				{% for image in beer_image %}
-				{% if image.is_active %}
-				<div class="content-base w3-padding-bottom" style="background-color: white;"><a href="editbeerimage/{{ image.id }}/"><img src="{{ image.beer_image.url }}" style="width: 100%; max-width: 250px; border: 1px solid #1569C7" alt="Beer Image" /></a></div>
-				{% endif %}
+			{% if beer_attribute_check == False %}
+			<div class="homebeer">
+				<div class="content-base" style="font-size: 80%;"><a href="{{ urlprofilesheet }}">Add Profile</a></div>
+			</div>
+			{% else %}
+			<div class="homebeer">
+			{% regroup ps_attribute_objects by section as attribute_section %}
+			{% for attribute in attribute_section %}
+				<div class="content-base">
+				<span class="beerstatslabel">{{ attribute.grouper.section }} {% if attribute.grouper.category.id == 3 %}Aroma{% elif attribute.grouper.category.id == 4 %}Taste{% endif %}</span>
+				{% for a in attribute.list %}
+				<span class="beerstatsvalue">{{ a.attribute }}{% if not forloop.last %}, {% endif %}</span>
 				{% endfor %}
-				{% else %}
-				<div class="content-base" style="font-size: 80%;"><a href="addbeerimage/">Add Image</a></div>
-				{% endif %}
+				</div>
+			{% endfor %}
+			</div>
+			{% endif %}
+		</div>
+		<div class="w3-cell w3-half w3-right" style="{% if request.session.is_mobile == False %}padding-right: .5%;{% endif %}">
+			<h3 class="beerheading">Scores
+			</h3>
+			<div class="homebeer">
+			<div class="content-base"><span class="beerstatslabel">My Score </span><span class="beerstatsvalue">{% if rating.score and rating.is_active %}{{ rating.score }}{% else %}None{% endif %}</span></div>
+			<div class="content-base"><span class="beerstatslabel">The Beer Crowd </span><span class="beerstatsvalue">{% if beercrowd_score %}{{ beercrowd_score|floatformat:2 }} ({{ beercrowd_count }}){% else %}None (0){% endif %}</span></div>
+			{% for crowdscore in club_score %}<div class="content-base"><span class="beerstatslabel"><a style="color: tomato;" href="/club/{{ crowdscore.3 }}/">{{ crowdscore.0 }}</a> </span><span class="beerstatsvalue">{% if crowdscore.2 > 0 %}<a href="/home/findbeer/{{ bdb_id }}/{{ crowdscore.3 }}/">{% endif %}{{ crowdscore.1|floatformat:2 }} ({{ crowdscore.2 }}){% if crowdscore.2 > 0 %}</a>{% endif %}</span></div>{% endfor %}
 			</div>
 		</div>
 	</div>
