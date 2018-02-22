@@ -15,9 +15,9 @@
 		<div class="w3-center homebeer">
 		{% regroup public_crowds by state as crowd_state %} 
 		{% for crowd in crowd_state %}
-			<div class="state_group" {% if request.session.is_mobile %}style="text-align: left;" {% else %}style="text-align: left;"{% endif %}>{{ state_index|key:crowd.grouper }}</div>
+			<div class="state_group w3-padding-bottom w3-margin-bottom" {% if request.session.is_mobile %}style="text-align: left;" {% else %}style="text-align: left;"{% endif %}>{{ state_index|key:crowd.grouper }}</div>
 			{% for club in crowd.list %}
-				<div class="content-base {% if request.session.is_mobile %}w3-small{% endif %}" style="{% if request.session.is_mobile %}text-align: left; padding-left: 4px;{% endif %} padding-top: 2px; padding-bottom: 2px;"><a class="" href="/club/{{ club.id }}/">{{ club.name }}</a> <span class="beerstatslabel">{% if club.state == 'ZZ' %}{% else %}{{ club.city }}{% endif %}</span></div>
+				<div class="w3-padding-bottom content-base {% if request.session.is_mobile %}w3-small{% endif %}" style="{% if request.session.is_mobile %}text-align: left; padding-left: 4px;{% endif %} padding-top: 2px; padding-bottom: 2px;"><a class="" href="/club/{{ club.id }}/">{{ club.name }}</a> <span class="beerstatslabel">{% if club.state == 'ZZ' %}{% else %}{{ club.city }}{% endif %}</span></div>
 			{% endfor %}
 		{% endfor %}
 		</div><br><br>

@@ -13,10 +13,7 @@
 	</div>
 	{% if post_response %}
 	{% if post_response == 'Successful' %}
-	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Successful</h3>
-	<div class="homebeer">
-		<div class="w3-padding-bottom w3-padding-top content-base">Your {{ share_type }} has been shared on {{ social_app }}</div>
-	</div>
+	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Successful</h3><br>
 	<a href="../../">Return to {{ share_type }}</a>
 	{% else %}
 	<h3 class="w3-center beerheading">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Unsuccessful</h3>

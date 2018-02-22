@@ -352,34 +352,40 @@ def beer(request, bdb_id, slug):
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
 
-@login_required
 def brewery(request, brew_id):
     context = {}
-    nav = navigation(request)
-    user_object = nav['user_object']
-    context = nav['context']
+    anon_user = request.user.is_anonymous()
+    context['anon_user'] = anon_user
+    if anon_user:
+		user_object = ''
+    else:
+		nav = navigation(request)
+		user_object = nav['user_object']
+		context = nav['context']    
     urlbrewery = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/?withLocations=Y&withSocialAccounts=Y&key=' + secret
     urlbrewery_beers = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/beers?key=' + secret
     brewery = requests.get(urlbrewery).json()
     context['brewery'] = brewery
     brewery_beers = requests.get(urlbrewery_beers).json()
     context['brewery_beers'] = brewery_beers
-    brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id).exists()
-    active_brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id, is_active=True).exists()
-    if brewery_score_check:
-		rating = Brewery_Score.objects.get(user=user_object, brewery_id=brew_id)
-		if active_brewery_score_check:
-			context['rating'] = rating
+    if not anon_user:
+		brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id).exists()
+		active_brewery_score_check = Brewery_Score.objects.filter(user=user_object, brewery_id=brew_id, is_active=True).exists()
+		if brewery_score_check:
+			rating = Brewery_Score.objects.get(user=user_object, brewery_id=brew_id)
+			if active_brewery_score_check:
+				context['rating'] = rating
+			else:
+				context['rating'] = 0
 		else:
 			context['rating'] = 0
-    else:
-		context['rating'] = 0
     data = brewery['data']
     beer_company = data['nameShortDisplay']
-    brewery_note_check = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object).exists()
-    context['brewery_notes'] = {}
-    if brewery_note_check:
-		context['brewery_notes'] = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object)
+    if not anon_user:
+		brewery_note_check = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object).exists()
+		context['brewery_notes'] = {}
+		if brewery_note_check:
+			context['brewery_notes'] = Brewery_Note.objects.filter(brewery_id=brew_id).filter(user=user_object)
     if request.method == "POST": 
 		rp = request.POST
 		if 'assignratings' in rp:
@@ -919,6 +925,7 @@ def share(request, id, social_id):
 		#Checks if local beer user file exists for sending to Social platform
 		if 'beer_user_image_url' in rp:
 			beer_user_filename = True
+			beer_user_image_url = request.POST.getlist("beer_user_image_url")
     #Twitter API
 		if social_app.name == 'Twitter':
 			if user_token_check:
@@ -932,8 +939,8 @@ def share(request, id, social_id):
 				filenames = []
 				file_count = 0
 				if beer_user_filename:
-					for i in beer_image:
-						filenames.append(settings.MEDIA_ROOT + '/beer_image/' + os.path.basename(i.beer_image.url))
+					for image in beer_user_image_url:
+						filenames.append(settings.MEDIA_ROOT + '/beer_image/' + os.path.basename(str(image)))
 						file_count += 1
 				if beer_filename:
 					filenames.append(beer_filename)
@@ -943,24 +950,28 @@ def share(request, id, social_id):
 					file_count += 1
 				context['filenames'] = filenames
 				context['file_count'] = file_count
-				if file_count > 0:
-					# upload images and get media_ids
-					media_ids = []
-					for filename in filenames:
-						res = api.media_upload(filename)
-						media_ids.append(res.media_id)
-					#tweet multiple images
-					try:
-						api.update_status(status=status, media_ids=media_ids)
-						context['post_response'] = 'Successful'
-					except tweepy.TweepError as e:
-						context['post_response'] = e.args[0][0]['message']
+				if file_count < 5:
+					if file_count > 0:
+						# upload images and get media_ids
+						media_ids = []
+						for filename in filenames:
+							res = api.media_upload(filename)
+							media_ids.append(res.media_id)
+						#tweet multiple images
+						try:
+							api.update_status(status=status, media_ids=media_ids)
+							context['post_response'] = 'Successful'
+						except tweepy.TweepError as e:
+							context['post_response'] = e.args[0][0]['message']
+					else:
+						try:
+							api.update_status(status=status)
+							context['post_response'] = 'Successful'
+						except tweepy.TweepError as e:
+							context['post_response'] = e.args[0][0]['message']
 				else:
-					try:
-						api.update_status(status=status)
-						context['post_response'] = 'Successful'
-					except tweepy.TweepError as e:
-						context['post_response'] = e.args[0][0]['message']
+					context['post_response'] = 'You may only select up to 4 images at a time.'
+					context['file_count'] = file_count
 				if beer_filename:
 					os.remove(beer_filename)
 				if brewery_filename:

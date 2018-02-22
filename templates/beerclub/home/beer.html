@@ -148,9 +148,6 @@
 			<span><a class="w3-right managetool" href='{{ urlprofilesheet }}' style="text-decoration: none;"><i class="fa fa-plus" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
 			</h3>
 			{% if beer_attribute_check == False %}
-			<div class="homebeer">
-				<div class="content-base" style="font-size: 80%;"><a href="{{ urlprofilesheet }}">Add Profile</a></div>
-			</div>
 			{% else %}
 			<div class="homebeer">
 			{% regroup ps_attribute_objects by section as attribute_section %}
@@ -205,8 +202,6 @@
 				<div class="content-base w3-padding-bottom" style="background-color: white;"><a href="editbeerimage/{{ image.id }}/"><img src="{{ image.beer_image.url }}" style="width: 100%; max-width: 250px; border: 1px solid #1569C7" alt="Beer Image" /></a></div>
 				{% endif %}
 				{% endfor %}
-				{% else %}
-				<div class="content-base" style="font-size: 80%;"><a href="addbeerimage/">Add Image</a></div>
 				{% endif %}
 			</div>
 		</div>

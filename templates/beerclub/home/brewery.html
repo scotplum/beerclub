@@ -6,8 +6,9 @@
 {% load crispy_forms_tags %}
 {% load home_extras %}
 <div class="w3-mobile w3-center">
-	<div class="content-base topmenu-margin">
+	<div class="content-base topmenu-margin" style="{% if user.is_authenticated == False %}border-top: 1.5px solid #d9e9fb;{% endif %}">
 		<div class="topheading">{{ brewery.data.name }}</div>
+		{% if user.is_authenticated %}
 		<form name="ratingForm" method="Post">
 			{% if rating.is_active %}
 			<button class="removesubmit" style="{% if request.session.is_mobile == False %}vertical-align: 7.25%;{% else %}vertical-align: -1px;{% endif %}color: #1569C7; background-color: snow; padding-right: 7px; {% if request.session.is_mobile %}font-size: 150%;{% else %}font-size: 105%;{% endif %}" title="Remove Score" value="inactivate" type="submit" name="assignratings"><i class="fa fa-ban" aria-hidden="true"></i></button>
@@ -24,6 +25,7 @@
 			<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 			{% csrf_token %}
 		</form>
+		{% endif %}
 		{% if brewery.data.description %}
 		{% if brewery.data.description|length < 225 %}
 		<div class="w3-padding-left w3-padding-right w3-margin-bottom topcontent" style="text-align: center; font-size: 100%;">{{ brewery.data.description }}</div>
@@ -107,6 +109,7 @@
 			</div>
 		</div>
 	</div>
+	{% if user.is_authenticated %}
 	<div class="w3-padding-top w3-padding-bottom w3-margin-left w3-margin-right">
 		<h3 class="beerheading">Notes</h3>
 		<div class="homebeer">
@@ -127,5 +130,6 @@
 			</form>
 		</div>
 	</div>	
+	{% endif %}
 </div>
 {% endblock content %}
