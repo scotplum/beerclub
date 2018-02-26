@@ -70,20 +70,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'django.contrib.sites',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-	'welcome',
-	'home',
-	'event',
-	'crispy_forms',
-	'localflavor',
-	'club',
-	'debug_toolbar',
-	'allauth.socialaccount.providers.twitter',
-	'allauth.socialaccount.providers.instagram',
+    'welcome',
+    'home',
+    'event',
+    'crispy_forms',
+    'localflavor',
+    'club',
+    'debug_toolbar',
+    'allauth.socialaccount.providers.twitter',
 ]
+
+#Apps for DEV only
+if DEBUG == True:
+	INSTALLED_APPS += 'allauth.socialaccount.providers.instagram',
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
