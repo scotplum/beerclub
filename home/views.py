@@ -234,10 +234,16 @@ def beer(request, bdb_id, slug):
 			context['beer_image'] = Beer_User_Image.objects.filter(beer=beer_object, user=user_object)
 		beer_attribute_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
 		context['beer_attribute_check'] = beer_attribute_check
-		attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
+		if settings.DEBUG:
+			attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).exists()
+		else:
+			attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
 		context['attribute_overrall_check'] = attribute_overrall_check
 		if attribute_overrall_check:
-			attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
+			if settings.DEBUG:
+				attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).select_related()
+			else:
+				attribute_overrall = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).select_related()
 			context['attribute_overrall'] = attribute_overrall
 		if beer_attribute_check:
 			profile_sheet = Profile_Sheet.objects.filter(bdb_id=bdb_id, user=user_object).select_related()
@@ -923,6 +929,7 @@ def share(request, id, social_id):
 					for chunk in brewery_request:
 						image.write(chunk)
 		#Checks if local beer user file exists for sending to Social platform
+		beer_user_filename = False
 		if 'beer_user_image_url' in rp:
 			beer_user_filename = True
 			beer_user_image_url = request.POST.getlist("beer_user_image_url")

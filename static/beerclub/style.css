@@ -397,6 +397,10 @@ body {
 	background-size: 200px 200px;
 }
 
+#beerthumb:hover{
+	box-shadow: 0 0 2px 1px tomato;
+}
+
 #logo{
 	padding: 10px;
 	height: 125px;

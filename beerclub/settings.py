@@ -37,6 +37,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 INTERNAL_IPS = [
 	'127.0.0.1',
 	'192.168.0.119',
+	'localhost',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -81,6 +82,7 @@ INSTALLED_APPS = [
 	'club',
 	'debug_toolbar',
 	'allauth.socialaccount.providers.twitter',
+	'allauth.socialaccount.providers.instagram',
 ]
 
 MIDDLEWARE = [
