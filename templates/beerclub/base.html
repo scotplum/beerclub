@@ -36,7 +36,7 @@
 				{% if banner.image_url == 'no url' %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height: 100px;" alt="beerclub">
 				{% else %}
-				<a href="{{ banner.beer_website }}" target="_blank" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				
+				<a href="/home/brewery/{{ banner.beer.brewery_id }}/{{ banner.beer.beer_company|slugify }}/" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				
 				{% endif %}
 				{% else %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height:200px" alt="beerclub">
@@ -54,7 +54,7 @@
 								<a href="/home/notes/" class="w3-center dropdown w3-padding-4">Beer Notes</a>
 								<a href="/home/ratings/" class="w3-center dropdown w3-padding-4">Beer Scores</a>
 							</div>
-						<input style="vertical-align: middle;" name="findbeer" type="text" />
+						<input style="vertical-align: middle;" name="findbeer" type="text" placeholder="Beer or Brewery" />
 						<button class="" style="text-decoration: none; font-size: 85%; font-weight: 700; font-family: 'Roboto', sans-serif;" type="submit">Beer Me</button>
 						{% csrf_token %}
 					</form>

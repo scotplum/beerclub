@@ -14,7 +14,7 @@
 			<h3 class="w3-center topheading">{{ crowd.name }}			
 			{% endif %}
 			</h3>
-			<div class="topheading-content w3-padding-bottom w3-padding-top" style="margin-left: 3%; margin-right: 3%; font-size: 110%; {% if request.session.is_mobile %}text-align: left; font-size: 85%;{% elif crowd.bio|length > 200 %}text-align: left;{% endif %}">{{ crowd.bio }}</div>
+			<div class="topcontent w3-padding-bottom w3-padding-top" style="font-size: 110%; {% if request.session.is_mobile %}text-align: left; font-size: 85%;{% elif crowd.bio|length > 200 %}text-align: left;{% endif %} font-weight: bold;">{{ crowd.bio }}</div>
 			<div class="content-1">
 				{% if not club_db_user_check and not club_application_pending_check and crowd.require_real_name == True %}
 					{% if user_object.first_name and user_object.last_name %}
@@ -44,39 +44,36 @@
 		</div>
 	</div>
 	<div class="w3-small w3-padding-top content-1"><b>{% if club_admin_check %}You are an administrator{% elif club_db_user_check %}You are a member{% elif club_application_pending_check %}Your Application Is Pending{% endif %}</b></div>
-	<div class="w3-padding-bottom w3-padding-top topmenu-margin">
-		{% if club_admin_check %}
-		<div class="beerheading-nomargin" style="font-size: 115%;">
-			<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-			<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span><br>
-		</div>
-		{% endif %}
-			{% if crowd_announcement_check %}
-			{% for announcement in crowd_announcement %}
-			{% if announcement.is_active %}
-			<div class="" style="">
-				<h3 class="topmenu-announcement" style="{% if request.session.is_mobile %}padding: 2% 0 2% 0;{% endif %}">{{ announcement.date_added|date:'F d, Y' }}
-					{% if club_admin_check %}
-					<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-					<span class="managetooltomato">
-						<form name="removeannouncementForm" class="w3-left managetooltomato" method="Post">
-						<button class="removesubmitannouncement" name="removeannouncement" value="{{ announcement.id }}" type="submit"><i class="removesubmitannouncement fa fa-times" aria-hidden="true"></i></button>
-						{% csrf_token %}
-						</form>
-					</span>
-					{% endif %}
-				</h3>
-				<div class="" style="border-bottom: 2px solid #d9e9fb; ">
-					<div class="topcontent w3-padding" style="{% if request.session.is_mobile %}font-size: 100%; text-align: left;{% else %}font-size: 100%; text-align: center;{% endif %} margin: 0 2.5% 0 2.5%;">{{ announcement.announcement }}</div>
-				</div>
-			</div>
-			{% endif %}
-			{% endfor %}
-			{% endif %}
-
-	</div>
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left">
+			<h3 class="beerheading">Announcements
+				{% if club_admin_check %}
+				<span><a class="w3-right managetool" href='manage/announcement/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool" href='manage/announcement/new/'><i class="fa fa-plus-square-o" style="padding-left: 2px;" aria-hidden="true"></i></a></span>
+				{% endif %}			
+			</h3>
+				{% if crowd_announcement_check %}
+				{% for announcement in crowd_announcement %}
+				{% if announcement.is_active %}
+				<div class="homebeer" style="">
+					<h3 class="topmenu-announcement" style="{% if request.session.is_mobile %}padding: 2% 0 2% 0;{% endif %}">{{ announcement.date_added|date:'F d, Y' }}
+						{% if club_admin_check %}
+						<span><a class="w3-right managetooltomato" href='manage/announcement/{{ announcement.id }}/'><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+						<span class="managetooltomato">
+							<form name="removeannouncementForm" class="w3-left managetooltomato" method="Post">
+							<button class="removesubmitannouncement" name="removeannouncement" value="{{ announcement.id }}" type="submit"><i class="removesubmitannouncement fa fa-times" aria-hidden="true"></i></button>
+							{% csrf_token %}
+							</form>
+						</span>
+						{% endif %}
+					</h3>
+					<div class="" style="">
+						<div class="topcontent w3-padding" style="{% if request.session.is_mobile %}font-size: 80%;{% else %}font-size: 80%;{% endif %} margin: 0 2.5% 0 2.5%; text-align: left;">{{ announcement.announcement }}</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+				{% endif %}
 			<h3 class="beerheading">About
 				{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/about/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
@@ -113,8 +110,6 @@
 				</div>
 				{% endif %}				
 			</div>
-		</div>
-		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Events
 			{% if club_admin_check %}
 			<span><a class="w3-left managetool" href='manage/event/addevent/'><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>
@@ -140,9 +135,7 @@
 					{% endif %}
 			</div>
 		</div>
-	</div>
-	<div class="w3-container">
-		<div class="w3-cell w3-half w3-left">
+		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Top Beers <span class="w3-tiny">({{ crowd.display_member_vote }}+ members)</span>
 			{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/display/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
@@ -160,8 +153,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="w3-cell w3-half w3-right">
 			<h3 class="beerheading">Wanted Beers <span class="w3-tiny">({{ crowd.display_wanted_beer }}+ members)</span>
 			{% if club_admin_check %}
 				<span><a class="w3-right managetool" href='manage/display/'><i class="fa fa-pencil" style="padding-right: 2px;" aria-hidden="true"></i></a></span>

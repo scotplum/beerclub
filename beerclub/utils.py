@@ -1,7 +1,7 @@
 from django.db.models import Avg, Count
 from club.models import Club, Club_User
 from django.contrib.auth.models import User
-from home.models import Beer_Banner, Beer_Score
+from home.models import Beer_Banner, Beer_Score, Beer
 from home.forms import findbeerForm
 from club.models import Club, Club_User
 import re

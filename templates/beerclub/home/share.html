@@ -7,7 +7,7 @@
 <div class="w3-mobile w3-center">
 	<div class="topmenu-margin w3-center">
 		<div class="content-base-navyborder">
-			<div class="w3-padding-top topheading" style="text-align: center;">Share {{ share_type }} On {{ social_app }}</div>
+			<div class="w3-padding-top topheading" style="text-align: center;">Share On {{ social_app }}</div>
 			<div class="content-2" style="font-size: 120%;"><b><a href="/home/{{ beer.bdb_id }}/{{ beer.beer_name|slugify }}-by-{{ beer.beer_company|slugify }}/">{% if beer_or_brewery == 'Beer' %}{{ beer.beer_name }}</a> by {% endif %}<a href="/home/brewery/{{ beer.brewery_id }}/">{{ beer.beer_company }}</a></b></div>
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 	{% endif %}
 	{% else %}
 	{% if share_type == 'Beer Note' or share_type == 'Brewery Note' %}
-	<h3 class="w3-center beerheading">{{ share_type }}</h3>
+	<h3 class="w3-center beerheading">{{ share_type }} Reference</h3>
 	<div>
 		<div class="homebeer">
 			<div class="w3-padding-bottom w3-padding-top content-base">
@@ -39,24 +39,27 @@
 		<form class="w3-padding-bottom" id="share" method="Post">
 			<div class="homebeer">
 				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
-					<div class="beerstatslabel" style="font-size: 120%;">{{ social_app.name }} Text</div>
+					<div class="beerstatslabel" style="font-size: 120%;">{% if social_app.name == "Twitter" %}Tweet{% else %}Post{% endif %} Text</div>
 					<textarea data-limit="280" name="sharetext" id="sharetext" class="w3-padding" style="font-size: 80%; text-align: left; {% if request.session.is_mobile %}height: 120px;{% endif %}"></textarea>
 					<div class="content-1 w3-padding-top" style="font-size: 70%;"><span class="countdown" id="textarea_feedback">280</span> Characters Remaining</div>
 				</div>
+				{% if social_app.name == "Twitter" %}
+				<div class="content-base beerstatslabel" style="color: tomato; background-color: white;">Select up to 4 images below</div>
+				{% endif %}
 				{% if beer_image_check %}
 				{% for image in beer_image %}
 				{% if image.is_active %}
 				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
-					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 400px;" src="{{ image.beer_image.url }}"></div>
-					<input type="checkbox" value="{{ image.beer_image.url }}" name="beer_user_image_url" checked></input>
+					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 200px;" src="{{ image.beer_image.url }}"></div>
+					<input type="checkbox" value="{{ image.beer_image.url }}" name="beer_user_image_url"></input>
 				</div>
 				{% endif %}
 				{% endfor %}
 				{% endif %}	
 				{% if beer.beer_image_url %}
 				<div class="w3-padding-bottom w3-padding-top content-base" style="background-color: white;">
-					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 400px;" src="{{ beer.beer_image_url }}"></div>
-					<input type="checkbox" value="{{ beer.beer_image_url }}" name="beer_image_url" checked></input>
+					<div class="w3-padding-bottom"><img class="w3-image" style="width: 100%; max-width: 200px;" src="{{ beer.beer_image_url }}"></div>
+					<input type="checkbox" value="{{ beer.beer_image_url }}" name="beer_image_url"></input>
 				</div>
 				{% endif %}	
 				{% if beer.brewery_image_url %}

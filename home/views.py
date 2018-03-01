@@ -236,8 +236,11 @@ def beer(request, bdb_id, slug):
 		context['beer_attribute_check'] = beer_attribute_check
 		if settings.DEBUG:
 			attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=24).exists()
+			attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(bdb_id=bdb_id).filter(beer_attribute__section_id=25).exists()
 		else:
 			attribute_overrall_check = Profile_Sheet.objects.filter(bdb_id=bdb_id).filter(user=user_object).filter(beer_attribute__section_id=20).exists()
+			attribute_trophy_check = Profile_Sheet.objects.filter(user=user_object).filter(bdb_id=bdb_id).filter(beer_attribute__section_id=21).exists()
+		context['attribute_trophy_check'] = attribute_trophy_check
 		context['attribute_overrall_check'] = attribute_overrall_check
 		if attribute_overrall_check:
 			if settings.DEBUG:
@@ -255,7 +258,7 @@ def beer(request, bdb_id, slug):
 		beer_note_check = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).exists()
 		context['beer_notes'] = {}
 		if beer_note_check:
-			context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object)
+			context['beer_notes'] = Beer_Note.objects.filter(bdb_id=bdb_id).filter(user=user_object).order_by('-date_added').select_related()
 		beer_score_check = Beer_Score.objects.filter(user=user_object, bdb_id=bdb_id).exists()
 		if beer_score_check:
 			rating = Beer_Score.objects.get(user=user_object, bdb_id=bdb_id)
@@ -269,27 +272,27 @@ def beer(request, bdb_id, slug):
 			if 'image_url' in locals() and 'brewery_website' in locals():
 				beer_banner = Beer_Banner.objects.get(user=user_object)
 				beer_banner.image_url = image_url
-				beer_banner.beer_website = brewery_website
+				beer_banner.beer = beer_object
 				beer_banner.save()
 			elif 'image_url' in locals():
 				beer_banner = Beer_Banner.objects.get(user=user_object)
 				beer_banner.image_url = image_url
-				beer_banner.beer_website = 'no website'
+				beer_banner.beer = beer_object
 				beer_banner.save()
 			else:
 				beer_banner = Beer_Banner.objects.get(user=user_object)
 				beer_banner.image_url = 'no url'
-				beer_banner.beer_website = 'no website'
+				beer_banner.beer = beer_object
 				beer_banner.save()
 		else:
 			if 'image_url' in locals() and 'brewery_website' in locals():
-				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website=brewery_website)
+				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer=beer_object)
 				beer_banner.save()
 			elif 'image_url' in locals():
-				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer_website='no website')
+				beer_banner = Beer_Banner(user=user_object, image_url=image_url, beer=beer_object)
 				beer_banner.save()
 			else:
-				beer_banner = Beer_Banner(user=user_object, image_url='no url', beer_website='no website')
+				beer_banner = Beer_Banner(user=user_object, image_url='no url', beer=beer_object)
 				beer_banner.save()
 		beer_banner = Beer_Banner.objects.get(user=user_object)
 		context['banner'] = beer_banner
@@ -354,11 +357,13 @@ def beer(request, bdb_id, slug):
 			return redirect('/home/findbeer/' + bdb_id + '/event/')
 		elif 'beerimage' in rp:
 			return redirect('/home/' + bdb_id + '/' + slugify(beer_name) + '-by-' + slugify(beer_company) + '/addbeerimage/')
+		elif 'beertweet' in rp:
+			return redirect('1/share/')
 		else:
 			return render(request, 'home/beer.html', context)
     return render(request, 'home/beer.html', context)
 
-def brewery(request, brew_id):
+def brewery(request, brew_id, slug):
     context = {}
     anon_user = request.user.is_anonymous()
     context['anon_user'] = anon_user
@@ -883,6 +888,7 @@ def share(request, id, social_id):
     elif current_url == 'brewerynoteshare':
 		note = Brewery_Note.objects.get(id=id)
 		context['note'] = note
+		beer_object = ''
 		if note.user == user_object:
 			beer = Beer.objects.filter(brewery_id=note.brewery_id).values('beer_company', 'brewery_image_url')
 			for brewery in beer:

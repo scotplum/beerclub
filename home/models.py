@@ -63,14 +63,6 @@ class Beer_Rating(models.Model):
     def __str__(self):
 		return self.beer_name + ' | ' + self.beer_company
 		
-class Beer_Banner(models.Model):
-    user    		= models.ForeignKey(User, on_delete=models.CASCADE) 
-    image_url		= models.URLField(max_length=250)
-    beer_website	= models.URLField(max_length=250)
-    
-    def __str__(self):
-		return str(self.user) + ' | ' + self.image_url
-		
 class Beer_Note(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)
 	bdb_id          = models.CharField(max_length=20) 
@@ -199,3 +191,11 @@ def update_image(sender, instance, **kwargs):
 		BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 		fullpath = BASE_DIR + instance.beer_image.url
 		rotate_image(fullpath)
+		
+class Beer_Banner(models.Model):
+    user    		= models.ForeignKey(User, on_delete=models.CASCADE) 
+    image_url		= models.URLField(max_length=250)
+    beer			= models.ForeignKey(Beer, on_delete=models.CASCADE, default=1)
+    
+    def __str__(self):
+		return str(self.user) + ' | ' + self.image_url

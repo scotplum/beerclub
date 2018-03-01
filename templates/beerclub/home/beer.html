@@ -6,7 +6,7 @@
 {% load home_extras %}
 <div class="w3-mobile w3-center">
 	<div class="content-base topmenu-margin" style="{% if user.is_authenticated == False %}border-top: 1.5px solid #d9e9fb;{% endif %}">
-		<div class="topheading">{{ data.name }} {% if request.session.is_mobile %}<br>{% endif %}<span style="color: #0c3c73">by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.nameShortDisplay }}</a>{% else %}<a href="/home/brewery/{{ brewery.id }}/" style="">{{ brewery.name }}</a>{% endif %}</div>
+		<div class="topheading">{{ data.name }} {% if request.session.is_mobile %}<br>{% endif %}<span style="color: #0c3c73">by</span> {% if brewery.nameShortDisplay %}<a href="/home/brewery/{{ brewery.id }}/{{ brewery.nameShortDisplay|slugify }}/" style="">{{ brewery.nameShortDisplay }}</a>{% else %}<a href="/home/brewery/{{ brewery.id }}/{{ brewery.name|slugify }}/" style="">{{ brewery.name }}</a>{% endif %}</div>
 		{% if data.labels.medium %}
 		<div class="" style="padding-top: 2px; padding-bottom: 2px;">
 			<div class="" style="max-height: 200px; overflow: hidden;">
@@ -31,14 +31,6 @@
 				<button class="removesubmit" title="10" value="10" type="submit" name="assignratings">{% if rating.score > 9 and rating.is_active %}<span class="beer-star">&#9733;</span>{% else %}<span class="beer-star-empty">&#9733;</span>{% endif %}</button>
 				{% csrf_token %}
 			</form>
-			{% for attr in ps_attribute %}
-			{% if 23 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
-			{% if 96 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
-			{% if 174 in attr %}<span><svg class="icon-beer"><use xlink:href="#localhero" /></svg></span>{% endif %}
-			{% if 112 in attr %}<span><svg class="icon-beer"><use xlink:href="#sessionable" /></svg></span>{% endif %}
-			{% if 246 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
-			{% if 293 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
-			{% endfor %}
 			{% endif %}
 		{% if data.description %}
 		{% if data.description|length < 225 and request.session.is_mobile == False %}
@@ -70,25 +62,18 @@
 		{% endif %}
 		<button title="Add to Event" class=""  name="event" value="y" type="submit"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
 		<button title="Add Beer Pic" class=""  name="beerimage" value="y" type="submit"><i class="fa fa-camera" aria-hidden="true"></i></button>		
+		<button title="Tweet" class=""  name="beertweet" value="y" type="submit"><i class="fa fa-twitter" aria-hidden="true"></i></button>		
 		{% csrf_token %}
 		</form>
 		<div class="" style="font-size: 60%;">
 			<i class="fa fa-star" aria-hidden="true"></i> Favorite |
 			<i class="fa fa-shopping-basket" aria-hidden="true"></i> Want |
 			<i class="fa fa-calendar-plus-o" aria-hidden="true"></i> Add to Event |
-			<i class="fa fa-camera" aria-hidden="true"></i> Add Image
+			<i class="fa fa-camera" aria-hidden="true"></i> Add Image |
+			<i class="fa fa-twitter" aria-hidden="true"></i> Tweet
 		</div>
 		{% endif %}
 	</div>
-	{% if beer_image_check %}
-	<div class="" style="background-color: white; margin-top: 10px;">
-		{% for image in beer_image %}
-		{% if image.is_active %}
-			<span><a href="editbeerimage/{{ image.id }}/"><img id="beerthumb" src="{{ image.beer_image.url }}" style="width: 100%; max-width: {% if request.session.is_mobile %}100px;{% else %}150px;{% endif %} border-radius: 10%; border: 1px solid #ddd; padding: 5px;" alt="Beer Image" /></a></span>
-		{% endif %}
-		{% endfor %}
-	</div>
-	{% endif %}
 	{% if attribute_overrall_check == True %}
 	<div class="beerstatslabel w3-padding-top">
 		<i class="fa fa-quote-left" style="line-height: 1; top: -5px; position: relative;"></i> 
@@ -106,9 +91,15 @@
 		<i class="fa fa-quote-right" style="line-height: 1; top: -5px; position: relative;"></i>
 	</div>
 	{% endif %}
-	<div class="w3-padding-top" style="text-align: center;">
-		<span style="padding-right: 10px;"><a href="1/share/" title="Tweet Beer"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span>
-	</div> 
+	{% if beer_image_check %}
+	<div class="" style="background-color: white; margin-top: 10px; margin-bottom: 10px;">
+		{% for image in beer_image %}
+		{% if image.is_active %}
+			<span><a href="editbeerimage/{{ image.id }}/"><img id="beerthumb" src="{{ image.beer_image.url }}" style="width: 100%; max-width: {% if request.session.is_mobile %}100px;{% else %}150px;{% endif %} border-radius: 10%; border: 1px solid #ddd; padding: 5px;" alt="Beer Image" /></a></span>
+		{% endif %}
+		{% endfor %}
+	</div>
+	{% endif %}	
 	<div class="w3-container">
 		<div class="w3-cell w3-half w3-left" style="{% if request.session.is_mobile == False %}padding-left: .5%;{% endif %}">
 			{% if data.name %}
@@ -152,6 +143,29 @@
 				{% if data.ingredients.yeast %}
 				<div class="content-base"><span class="beerstatslabel">Yeast </span><span class="beerstatsvalue">{% for i in data.ingredients.yeast %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span></div>
 				{% endif %}
+				{% if attribute_trophy_check == True %}
+				<div class="content-base">
+				{% if request.META.HTTP_HOST == "192.168.0.119:8000" %}
+					{% for attr in ps_attribute %}
+					{% if 333 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+					{% if 340 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+					{% if 339 in attr %}<span><svg class="icon-beer"><use xlink:href="#localhero" /></svg></span>{% endif %}
+					{% if 332 in attr %}<span><svg class="icon-beer"><use xlink:href="#sessionable" /></svg></span>{% endif %}
+					{% if 341 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
+					{% if 342 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
+					{% endfor %}
+				{% else %}
+					{% for attr in ps_attribute %}
+					{% if 23 in attr %}<span><svg class="icon-beer"><use xlink:href="#beststyle" /></svg></span>{% endif %}
+					{% if 96 in attr %}<span><svg class="icon-beer"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
+					{% if 174 in attr %}<span><svg class="icon-beer"><use xlink:href="#localhero" /></svg></span>{% endif %}
+					{% if 112 in attr %}<span><svg class="icon-beer"><use xlink:href="#sessionable" /></svg></span>{% endif %}
+					{% if 246 in attr %}<span><svg class="icon-beer"><use xlink:href="#seasonal" /></svg></span>{% endif %}
+					{% if 293 in attr %}<span><svg class="icon-beer"><use xlink:href="#whale" /></svg></span>{% endif %}
+					{% endfor %}			
+				{% endif %}	
+				</div>
+				{% endif %}
 			</div>
 			<h3 class="beerheading">Scores</h3>
 			<div class="homebeer">
@@ -184,9 +198,9 @@
 		</div>
 		<div class="w3-cell w3-half w3-right" style="{% if request.session.is_mobile == False %}padding-right: .5%;{% endif %}">			
 			{% if brewery.nameShortDisplay %}
-			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/">{{ brewery.nameShortDisplay }}</a></h3>
+			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/{{ brewery.nameShortDisplay|slugify }}/">{{ brewery.nameShortDisplay }}</a></h3>
 			{% else %}
-			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/">{{ brewery.name }}</a></h3>
+			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/{{ brewery.name|slugify }}/">{{ brewery.name }}</a></h3>
 			{% endif %}
 			<div class="homebeer">
 				{% if brewery.description %}
@@ -240,18 +254,10 @@
 		{% for note in beer_notes %}
 		{% if note.is_active == True %}
 		<div class="content-base">		
-			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;">{{ note.beer_name }}<span class="beerstatslabel"><a class="" style="padding-left: 4px;" href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a><span class="w3-right w3-padding-right" style="font-size: 70%;"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span></span>
-			{% for trophy in trophy_beers %}
-			{% if note.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
-			{% if note.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
-			{% if note.bdb_id in trophy and 339 in trophy %}<span><svg class="icon-home"><use xlink:href="#localhero" /></svg></span>{% endif %}	
-			{% if note.bdb_id in trophy and 332 in trophy %}<span><svg class="icon-home"><use xlink:href="#sessionable" /></svg></span>{% endif %}	
-			{% if note.bdb_id in trophy and 341 in trophy %}<span><svg class="icon-home"><use xlink:href="#seasonal" /></svg></span>{% endif %}	
-			{% if note.bdb_id in trophy and 342 in trophy %}<span><svg class="icon-home"><use xlink:href="#whale" /></svg></span>{% endif %}	
-			{% endfor %}
+			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;">{{ note.beer_name }}<span class="beerstatslabel"><a class="" style="padding-left: 4px;" href="/home/brewery/{{ note.brewery_id }}/{{ note.beer_company|slugify }}/">{{ note.beer_company }}</a><span class="w3-right" style="font-size: 70%;"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span></span>
 			</div>
 			<div class="content-3-black" style="text-align: left; padding-left: 3%;">{{ note.note }}</div>				
-			<div class="content-1 w3-padding-top w3-small" style="text-align:left;"><b>{{ note.date_added }}</b><span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="w3-padding-right">Edit</a></span></div>
+			<div class="content-1 w3-padding-top w3-small" style="text-align:left;"><b>{{ note.date_added }}</b><span class="w3-right"><a href="/home/notes/{{ note.id }}/" class="">Edit</a></span></div>
 		</div>
 		{% endif %}
 		{% endfor %}

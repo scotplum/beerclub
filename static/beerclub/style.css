@@ -84,8 +84,8 @@ body {
 }
 
 .topmenu-announcement {
-	background-color: #1569C7;
-	font-family: 'Roboto Slab', serif;
+	background-color: tomato;
+	font-family: 'Roboto', sans-serif;
 	color: white;
 	letter-spacing: 2px;
 	margin: 0;
@@ -93,7 +93,7 @@ body {
 	padding-bottom: .35%;
 	padding-left: 0;
 	padding-right: 0;
-	font-size: 90%;
+	font-size: 75%;
 	text-decoration: none;
 	text-align: center;
 }
