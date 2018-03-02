@@ -410,16 +410,16 @@ def brewery(request, brew_id, slug):
 					rating.score = rating_value
 					rating.is_active = True
 					rating.save()
-				return redirect('/home/brewery/' + brew_id + '/')
+				return redirect('/home/brewery/' + brew_id + '/' + slugify(beer_company) + '/')
 			else:
 				new_rating = Brewery_Score(user=user_object, score = rating_value, beer_company = beer_company, brewery_id = brew_id)
 				new_rating.save()
-				return redirect('/home/brewery/' + brew_id + '/')
+				return redirect('/home/brewery/' + brew_id + '/' + slugify(beer_company) + '/')
 		elif 'brewerynote' in rp:
 			note = rp['brewerynotevalue']
 			beer_note = Brewery_Note(user=user_object, is_active=True, date_added=timezone.now(), note=note, beer_company = beer_company, brewery_id = brew_id)
 			beer_note.save()
-			return redirect('/home/brewery/' + brew_id + '/')
+			return redirect('/home/brewery/' + brew_id + '/' + slugify(beer_company) + '/')
     return render(request, 'home/brewery.html', context)
 	
 @login_required
@@ -802,7 +802,7 @@ def brewerynoteedit(request, id):
 			updated_brewery_note = brewery_note
 			updated_brewery_note.is_active = False
 			updated_brewery_note.save()
-			return redirect('/home/brewery/' + brewery_note.brewery_id + '/')
+			return redirect('/home/brewery/' + brewery_note.brewery_id + '/' + slugify(brewery_note.beer_company) + '/')
         if form.is_valid():
             updated_brewery_note = brewery_note
             updated_brewery_note.note = update_note
@@ -811,7 +811,7 @@ def brewerynoteedit(request, id):
             brewery_note = Brewery_Note.objects.get(id=id)
             context['brewery_note'] = brewery_note
             context['form'] = BreweryNoteForm(instance=brewery_note)
-            return redirect('/home/brewery/' + brewery_note.brewery_id + '/')
+            return redirect('/home/brewery/' + brewery_note.brewery_id + '/' + slugify(brewery_note.beer_company) + '/')
     else:
         form = BreweryNoteForm()
     return render(request, 'home/brewerynoteedit.html',context)
