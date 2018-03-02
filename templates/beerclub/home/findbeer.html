@@ -37,7 +37,7 @@
 			<div class="homebeer w3-padding-top" style="font-size: 100%;">	
 				{% for brewery in brewerysearch %}
 					{% if brewery.name %}
-					<div class="content-base w3-padding-top" style="font-weight: bold; {% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% endif %}"><a href="/home/brewery/{{ brewery.id }}/">{{ brewery.name }}</a></div>
+					<div class="content-base w3-padding-top" style="font-weight: bold; {% if request.session.is_mobile %}font-size: 75%; text-align: left; padding-left: 5px;{% endif %}"><a href="/home/brewery/{{ brewery.id }}/{{ brewery.nameShortDisplay|slugify }}/">{{ brewery.name }}</a></div>
 					{% endif %}
 				{% endfor %}
 			</div>
