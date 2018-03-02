@@ -37,7 +37,7 @@
 				{% for rating in brewery_rating %}
 				{% if rating.is_active %}
 				<div class="content-base">			
-					<div class="content-1 w3-padding-bottom w3-padding-top"><span class="content-3" style="color: tomato;"><a href="/home/brewery/{{ rating.brewery_id }}/">{{ rating.beer_company }}</a></span>		
+					<div class="content-1 w3-padding-bottom w3-padding-top"><span class="content-3" style="color: tomato;"><a href="/home/brewery/{{ rating.brewery_id }}/{{ rating.beer_company|slugify }}/">{{ rating.beer_company }}</a></span>		
 						<form name="ratingForm" method="Post">
 							<input type="hidden" name="brewery_id" value="{{ rating.brewery_id }}" />
 							<input type="hidden" name="sort" value="{{ sort }}" />

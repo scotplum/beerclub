@@ -25,7 +25,7 @@
 		{% for note in beer_notes %}
 		{% if note.is_active %}
 		<div class="content-base">		
-			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/{{ note.bdb_id }}/{{ note.beer_name|slugify }}-by-{{ note.beer_company|slugify }}/">{{ note.beer_name }}</a><span class="beerstatslabel"><a class="beerstatslabel" style="padding-left: 4px;" href="/home/brewery/{{ note.brewery_id }}/">{{ note.beer_company }}</a><span class="w3-right w3-padding-right" style="font-size: 70%;"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span></span>
+			<div class="content-1 w3-padding-bottom w3-padding-top" style="text-align: left;"><a href="/home/{{ note.bdb_id }}/{{ note.beer_name|slugify }}-by-{{ note.beer_company|slugify }}/">{{ note.beer_name }}</a><span class="beerstatslabel"><a class="beerstatslabel" style="padding-left: 4px;" href="/home/brewery/{{ note.brewery_id }}/{{ note.beer_company|slugify }}/">{{ note.beer_company }}</a><span class="w3-right w3-padding-right" style="font-size: 70%;"><a href="/home/notes/{{ note.id }}/1/share/" title="Tweet Beer Note"><i class="fa fa-twitter" style="font-size: 200%;" aria-hidden="true"></i></a></span></span>
 			{% for trophy in trophy_beers %}
 			{% if note.bdb_id in trophy and 333 in trophy %}<span><svg class="icon-home"><use xlink:href="#beststyle" /></svg></span>{% endif %}
 			{% if note.bdb_id in trophy and 340 in trophy %}<span><svg class="icon-home"><use xlink:href="#crowdpleaser" /></svg></span>{% endif %}
