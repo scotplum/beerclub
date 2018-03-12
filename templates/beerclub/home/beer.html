@@ -197,6 +197,33 @@
 			{% endif %}
 		</div>
 		<div class="w3-cell w3-half w3-right" style="{% if request.session.is_mobile == False %}padding-right: .5%;{% endif %}">			
+			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/{{ brewery.nameShortDisplay|slugify }}/">Style: {{ style.name }}</a></h3>
+			<div class="homebeer">
+				<div class="content-base-nobold topcontent" style="text-align: left; font-size: 90%;">{{ style.description }}</div>
+				<div class="">
+					{% if style.ibuMin and style.ibuMax %}
+					<div class="content-base"><span class="beerstatslabel">IBU Range </span><span class="beerstatsvalue">{{ style.ibuMin }} to {{ style.ibuMax }}</span></div>
+					{% elif style.ibuMin %}
+					<div class="content-base"><span class="beerstatslabel">IBU Min </span><span class="beerstatsvalue">{{ style.ibuMin }}</span></div>
+					{% elif style.ibuMax %}
+					<div class="content-base"><span class="beerstatslabel">IBU Max </span><span class="beerstatsvalue">{{ style.ibuMax }}</span></div>
+					{% endif %}
+					{% if style.abvMin and style.abvMax %}
+					<div class="content-base"><span class="beerstatslabel">ABV Range </span><span class="beerstatsvalue">{{ style.abvMin }} to {{ style.abvMax }}%</span></div>
+					{% elif style.abvMin %}
+					<div class="content-base"><span class="beerstatslabel">ABV Min </span><span class="beerstatsvalue">{{ style.abvMin }}%</span></div>
+					{% elif style.abvMax %}
+					<div class="content-base"><span class="beerstatslabel">ABV Max </span><span class="beerstatsvalue">{{ style.abvMax }}%</span></div>
+					{% endif %}
+					{% if style.srmMin and style.srmMax %}
+					<div class="content-base"><span class="beerstatslabel">SRM Range </span><span class="beerstatsvalue">{{ style.srmMin }} to {{ style.srmMax }}</span></div>
+					{% elif style.srmMin %}
+					<div class="content-base"><span class="beerstatslabel">SRM Min </span><span class="beerstatsvalue">{{ style.srmMin }}</span></div>
+					{% elif style.srmMax %}
+					<div class="content-base"><span class="beerstatslabel">SRM Max </span><span class="beerstatsvalue">{{ style.srmMax }}</span></div>
+					{% endif %}
+				</div>
+			</div>
 			{% if brewery.nameShortDisplay %}
 			<h3 class="beerheading"><a class="managetool" href="/home/brewery/{{ brewery.id }}/{{ brewery.nameShortDisplay|slugify }}/">{{ brewery.nameShortDisplay }}</a></h3>
 			{% else %}

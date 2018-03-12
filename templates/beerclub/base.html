@@ -33,7 +33,7 @@
 				{% if request.user.is_authenticated %}
                 <div class="w3-hover-grayscale w3-margin-bottom">
 				{% if banner.image_url %}
-				{% if banner.image_url == 'no url' %}
+				{% if banner.image_url == '{}' %}
 				<img src={% static "beerclub/beer_header.jpg" %} class="w3-image w3-margin-bottom" style="max-height: 100px;" alt="beerclub">
 				{% else %}
 				<a href="/home/brewery/{{ banner.beer.brewery_id }}/{{ banner.beer.beer_company|slugify }}/" class="w3-padding-4"><img class="w3-image" style="width:100%; max-width:400px;" src="{{ banner.image_url }}"></a>				

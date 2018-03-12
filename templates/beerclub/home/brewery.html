@@ -100,7 +100,10 @@
 		</div>
 		<div class="w3-cell w3-half w3-right">
 			{% if brewery.data.name %}
-			<h3 class="beerheading">Beers by {{ brewery.data.nameShortDisplay }}</h3>
+			<h3 class="beerheading">Beers by {{ brewery.data.nameShortDisplay }}
+				<span><a class="w3-right managetool" href='addbeer/' style="text-decoration: none;"><i class="fa fa-plus" title="Add Beer to BreweryDB" style="padding-right: 2px;" aria-hidden="true"></i></a></span>
+				<span><a class="w3-left managetool"><i class="fa fa-plus" style="padding-left: 2px; color: #1569C7;" aria-hidden="true"></i></a></span>
+			</h3>
 			{% endif %}
 			<div class="homebeer">
 				{% for b in brewery_beers.data %}

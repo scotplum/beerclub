@@ -6,7 +6,10 @@ from home.forms import findbeerForm
 from club.models import Club, Club_User
 import re
 from PIL import Image, ExifTags
+from decouple import config
+import requests
 
+secret = config('BREWERYDB')
 
 def navigation(request):
 	#Build the context for this user, check Beer Banner and assign Club links for navigation
@@ -51,3 +54,11 @@ def beerscore(request, user_object, clubs, bdb_id):
 		club_score.append(club_score_list)
     return club_score
 
+def bdb_styles(request):
+    bdb_api_url = "https://api.brewerydb.com/v2/styles/?key=" + secret + "&format=json"
+    bdb_api_call = requests.get(bdb_api_url).json()
+    bdb_styles = bdb_api_call.data
+    for style in bdb_styles:
+		id = style['id']
+		style_category_id = style['category_id']
+    return bdb_styles

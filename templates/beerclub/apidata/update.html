@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-center">
+		<div class="content-base-navyborder topmenu-margin">
+			<div class="w3-padding-bottom w3-padding-top topheading">Import API Data</div>			
+			<div class="content-2 w3-small"><b></b></div>
+		</div>
+	</div>
+	<div class="w3-margin" style="color: tomato;">{{ update_message }}</div>
+	<h3 class="w3-center beerheading">Select Update</h3>
+		<form name="apiupdateForm" method="Post">
+			<button class="w3-margin" title="Update Beer Category" value="updatecategory" type="submit" name="updatecategory">Update Category</button>
+			<button class="w3-margin" title="Update Beer Style" value="updatestyle" type="submit" name="updatestyle">Update Style</button>
+			{% csrf_token %}
+		</form>
+	<div><a href="/home/">Return Home</a></div>
+</div>
+
+{% endblock content %}

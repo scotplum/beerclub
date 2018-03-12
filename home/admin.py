@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Beer_Category, Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, Beer_Attribute_Category, Beer_Attribute_Section, Beer_Attribute, Profile_Sheet, Beer_Score, Brewery_Score, Brewery_Note, Beer, Beer_User_Image
+from .models import Favorite_Beers, Wanted_Beers, Beer_Rating, Beer_Banner, Beer_Note, Beer_Attribute_Category, Beer_Attribute_Section, Beer_Attribute, Profile_Sheet, Beer_Score, Brewery_Score, Brewery_Note, Beer, Beer_User_Image
 # Register your models here.
-admin.site.register(Beer_Category)
 admin.site.register(Favorite_Beers)
 admin.site.register(Wanted_Beers)
 admin.site.register(Beer_Rating)

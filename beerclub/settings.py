@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'club',
     'debug_toolbar',
     'allauth.socialaccount.providers.twitter',
+    'apidata',
 ]
 
 #Apps for DEV only

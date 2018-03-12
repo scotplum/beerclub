@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^home/', include('home.urls')),
     url(r'^event/', include('event.urls')),
     url(r'^club/', include('club.urls')),
+    url(r'^apidata/', include('apidata.urls')),
 ]
 
 if settings.DEBUG:

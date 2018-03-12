@@ -12,14 +12,6 @@ from beerclub.modelutils import rotate_image
 
 
 # Create your models here.
-class Beer_Category(models.Model):
-	category_name	= models.CharField(max_length=50)
-	date_created 	= models.DateTimeField(auto_now_add=True)
-	description		= models.CharField(max_length=1000)
-	is_active		= models.BooleanField(default=True)
-	
-	def __str__(self):
-		return self.category_name + " | Is Active: " + str(self.is_active)
 
 class Favorite_Beers(models.Model):
 	user	 		= models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome Home!!{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="w3-mobile w3-center">
+	<div class="w3-center">
+		<div class="content-base-navyborder topmenu-margin">
+			<div class="w3-padding-bottom w3-padding-top topheading">{{ brewery.data.name }}</div>			
+			<div class="content-2 w3-small"><b></b></div>
+		</div>
+	</div>
+	<h3 class="w3-center beerheading">Add Beer</h3>
+	{% crispy form %}
+	<div><a href="/home/">Return Home</a></div>
+</div>
+
+{% endblock content %}

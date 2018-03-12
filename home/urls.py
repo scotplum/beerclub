@@ -17,8 +17,10 @@ urlpatterns = [
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/event/$', views.beerevent, name='beerevent'),
 	#ex: /findbeer/ID9EJ3/10/
 	url(r'^findbeer/(?P<bdb_id>[A-Za-z0-9]+)/(?P<club_id>[0-9]+)/$', views.detail, name='detail'),
-	#ex: /brewery/TqC06u/
+	#ex: /brewery/TqC06u/anderson-valley/
 	url(r'^brewery/(?P<brew_id>[A-Za-z0-9]+)/(?P<slug>[-\w\d]+)/$', views.brewery, name='brewery'),
+	#ex: /brewery/TqC06u/anderson-valley/addbeer/
+	url(r'^brewery/(?P<brew_id>[A-Za-z0-9]+)/(?P<slug>[-\w\d]+)/addbeer/$', views.addbeer, name='addbeer'),
 	#ex: /ratings/
 	url(r'^ratings/$', views.ratings, name='ratings'),
 	#ex: /breweryscores/

@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from .models import Favorite_Beers, Beer_Score, Wanted_Beers, Beer_Banner, Beer_Note, BeerNoteForm, Profile_Sheet, Beer_Attribute, Beer_Attribute_Section, Beer_Attribute_Category, Brewery_Score, Brewery_Note, BreweryNoteForm, Beer, Beer_User_Image
 from event.models import Event, Event_Beer, Event_Attend
 from club.models import Club, Club_User, Club_Event
-from forms import findbeerForm, ProfileSheetForm, ProfileForm, BeerImageForm, BeerImageEditForm
+from apidata.models import Beer_Style
+from forms import findbeerForm, ProfileSheetForm, ProfileForm, BeerImageForm, BeerImageEditForm, AddBeerForm
 from django.utils import timezone
 import requests, os, tweepy
 from django.forms import inlineformset_factory
@@ -179,6 +180,8 @@ def beer(request, bdb_id, slug):
 		update_date = data['updateDate']
 		if 'style' in data: 
 			style = data['style']
+			style_id = style['id']
+			context['style'] = Beer_Style.objects.get(id=style_id)
 			if 'category' in style:
 				beer_category = style['name']
 				context['category'] = style['category']
@@ -1040,6 +1043,25 @@ def editbeerimage(request, bdb_id, slug, id):
 				update_image.save()
 			return redirect('/home/' + bdb_id + '/' + slug + '/')	
     return render(request, 'home/editbeerimage.html',context)
+
+@login_required	
+def addbeer(request, brew_id, slug):
+    context = {}
+    nav = navigation(request)
+    user_object = nav['user_object']
+    context = nav['context']
+    urlbrewery = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/?withLocations=Y&withSocialAccounts=Y&key=' + secret
+    urlbrewery_beers = 'https://api.brewerydb.com/v2/brewery/' + brew_id + '/beers?key=' + secret
+    brewery = requests.get(urlbrewery).json()
+    context['brewery'] = brewery
+    if request.method == 'POST':
+        form = AddBeerForm(request.POST)
+        if form.is_valid():
+			return redirect('/home/' + brew_id + '/' + slug + '/')
+    else:
+		form = AddBeerForm()
+		context['form'] = form
+    return render(request, 'home/addbeer.html',context)
 	
 def beer_redirect(request, bdb_id):
     beer = Beer.objects.get(bdb_id=bdb_id)
